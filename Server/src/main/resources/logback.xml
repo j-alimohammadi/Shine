@@ -1,0 +1,19 @@
+<configuration packagingData="true">
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) %cyan(%logger{35}){}\(%line\) -- %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="WARN">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+
+    <logger name="org.springframework" level="WARN"/>
+
+    <logger name="com.dena" level="ALL"/>
+
+
+</configuration>
