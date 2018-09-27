@@ -13,13 +13,14 @@ public class LambdaWrapper {
             try {
                 consumer.accept(t);
             } catch (Exception ex) {
-                throw new RuntimeException( ex);
+                throw new RuntimeException(ex);
             }
         };
     }
 
     /**
      * Create an {@link UncheckedBiConsumer} instance.
+     *
      * @param uncheckedBiConsumer
      * @param <T>
      * @param <E>
@@ -31,7 +32,7 @@ public class LambdaWrapper {
             try {
                 uncheckedBiConsumer.accept(fieldName, fieldValue);
             } catch (Exception ex) {
-                throw new RuntimeException( ex);
+                throw new RuntimeException(ex);
             }
         };
 

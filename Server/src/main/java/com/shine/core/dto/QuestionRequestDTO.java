@@ -1,36 +1,17 @@
-package com.shine.core.domain;
-
-import javax.persistence.*;
+package com.shine.core.dto;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
+public class QuestionRequestDTO {
 
-@Table(name = "QUESTION")
-@Entity
-public class Question {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
     private Long id;
 
-    @Column(name = "TITLE")
     private String title;
 
-    @Column(name = "BODY")
     private String body;
 
-    @Column(name = "tags")
     private String tags;
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -54,5 +35,13 @@ public class Question {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

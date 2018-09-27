@@ -29,7 +29,6 @@ public enum ErrorCode {
     SCHEMA_ALREADY_EXIST_EXCEPTION("dena.platform.restapi.exception.SCHEMA_ALREADY_EXIST_EXCEPTION", "2100-400"),
 
 
-
     // User management exception - range 3000-3999
     USER_ALREADY_EXIST_EXCEPTION("dena.platform.restapi.exception.USER_ALREADY_EXIST", "3000-400"),
     EMAIL_FIELD_IS_INVALID("dena.platform.restapi.exception.EMAIL_FIELD_IS_INVALID", "3001-400"),
@@ -68,6 +67,6 @@ public enum ErrorCode {
     }
 
     public int getHttpStatusCode() {
-        return Integer.valueOf( errorCode.split( "-")[1]);
+        return Integer.valueOf(errorCode.split("-")[1]);
     }
 }

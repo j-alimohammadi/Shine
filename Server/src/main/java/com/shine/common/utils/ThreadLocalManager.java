@@ -1,10 +1,10 @@
 package com.shine.common.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Manage other ThreadLocals with use of a ThreadLocal.
@@ -17,13 +17,11 @@ import org.slf4j.LoggerFactory;
 
 public class ThreadLocalManager {
     private final static Logger log = LoggerFactory.getLogger(ThreadLocalManager.class);
-
-    private List<ThreadLocal> threadLocals = new ArrayList<>();
-
     /**
      * Create an instance of ThreadLocalManager in thread local. this manage all thread local created with manager.
      */
-    private final static ThreadLocal<ThreadLocalManager> THREAD_LOCAL_MANAGER = ThreadLocal.withInitial( ThreadLocalManager::new);
+    private final static ThreadLocal<ThreadLocalManager> THREAD_LOCAL_MANAGER = ThreadLocal.withInitial(ThreadLocalManager::new);
+    private List<ThreadLocal> threadLocals = new ArrayList<>();
 
     public static <T> ThreadLocal<T> createThreadLocal(final Class<T> type) {
         return createThreadLocal(type, true);
@@ -42,7 +40,7 @@ public class ThreadLocalManager {
                 try {
                     return type.newInstance();
                 } catch (InstantiationException | IllegalAccessException e) {
-                    throw new RuntimeException( e);
+                    throw new RuntimeException(e);
                 }
             }
         };

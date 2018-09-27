@@ -5,6 +5,6 @@ package com.shine.common.utils.java8Utils;
  */
 @FunctionalInterface
 public interface UncheckedConsumer<T> {
-     void accept(T t) throws Exception;
+    void accept(T t) throws Exception;
 
 }
