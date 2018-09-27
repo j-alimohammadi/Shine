@@ -20,7 +20,7 @@ public class Question {
     @Column(name = "BODY")
     private String body;
 
-    @Column(name = "tags")
+    @Column(name = "TAGS")
     private String tags;
 
 
