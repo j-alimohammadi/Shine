@@ -13,7 +13,7 @@
 
     <logger name="org.springframework" level="WARN"/>
 
-    <logger name="com.dena" level="ALL"/>
+    <logger name="com.shine" level="ALL"/>
 
 
 </configuration>
