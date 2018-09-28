@@ -1,36 +1,29 @@
 package com.shine.core.domain;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 
-@Table(name = "QUESTION")
+@Table(name = "SHINE_QUESTION")
 @Entity
 public class Question {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private Long id;
 
     @Column(name = "TITLE")
     private String title;
 
-    @Column(name = "BODY")
-    private String body;
-
     @Column(name = "TAGS")
     private String tags;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(name = "TAGS")
+    @OneToMany
+    private List<Answer> answerList = new ArrayList<>();
 
     public String getTitle() {
         return title;
@@ -40,19 +33,19 @@ public class Question {
         this.title = title;
     }
 
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
     public String getTags() {
         return tags;
     }
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public List<Answer> getAnswerList() {
+        return answerList;
+    }
+
+    public void setAnswerList(List<Answer> answerList) {
+        this.answerList = answerList;
     }
 }
