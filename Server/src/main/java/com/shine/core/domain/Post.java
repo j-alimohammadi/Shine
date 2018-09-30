@@ -14,10 +14,10 @@ public class Post {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "BODY")
+    @Column(name = "BODY", nullable = false)
     private String body;
 
-    @Column(name = "CREATED_TIMESTAMP")
+    @Column(name = "CREATED_TIMESTAMP", nullable = false)
     private Date createdTimeStamp;
 
     @Column(name = "EDITED_TIMESTAMP")

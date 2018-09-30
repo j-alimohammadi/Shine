@@ -13,13 +13,13 @@ import java.util.List;
 @Entity
 public class Question extends Post {
 
-    @Column(name = "TITLE")
+    @Column(name = "TITLE",, nullable = false)
     private String title;
 
     @Column(name = "TAGS")
     private String tags;
 
-    @JoinColumn(name = "ANSWER_ID")
+    @JoinColumn(name = "ANSWER_ID", nullable = false)
     @OneToMany
     private List<Answer> answerList = new ArrayList<>();
 
