@@ -15,6 +15,11 @@ public class Answer extends Post {
     @Column(name = "IS_ACCEPTED")
     private Boolean accepted;
 
+    public Boolean getAccepted() {
+        return accepted;
+    }
 
-
+    public void setAccepted(Boolean accepted) {
+        this.accepted = accepted;
+    }
 }

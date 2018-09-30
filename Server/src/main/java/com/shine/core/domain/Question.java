@@ -1,10 +1,8 @@
 package com.shine.core.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,7 +11,7 @@ import java.util.List;
 
 @Table(name = "SHINE_QUESTION")
 @Entity
-public class Question {
+public class Question extends Post {
 
     @Column(name = "TITLE")
     private String title;
@@ -21,7 +19,7 @@ public class Question {
     @Column(name = "TAGS")
     private String tags;
 
-    @Column(name = "TAGS")
+    @JoinColumn(name = "ANSWER_ID")
     @OneToMany
     private List<Answer> answerList = new ArrayList<>();
 
@@ -42,7 +40,7 @@ public class Question {
     }
 
     public List<Answer> getAnswerList() {
-        return answerList;
+        return Collections.unmodifiableList(answerList);
     }
 
     public void setAnswerList(List<Answer> answerList) {
