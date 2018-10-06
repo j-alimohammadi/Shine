@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 public class Question extends Post {
 
-    @Column(name = "TITLE",, nullable = false)
+    @Column(name = "TITLE", nullable = false)
     private String title;
 
     @Column(name = "TAGS")
