@@ -35,14 +35,9 @@ public class QuestionEndPoint {
         questionRequestDTO.setId(question.getId());
         questionRequestDTO.setTitle(question.getTitle());
         questionRequestDTO.setBody(question.getBody());
-        questionRequestDTO.setTags(question.getTags());
-
-
-
 
         return ResponseEntity.ok(questionRequestDTO);
     }
 
-    
 
 }

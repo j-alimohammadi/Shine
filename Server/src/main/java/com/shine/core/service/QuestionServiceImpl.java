@@ -28,7 +28,6 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = new Question();
         question.setTitle(questionRequestDTO.getTitle());
         question.setBody(questionRequestDTO.getBody());
-        question.setTags(questionRequestDTO.getTags());
         question.setCreatedTimeStamp(new Date());
         question = questionDao.createOrUpdate(question);
 

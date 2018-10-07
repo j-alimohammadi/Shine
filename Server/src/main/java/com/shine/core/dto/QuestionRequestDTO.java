@@ -11,8 +11,6 @@ public class QuestionRequestDTO {
 
     private String body;
 
-    private String tags;
-
     public String getTitle() {
         return title;
     }
@@ -27,14 +25,6 @@ public class QuestionRequestDTO {
 
     public void setBody(String body) {
         this.body = body;
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
     }
 
     public Long getId() {

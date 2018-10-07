@@ -1,6 +1,7 @@
 package com.shine.core.domain;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -43,5 +44,19 @@ public class Badge {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Badge badge = (Badge) o;
+        return Objects.equals(id, badge.id) &&
+                Objects.equals(name, badge.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }
