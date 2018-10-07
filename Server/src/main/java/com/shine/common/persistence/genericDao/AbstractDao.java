@@ -16,7 +16,6 @@ public abstract class AbstractDao<T> implements DAO<T> {
     @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     protected EntityManager entityManager;
 
-
     private Class<T> domainClass;
 
     @SuppressWarnings("unchecked")

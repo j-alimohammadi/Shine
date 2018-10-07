@@ -3,6 +3,8 @@ package com.shine.api.rest;
 import com.shine.core.domain.Question;
 import com.shine.core.dto.QuestionRequestDTO;
 import com.shine.core.service.QuestionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +22,8 @@ import javax.annotation.Resource;
         produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
         consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class QuestionEndPoint {
+    private final static Logger log = LoggerFactory.getLogger(QuestionEndPoint.class);
+
 
     @Resource
     private QuestionService questionService;
@@ -32,6 +36,9 @@ public class QuestionEndPoint {
         questionRequestDTO.setTitle(question.getTitle());
         questionRequestDTO.setBody(question.getBody());
         questionRequestDTO.setTags(question.getTags());
+
+
+
 
         return ResponseEntity.ok(questionRequestDTO);
     }

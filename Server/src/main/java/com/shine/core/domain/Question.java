@@ -9,19 +9,26 @@ import java.util.List;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 
-@Table(name = "SHINE_QUESTION")
 @Entity
+@DiscriminatorValue("QUESTION")
 public class Question extends Post {
 
-    @Column(name = "TITLE", nullable = false)
+    @Column(name = "TITLE")
     private String title;
 
-    @Column(name = "TAGS")
-    private String tags;
+    @Column(name = "VIEW_COUNT")
+    private Long viewCount;
 
-    @JoinColumn(name = "ANSWER_ID", nullable = false)
+    @Column(name = "VOTE")
+    private Long vote;
+
+    @JoinColumn(name = "ANSWER_ID")
     @OneToMany
     private List<Answer> answerList = new ArrayList<>();
+
+    @JoinColumn(name = "TAG_ID")
+    @OneToMany
+    private List<Tag> tagList = new ArrayList<>();
 
     public String getTitle() {
         return title;
@@ -31,19 +38,35 @@ public class Question extends Post {
         this.title = title;
     }
 
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
-
     public List<Answer> getAnswerList() {
         return Collections.unmodifiableList(answerList);
     }
 
     public void setAnswerList(List<Answer> answerList) {
         this.answerList = answerList;
+    }
+
+    public List<Tag> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(List<Tag> tagList) {
+        this.tagList = tagList;
+    }
+
+    public Long getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(Long viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public Long getVote() {
+        return vote;
+    }
+
+    public void setVote(Long vote) {
+        this.vote = vote;
     }
 }

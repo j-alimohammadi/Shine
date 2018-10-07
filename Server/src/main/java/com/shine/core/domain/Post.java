@@ -6,8 +6,11 @@ import java.util.Date;
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
-@Table(name = "SHINE_QUESTION")
+
 @Entity
+@Table(name ="SHINE_POST" )
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "POST_TYPE")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,9 +21,11 @@ public class Post {
     private String body;
 
     @Column(name = "CREATED_TIMESTAMP", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdTimeStamp;
 
     @Column(name = "EDITED_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date editedTimeStamp;
 
     public Long getId() {

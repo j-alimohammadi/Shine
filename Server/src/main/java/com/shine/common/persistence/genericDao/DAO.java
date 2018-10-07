@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface DAO<T> {
 
-    public T createOrUpdate(T object);
+    T createOrUpdate(T object);
 
     /**
      * Find item by id and return it or null otherwise
@@ -17,7 +17,7 @@ public interface DAO<T> {
      * @param id
      * @return
      */
-    public T find(Serializable id);
+    T find(Serializable id);
 
     /**
      * Load lazy item with id if not found throws exception
@@ -25,19 +25,19 @@ public interface DAO<T> {
      * @param id
      * @return
      */
-    public T load(Serializable id);
+    T load(Serializable id);
 
-    public List<T> getAll();
+    List<T> getAll();
 
-    public void update(T t);
+    void update(T t);
 
-    public void delete(T t);
+    void delete(T t);
 
-    public void deleteById(Serializable id);
+    void deleteById(Serializable id);
 
-    public long deleteAll();
+    long deleteAll();
 
-    public long count();
+    long count();
 
-    public boolean exists(Serializable id);
+    boolean exists(Serializable id);
 }
