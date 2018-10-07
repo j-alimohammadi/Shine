@@ -13,8 +13,10 @@ public class Tag {
     @Column(name = "ID")
     private Long id;
 
+    @Column(name = "NAME")
     private String name;
 
+    @Column(name = "USED_COUNT")
     private Long usedCount;
 
     public Long getId() {

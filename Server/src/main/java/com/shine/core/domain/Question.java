@@ -26,8 +26,11 @@ public class Question extends Post {
     @OneToMany
     private List<Answer> answerList = new ArrayList<>();
 
-    @JoinColumn(name = "TAG_ID")
-    @OneToMany
+    @JoinTable(
+            name = "SHINE_QUESTION_TAG",
+            joinColumns = {@JoinColumn(name = "QUESTION_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "TAG_ID")})
+    @ManyToMany
     private List<Tag> tagList = new ArrayList<>();
 
     public String getTitle() {
