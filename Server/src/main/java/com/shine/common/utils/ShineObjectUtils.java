@@ -5,7 +5,7 @@ import java.time.Instant;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
-public class DenaObjectUtils {
+public class ShineObjectUtils {
     public static String getTypeNamePlural(final String typeName) {
         if (!typeName.endsWith("s")) {
             return typeName + "s";

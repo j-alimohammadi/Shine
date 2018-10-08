@@ -1,7 +1,6 @@
 package com.shine.core.service;
 
 import com.shine.core.dao.QuestionDao;
-import com.shine.core.dao.TagDao;
 import com.shine.core.domain.Question;
 import com.shine.core.dto.QuestionRequestDTO;
 import org.slf4j.Logger;
@@ -23,9 +22,6 @@ public class QuestionServiceImpl implements QuestionService {
     @Resource
     private QuestionDao questionDao;
 
-
-
-
     @Transactional
     @Override
     public Question createQuestion(QuestionRequestDTO questionRequestDTO) {
@@ -33,7 +29,6 @@ public class QuestionServiceImpl implements QuestionService {
         question.setTitle(questionRequestDTO.getTitle());
         question.setBody(questionRequestDTO.getBody());
         question.setCreatedTimeStamp(new Date());
-
 
 
         question = questionDao.createOrUpdate(question);
