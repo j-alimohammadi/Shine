@@ -2,12 +2,31 @@ package com.shine.core.domain;
 
 import javax.persistence.*;
 
+import static com.shine.core.domain.Tag.FIND_TAGS_BY_ID;
+import static com.shine.core.domain.Tag.FIND_TAGS_COUNT_BY_ID;
+
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
+
+@NamedQueries({
+        @NamedQuery(
+                name = FIND_TAGS_BY_ID,
+                query = "SELECT tag FROM Tag tag WHERE tag.id in (:tagId)"
+        ),
+        @NamedQuery(
+                name = FIND_TAGS_COUNT_BY_ID,
+                query = "SELECT COUNT(tag) FROM Tag tag WHERE tag.id in (:tagId)"
+        )
+}
+)
 @Entity
 @Table(name = "SHINE_TAG")
 public class Tag {
+    public static final String FIND_TAGS_BY_ID = "FIND_TAGS_BY_ID";
+
+    public static final String FIND_TAGS_COUNT_BY_ID = "FIND_TAGS_COUNT_BY_ID";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")

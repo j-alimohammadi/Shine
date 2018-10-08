@@ -8,4 +8,5 @@ import com.shine.core.domain.Question;
  */
 
 public interface QuestionDao extends DAO<Question> {
+
 }
