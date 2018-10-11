@@ -78,7 +78,7 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
 
         List<Tag> tagList = tagService.findTagsById(this.tagIds);
 
-        Question question = questionService.findQuestionById(this.id);
+        Question question = questionService.createQuestionFromId(this.id);
         question.setBody(body);
         question.setTitle(title);
         question.setTagList(tagList);

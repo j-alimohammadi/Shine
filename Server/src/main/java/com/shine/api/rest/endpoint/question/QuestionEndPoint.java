@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -118,11 +120,20 @@ public class QuestionEndPoint extends BaseEndpoint {
     }
 
     @GetMapping(path = "")
-    public ResponseEntity findAllQuestions(@RequestParam(value = "questionOffset", defaultValue = "1") int questionOffset,
-                                           @RequestParam(value = "questionLimit", defaultValue = "20") int questionLimit) {
+    public List<QuestionWrapper> findAllQuestions(HttpServletRequest httpServletRequest,
+                                                  @RequestParam(value = "offset", defaultValue = "0") int questionOffset,
+                                                  @RequestParam(value = "limit", defaultValue = "20") int questionLimit) {
 
+        List<QuestionWrapper> result = new ArrayList<>();
+        List<Question> questions = questionService.findQuestions(questionOffset, questionLimit);
 
-        return ResponseEntity.ok(questionService.findQuestions(questionOffset, questionLimit));
+        questions.forEach(question -> {
+            QuestionWrapper response = applicationContext.getBean(QuestionWrapper.class);
+            response.wrap(question, httpServletRequest);
+            result.add(response);
+        });
+
+        return result;
     }
 
 
