@@ -1,12 +1,23 @@
 package com.shine.core.service;
 
 import com.shine.core.domain.Question;
-import com.shine.core.dto.QuestionRequestDTO;
+
+import java.util.List;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 
 public interface QuestionService {
-    Question createQuestion(QuestionRequestDTO questionRequestDTO);
+    Question createQuestion(Question question);
+
+    Question createQuestionFromId(Long questionId);
+
+    Question updateQuestion(Question question);
+
+    void deleteQuestionById(Long id);
+
+    Question findQuestionById(Long id);
+
+    List<Question> findQuestions(int questionOffset, int questionLimit);
 }

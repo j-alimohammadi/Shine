@@ -12,4 +12,5 @@ public interface TagService {
     List<Tag> findTagsById(List<Long> tagIds);
 
     Long findTagCountById(List<Long> tagIds);
+
 }

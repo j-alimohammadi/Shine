@@ -20,6 +20,7 @@ public class ShineRestException extends RuntimeException {
     public final static String TAGS_NOT_FOUND = "shine.platform.restapi.exception.question.tagNotFound";
     public final static String INVALID_TITLE = "shine.platform.restapi.exception.question.titleInvalid";
     public final static String INVALID_CONTENT = "shine.platform.restapi.exception.question.contentInvalid";
+    public final static String INVALID_QUESTION = "shine.platform.restapi.exception.question.questionIdInvalid";
 
 
     public ShineRestException(int httpStatusCode, Locale locale, Map<String, Object[]> messages, Throwable cause) {
