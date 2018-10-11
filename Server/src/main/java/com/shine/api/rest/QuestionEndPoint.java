@@ -5,6 +5,7 @@ import com.shine.core.domain.Question;
 import com.shine.core.dto.QuestionRequestDTO;
 import com.shine.core.service.QuestionService;
 import com.shine.core.service.TagService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,16 @@ public class QuestionEndPoint {
         if (!Objects.equals(tagService.findTagCountById(questionRequestDTO.getTagIds()), tagCount)) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
                     .addMessage(ShineRestException.TAGS_NOT_FOUND);
+        }
+
+        if (StringUtils.isBlank(questionRequestDTO.getTitle())) {
+            throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+                    .addMessage(ShineRestException.INVALID_TITLE);
+        }
+
+        if (StringUtils.isBlank(questionRequestDTO.getBody())) {
+            throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+                    .addMessage(ShineRestException.INVALID_CONTENT);
         }
 
 

@@ -54,4 +54,25 @@ public class ShineExceptionMapper {
         return errorResponse;
     }
 
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public ErrorResponse handleException(HttpServletRequest request, HttpServletResponse response,
+                                         Exception ex) {
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        log.error("An error occurred invoking a REST service.", ex);
+
+        final Locale locale = Locale.getDefault();
+
+
+        String errorMessage = messageSource.getMessage(ShineRestException.UNKNOWN, null, locale);
+
+        ErrorResponse errorResponse = ErrorResponse.ErrorResponseBuilder.anErrorResponse()
+                .withHttpStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
+                .withMessages(errorMessage)
+                .build();
+
+        return errorResponse;
+
+    }
+
 }
