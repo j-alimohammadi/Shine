@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class ShineExceptionMapper {
     private final static Logger log = LoggerFactory.getLogger(ShineExceptionMapper.class);
 
-    @Resource
+    @Resource(name = "shineMessageSource")
     private MessageSource messageSource;
 
     @ExceptionHandler(ShineRestException.class)
@@ -39,13 +39,15 @@ public class ShineExceptionMapper {
 
         final Locale locale = ex.getLocale() == null ? Locale.getDefault() : ex.getLocale();
 
+
         List<String> errorMessage = ex.getMessages().entrySet()
                 .stream()
                 .map(messageEntry -> messageSource.getMessage(messageEntry.getKey(), messageEntry.getValue(), locale))
                 .collect(Collectors.toList());
 
+
         ErrorResponse errorResponse = ErrorResponse.ErrorResponseBuilder.anErrorResponse()
-                .withStatus(ex.getHttpStatusCode())
+                .withHttpStatus(ex.getHttpStatusCode())
                 .withMessages(errorMessage)
                 .build();
 

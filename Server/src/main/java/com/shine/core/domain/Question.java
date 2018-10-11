@@ -30,7 +30,7 @@ public class Question extends Post {
             name = "SHINE_QUESTION_TAG",
             joinColumns = {@JoinColumn(name = "QUESTION_ID")},
             inverseJoinColumns = {@JoinColumn(name = "TAG_ID")})
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Tag> tagList = new ArrayList<>();
 
     public String getTitle() {

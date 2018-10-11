@@ -1,9 +1,5 @@
 package com.shine.api.rest.dto;
 
-/**
- * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
- */
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -15,18 +11,18 @@ import java.util.List;
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class ErrorResponse {
-    @JsonProperty("status")
-    private int status;
+    @JsonProperty("httpStatus")
+    private int httpStatus;
 
     @JsonProperty("messages")
     private List<String> messages;
 
-    public int getStatus() {
-        return status;
+    public int getHttpStatus() {
+        return httpStatus;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setHttpStatus(int httpStatus) {
+        this.httpStatus = httpStatus;
     }
 
     public List<String> getMessages() {
@@ -39,7 +35,6 @@ public class ErrorResponse {
 
     public static final class ErrorResponseBuilder {
         private int status;
-        private String errorCode;
         private List<String> messages = new ArrayList<>();
 
         private ErrorResponseBuilder() {
@@ -49,8 +44,8 @@ public class ErrorResponse {
             return new ErrorResponseBuilder();
         }
 
-        public ErrorResponseBuilder withStatus(int status) {
-            this.status = status;
+        public ErrorResponseBuilder withHttpStatus(int httpStatus) {
+            this.status = httpStatus;
             return this;
         }
 
@@ -64,15 +59,9 @@ public class ErrorResponse {
             return this;
         }
 
-
-        public ErrorResponseBuilder withErrorCode(String errorCode) {
-            this.errorCode = errorCode;
-            return this;
-        }
-
         public ErrorResponse build() {
             ErrorResponse errorResponse = new ErrorResponse();
-            errorResponse.setStatus(status);
+            errorResponse.setHttpStatus(status);
             errorResponse.setMessages(messages);
             return errorResponse;
         }

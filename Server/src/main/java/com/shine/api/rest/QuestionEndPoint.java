@@ -50,6 +50,7 @@ public class QuestionEndPoint {
         questionRequestDTO.setId(question.getId());
         questionRequestDTO.setTitle(question.getTitle());
         questionRequestDTO.setBody(question.getBody());
+        questionRequestDTO.setTagIds(questionRequestDTO.getTagIds());
 
 
         return ResponseEntity.ok(questionRequestDTO);

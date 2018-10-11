@@ -2,6 +2,7 @@ package com.shine.core.service;
 
 import com.shine.core.dao.QuestionDao;
 import com.shine.core.domain.Question;
+import com.shine.core.domain.Tag;
 import com.shine.core.dto.QuestionRequestDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -22,6 +24,9 @@ public class QuestionServiceImpl implements QuestionService {
     @Resource
     private QuestionDao questionDao;
 
+    @Resource
+    private TagService tagService;
+
     @Transactional
     @Override
     public Question createQuestion(QuestionRequestDTO questionRequestDTO) {
@@ -29,6 +34,9 @@ public class QuestionServiceImpl implements QuestionService {
         question.setTitle(questionRequestDTO.getTitle());
         question.setBody(questionRequestDTO.getBody());
         question.setCreatedTimeStamp(new Date());
+
+        List<Tag> tagList = tagService.findTagsById(questionRequestDTO.getTagIds());
+        question.getTagList().addAll(tagList);
 
 
         question = questionDao.createOrUpdate(question);
