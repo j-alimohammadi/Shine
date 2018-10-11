@@ -50,7 +50,7 @@ public class Question extends Post {
     }
 
     public List<Tag> getTagList() {
-        return tagList;
+        return Collections.unmodifiableList(tagList);
     }
 
     public void setTagList(List<Tag> tagList) {
@@ -71,5 +71,9 @@ public class Question extends Post {
 
     public void setVote(Long vote) {
         this.vote = vote;
+    }
+
+    public void addTags(List<Tag> tagList) {
+        tagList.addAll(tagList);
     }
 }

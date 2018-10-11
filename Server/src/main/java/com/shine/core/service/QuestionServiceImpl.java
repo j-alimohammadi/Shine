@@ -36,8 +36,7 @@ public class QuestionServiceImpl implements QuestionService {
         question.setCreatedTimeStamp(new Date());
 
         List<Tag> tagList = tagService.findTagsById(questionRequestDTO.getTagIds());
-        question.getTagList().addAll(tagList);
-
+        question.addTags(tagList);
 
         question = questionDao.createOrUpdate(question);
 
