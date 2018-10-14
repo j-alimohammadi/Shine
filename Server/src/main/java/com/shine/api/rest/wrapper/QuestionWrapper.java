@@ -9,7 +9,6 @@ import com.shine.core.domain.Question;
 import com.shine.core.domain.Tag;
 import com.shine.core.service.QuestionService;
 import com.shine.core.service.TagServiceImpl;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -96,8 +95,4 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
         this.tagIds = model.getTagList().stream().map(Tag::getId).collect(Collectors.toList());
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        super.setApplicationContext(applicationContext);
-    }
 }
