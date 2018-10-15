@@ -24,7 +24,7 @@ import java.util.Objects;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 @RestController
-@RequestMapping(value = "question",
+@RequestMapping(value = "/question",
         produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
         consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class QuestionEndPoint extends BaseEndpoint {
