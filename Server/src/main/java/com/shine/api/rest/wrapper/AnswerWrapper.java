@@ -27,6 +27,9 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
     @JsonProperty
     private String body;
 
+    @JsonProperty
+    private Long questionId;
+
     public Long getId() {
         return id;
     }
@@ -41,6 +44,14 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public Long getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(Long questionId) {
+        this.questionId = questionId;
     }
 
     @Override
