@@ -55,7 +55,7 @@ public class QuestionEndPoint extends BaseEndpoint {
 
         if (StringUtils.isBlank(questionWrapper.getBody())) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
-                    .addMessage(ShineRestException.INVALID_CONTENT);
+                    .addMessage(ShineRestException.INVALID_POST_BODY_CONTENT);
         }
 
         Question question = questionWrapper.unwrap(httpServletRequest, applicationContext);
@@ -86,12 +86,12 @@ public class QuestionEndPoint extends BaseEndpoint {
 
         if (StringUtils.isBlank(questionWrapper.getBody())) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
-                    .addMessage(ShineRestException.INVALID_CONTENT);
+                    .addMessage(ShineRestException.INVALID_POST_BODY_CONTENT);
         }
 
         if (Objects.isNull(questionWrapper.getId())) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
-                    .addMessage(ShineRestException.INVALID_QUESTION);
+                    .addMessage(ShineRestException.INVALID_QUESTION_ID);
         }
 
         Question question = questionWrapper.unwrap(httpServletRequest, applicationContext);
@@ -109,7 +109,7 @@ public class QuestionEndPoint extends BaseEndpoint {
 
         if (Objects.isNull(question)) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
-                    .addMessage(ShineRestException.INVALID_QUESTION);
+                    .addMessage(ShineRestException.INVALID_QUESTION_ID);
         }
 
         questionService.deleteQuestionById(questionId);

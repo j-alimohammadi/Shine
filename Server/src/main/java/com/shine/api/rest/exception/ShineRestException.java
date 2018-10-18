@@ -16,11 +16,28 @@ public class ShineRestException extends RuntimeException {
 
     private Map<String, Object[]> messages;
 
+
+    /////////////////////////////////////////////
+    //            General Error Code
+    /////////////////////////////////////////////
     public final static String UNKNOWN = "shine.platform.restapi.exception.unknownError";
+    public final static String INVALID_POST_BODY_CONTENT = "shine.platform.restapi.exception.post.contentInvalid";
+
+
+    /////////////////////////////////////////////
+    //            Question Error Code
+    /////////////////////////////////////////////
     public final static String TAGS_NOT_FOUND = "shine.platform.restapi.exception.question.tagNotFound";
     public final static String INVALID_TITLE = "shine.platform.restapi.exception.question.titleInvalid";
-    public final static String INVALID_CONTENT = "shine.platform.restapi.exception.question.contentInvalid";
-    public final static String INVALID_QUESTION = "shine.platform.restapi.exception.question.questionIdInvalid";
+    public final static String INVALID_QUESTION_ID = "shine.platform.restapi.exception.question.questionIdInvalid";
+
+
+
+    /////////////////////////////////////////////
+    //            Answer Error Code
+    /////////////////////////////////////////////
+    public final static String INVALID_ANSWER_ID = "shine.platform.restapi.exception.answer.answerIdInvalid";
+
 
 
     public ShineRestException(int httpStatusCode, Locale locale, Map<String, Object[]> messages, Throwable cause) {

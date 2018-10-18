@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -43,5 +44,34 @@ public class AnswerServiceImpl implements AnswerService {
 
         return answer;
 
+    }
+
+    @Transactional
+    @Override
+    public Answer updateAnswer(Answer answer) {
+        answer.setEditedTimeStamp(new Date());
+        answer = answerDao.createOrUpdate(answer);
+
+        log.debug("Answer with id [{}] updated successfully", answer.getId());
+
+        return answer;
+    }
+
+    @Transactional
+    @Override
+    public void deleteAnswerById(Long id) {
+        answerDao.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public Answer findAnswerById(Long id) {
+        return answerDao.find(id);
+    }
+
+    @Transactional
+    @Override
+    public List<Answer> findAnswers(int answerOffset, int answerLimit) {
+        return answerDao.findAnswer(answerOffset, answerLimit);
     }
 }
