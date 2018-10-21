@@ -5,7 +5,6 @@ class App extends Component {
   render () {
     return (
       <div className="App">
-        <h1>Shine q&a platform </h1>
       </div>
     )
   }
