@@ -2939,7 +2939,7 @@ header#nav-header {
 .qa-form-wide-buttons {
   padding: 8px;
 }
-/* Question list */
+/* HOME list */
 .qa-part-q-list {
   margin-bottom: 20px;
 }
@@ -3335,7 +3335,7 @@ a.qa-browse-cat-link:visited {
 .qa-browse-cat-nolink {
   cursor: pointer;
 }
-/* Question view */
+/* HOME view */
 .qa-part-q-view {
   border: 1px solid transparent;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
