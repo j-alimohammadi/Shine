@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import './App.css'
 import Layout from './components/Layout/Layout'
+import Question from './containers/Question/Question'
 
 class App extends Component {
   render () {
     return (
       <div>
         <Layout>
-          <p>Test</p>
+          <Question/>
         </Layout>
         {/*<Switch>*/}
         {/*<Route path="/" exact component={HOME}/>*/}

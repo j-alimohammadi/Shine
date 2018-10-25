@@ -1,9 +1,10 @@
 import React from 'react'
 import AUX from '../../hoc/_Aux'
+import Navigation from '../../containers/Navigation/Navigation'
 
 const layout = (props) => (
   <AUX>
-    <div>Header, Search, Footer</div>
+    <div><Navigation/>, Search, Footer</div>
 
     <main>
       {props.children}

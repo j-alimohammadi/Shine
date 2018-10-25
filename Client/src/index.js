@@ -14,6 +14,6 @@ const app = (
   </BrowserRouter>
 )
 
-ReactDOM.render(app, document.getElementById('content'))
+ReactDOM.render(app, document.getElementById('root'))
 
 registerServiceWorker()
