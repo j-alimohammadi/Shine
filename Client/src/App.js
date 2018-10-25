@@ -1,21 +1,20 @@
 import React, { Component } from 'react'
 import './App.css'
-import { Route, Switch } from 'react-router-dom'
-import ERROR from './components/ERROR'
-import Question from './components/Question'
-import HOME from './components/HOME'
-import UnAnswered from './components/UnAnswered'
+import Layout from './components/Layout/Layout'
 
 class App extends Component {
   render () {
     return (
       <div>
-        <Switch>
-          <Route path="/" exact component={HOME}/>
-          <Route path="/question" component={Question}/>
-          <Route path="/unanswered" component={UnAnswered}/>
-          <Route component={ERROR}/>
-        </Switch>
+        <Layout>
+          <p>Test</p>
+        </Layout>
+        {/*<Switch>*/}
+        {/*<Route path="/" exact component={HOME}/>*/}
+        {/*<Route path="/question" component={Question}/>*/}
+        {/*<Route path="/unanswered" component={UnAnswered}/>*/}
+        {/*<Route component={ERROR}/>*/}
+        {/*</Switch>*/}
       </div>
     )
   }
