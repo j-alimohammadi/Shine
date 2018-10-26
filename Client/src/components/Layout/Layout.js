@@ -6,7 +6,7 @@ import Footer from '../../containers/Footer/Footer'
 const layout = (props) => (
   <AUX>
     <Navigation/>
-    
+
     <main>
       {props.children}
     </main>
