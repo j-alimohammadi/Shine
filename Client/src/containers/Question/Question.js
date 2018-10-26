@@ -1,7 +1,55 @@
 import React, { Component } from 'react'
 import AUX from '../../hoc/_Aux'
+import ShineClient from '../../utils/ShineClient/ShineClient'
+import { ShineResponseParser } from '../../utils/ShineClient/Response'
 
 class Question extends Component {
+
+  state = {
+    questions: []
+  }
+
+  componentDidMount () {
+    this.getAllQuestions()
+
+  }
+
+  getAllQuestions () {
+    ShineClient.findQuestions(0, 1)
+      .then((JSONResponse) => {
+
+        if (ShineResponseParser.isResponseOk(JSONResponse)) {
+          return JSONResponse.json()
+
+        } else {
+          debugger
+          // this.setState({
+          //   alert: {
+          //     alertMessage: `Failed to get table information. ${JSONResponse.messages[0]}`,
+          //     showAlert: true,
+          //     alertType: 'danger'
+          //   }
+          // });
+        }
+
+        console.log(this.state.questions)
+      })
+      .then((jsonData) => {
+        console.log(jsonData)
+      })
+      .catch((error) => {
+        this.setState({
+            alert: {
+              alertMessage: `Failed to get table information. Error in connecting to server.`,
+              showAlert: true,
+              alertType: 'danger'
+            }
+          }
+        )
+      })
+
+  }
+
   render () {
     return (
       <AUX>
@@ -101,6 +149,7 @@ class Question extends Component {
       </AUX>
     )
   }
+
 }
 
 export default Question
