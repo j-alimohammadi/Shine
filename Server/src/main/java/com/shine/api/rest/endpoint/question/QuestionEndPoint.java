@@ -25,8 +25,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping(value = "/question",
-        produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-        consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+        produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class QuestionEndPoint extends BaseEndpoint {
     private final static Logger log = LoggerFactory.getLogger(QuestionEndPoint.class);
 
@@ -37,7 +36,7 @@ public class QuestionEndPoint extends BaseEndpoint {
     @Resource
     private TagService tagService;
 
-    @PostMapping(path = "")
+    @PostMapping(path = "",consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public QuestionWrapper createNewQuestion(HttpServletRequest httpServletRequest,
                                              @RequestBody QuestionWrapper questionWrapper) {
 
@@ -69,7 +68,7 @@ public class QuestionEndPoint extends BaseEndpoint {
     }
 
 
-    @PutMapping(path = "")
+    @PutMapping(path = "",consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public QuestionWrapper updateQuestion(HttpServletRequest httpServletRequest,
                                           @RequestBody QuestionWrapper questionWrapper) {
         Long tagCount = (long) questionWrapper.getTagIds().size();

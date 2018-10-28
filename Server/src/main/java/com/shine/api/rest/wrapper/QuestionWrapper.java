@@ -36,6 +36,9 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
     private String body;
 
     @JsonProperty
+    private Long vote;
+
+    @JsonProperty
     private List<Long> tagIds = new ArrayList<>();
 
     public String getTitle() {
@@ -80,6 +83,7 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
         Question question = questionService.createQuestionFromId(this.id);
         question.setBody(body);
         question.setTitle(title);
+        question.setVote(vote);
         question.setTagList(tagList);
 
         return question;
@@ -91,6 +95,7 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
         this.id = model.getId();
         this.title = model.getTitle();
         this.body = model.getBody();
+        this.vote = model.getVote();
 
         this.tagIds = model.getTagList().stream().map(Tag::getId).collect(Collectors.toList());
     }
