@@ -103,7 +103,7 @@ class Question extends Component {
                             </div>
                           </div>
                           <span className="qa-a-count">
-              <span className="qa-a-count-data">1</span><span className="qa-a-count-pad"> answer</span>
+              <span className="qa-a-count-data">{item.answer_count}</span><span className="qa-a-count-pad"> answer</span>
               </span>
                         </div>
                         <div className="qa-q-item-main">
