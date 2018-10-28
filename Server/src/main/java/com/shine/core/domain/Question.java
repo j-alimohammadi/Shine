@@ -22,7 +22,7 @@ public class Question extends Post {
     @Column(name = "VOTE")
     private Long vote;
 
-    @JoinColumn(name = "ANSWER_ID")
+    @JoinColumn(name = "QUESTION_ID")
     @OneToMany
     private List<Answer> answerList = new ArrayList<>();
 

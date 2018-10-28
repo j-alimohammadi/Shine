@@ -38,8 +38,14 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
     @JsonProperty
     private Long vote;
 
+    @JsonProperty(value = "answer_count")
+    private Integer answerCount;
+
+
     @JsonProperty
     private List<Long> tagIds = new ArrayList<>();
+
+
 
     public String getTitle() {
         return title;
@@ -73,6 +79,14 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
         this.tagIds = tagIds;
     }
 
+    public Integer getAnswerCount() {
+        return answerCount;
+    }
+
+    public void setAnswerCount(Integer answerCount) {
+        this.answerCount = answerCount;
+    }
+
     @Override
     public Question unwrap(HttpServletRequest request, ApplicationContext context) {
         final TagServiceImpl tagService = context.getBean(TagServiceImpl.class);
@@ -96,6 +110,7 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
         this.title = model.getTitle();
         this.body = model.getBody();
         this.vote = model.getVote();
+        this.answerCount = model.getAnswerList().size();
 
         this.tagIds = model.getTagList().stream().map(Tag::getId).collect(Collectors.toList());
     }
