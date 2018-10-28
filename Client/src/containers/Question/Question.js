@@ -17,15 +17,14 @@ class Question extends Component {
   getAllQuestions () {
     ShineClient.findQuestions(0, 1)
       .then((JSONResponse) => {
-
         if (ShineResponseParser.isResponseOk(JSONResponse)) {
           return JSONResponse.json()
         } else {
-          console.error('Error in response`')
+          throw new Error('Something bad happened.')
         }
       })
       .then((jsonData) => {
-        console.log(jsonData)
+        this.setState({questions: jsonData})
       })
       .catch((error) => {
         this.setState({
@@ -41,6 +40,8 @@ class Question extends Component {
   }
 
   render () {
+    const questions = this.state.questions
+
     return (
       <AUX>
         <div className="row">
@@ -76,59 +77,68 @@ class Question extends Component {
         <div className="qa-part-q-list">
           <form method="post" action="./index.php?qa=questions">
             <div className="qa-q-list">
-              <div className="qa-q-list-item row" id="q1">
-                <div className="qa-q-item-stats">
-                  <div className="qa-voting qa-voting-net" id="voting_1">
-                    <div className="qa-vote-buttons qa-vote-buttons-net">
-                      <button title="Click to vote up" name="vote_1_1_q1"
-                              type="submit" value="+" className="qa-vote-first-button qa-vote-up-button"><span
-                        className="fa fa-chevron-up"></span></button>
-                      <button title="Click to vote down" name="vote_1_-1_q1"
-                              type="submit" value="–"
-                              className="qa-vote-second-button qa-vote-down-button"><span
-                        className="fa fa-chevron-down"></span></button>
-                    </div>
-                    <div className="qa-vote-count qa-vote-count-net">
-                            <span className="qa-netvote-count">
-                            <span className="qa-netvote-count-data">0</span><span
-                              className="qa-netvote-count-pad"> votes</span>
-                            </span>
-                    </div>
-                    <div className="qa-vote-clear clearfix">
-                    </div>
-                  </div>
-                  <span className="qa-a-count">
-                        <span className="qa-a-count-data">1</span><span className="qa-a-count-pad"> answer</span>
-                        </span>
-                </div>
-                <div className="qa-q-item-main">
-                  <div className="qa-q-item-title">
-                    <a href="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask">this is an question to
-                      ask</a>
-                  </div>
-                  <span className="qa-q-item-avatar-meta">
-                          <span className="qa-q-item-meta">
-                          <span className="qa-q-item-what">asked</span>
-                          <span className="qa-q-item-when">
-                          <span className="qa-q-item-when-data">4 days</span><span
-                            className="qa-q-item-when-pad"> ago</span>
-                          </span>
-                          <span className="qa-q-item-who">
-                          <span className="qa-q-item-who-pad">by </span>
-                          <span className="qa-q-item-who-data">anonymous</span>
-                          </span>
-                          </span>
-                          </span>
-                  <div className="qa-q-item-tags clearfix">
-                    <ul className="qa-q-item-tag-list">
-                      <li className="qa-q-item-tag-item"><a href="./index.php?qa=tag&amp;qa_1=javad-ali-d"
-                                                            className="qa-tag-link">javad-ali-d</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="qa-q-item-clear clearfix">
-                </div>
-              </div>
+              {
+                questions.map((item, i) => {
+                  return (
+
+                      <div className="qa-q-list-item row" key={i} id={'q' + i}>
+                        <div className="qa-q-item-stats">
+                          <div className="qa-voting qa-voting-net" id="voting_1">
+                            <div className="qa-vote-buttons qa-vote-buttons-net">
+                              <button title=" Click to vote up" type="submit"
+                                      className="qa-vote-first-button qa-vote-up-button">
+                                <span className="fa fa-chevron-up"></span>
+                              </button>
+                              <button title="Click to vote down" type="submit" value="–"
+                                      className="qa-vote-second-button qa-vote-down-button">
+                                <span className="fa fa-chevron-down"></span></button>
+                            </div>
+                            <div className='qa-vote-count qa-vote-count-net'>
+                    < span className='qa-netvote-count'>
+                    < span className='qa-netvote-count-data'> {item.vote} </span><span
+                      className='qa-netvote-count-pad'> votes </span>
+                    </span>
+                            </div>
+                            <div className="qa-vote-clear clearfix">
+                            </div>
+                          </div>
+                          <span className="qa-a-count">
+              <span className="qa-a-count-data">1</span><span className="qa-a-count-pad"> answer</span>
+              </span>
+                        </div>
+                        <div className="qa-q-item-main">
+                          <div className="qa-q-item-title">
+                            <a href="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask">{item.title}</a>
+                          </div>
+                          <span className="qa-q-item-avatar-meta">
+              <span className="qa-q-item-meta">
+              <span className="qa-q-item-what">asked</span>
+              <span className="qa-q-item-when">
+              <span className="qa-q-item-when-data">4 days</span><span
+                className="qa-q-item-when-pad"> ago</span>
+              </span>
+              <span className="qa-q-item-who">
+              <span className="qa-q-item-who-pad">by </span>
+              <span className="qa-q-item-who-data">anonymous</span>
+              </span>
+              </span>
+              </span>
+                          <div className="qa-q-item-tags clearfix">
+                            <ul className="qa-q-item-tag-list">
+                              <li className="qa-q-item-tag-item"><a href="./index.php?qa=tag&amp;qa_1=javad-ali-d"
+                                                                    className="qa-tag-link">javad-ali-d</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div className='qa-q-item-clear clearfix'>
+                        </div>
+                      </div>
+                   
+                )
+
+                })
+              }
+
             </div>
           </form>
         </div>
