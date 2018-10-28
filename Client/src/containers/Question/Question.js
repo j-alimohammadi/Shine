@@ -20,19 +20,9 @@ class Question extends Component {
 
         if (ShineResponseParser.isResponseOk(JSONResponse)) {
           return JSONResponse.json()
-
         } else {
-          debugger
-          // this.setState({
-          //   alert: {
-          //     alertMessage: `Failed to get table information. ${JSONResponse.messages[0]}`,
-          //     showAlert: true,
-          //     alertType: 'danger'
-          //   }
-          // });
+          console.error('Error in response`')
         }
-
-        console.log(this.state.questions)
       })
       .then((jsonData) => {
         console.log(jsonData)
