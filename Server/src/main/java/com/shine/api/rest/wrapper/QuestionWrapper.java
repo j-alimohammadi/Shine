@@ -110,6 +110,8 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
         this.title = model.getTitle();
         this.body = model.getBody();
         this.vote = model.getVote();
+
+        // todo: we can use better query for performance
         this.answerCount = model.getAnswerList().size();
 
         this.tagIds = model.getTagList().stream().map(Tag::getId).collect(Collectors.toList());

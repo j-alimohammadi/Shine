@@ -36,7 +36,7 @@ public class QuestionEndPoint extends BaseEndpoint {
     @Resource
     private TagService tagService;
 
-    @PostMapping(path = "",consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public QuestionWrapper createNewQuestion(HttpServletRequest httpServletRequest,
                                              @RequestBody QuestionWrapper questionWrapper) {
 
@@ -68,7 +68,7 @@ public class QuestionEndPoint extends BaseEndpoint {
     }
 
 
-    @PutMapping(path = "",consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public QuestionWrapper updateQuestion(HttpServletRequest httpServletRequest,
                                           @RequestBody QuestionWrapper questionWrapper) {
         Long tagCount = (long) questionWrapper.getTagIds().size();
