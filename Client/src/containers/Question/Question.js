@@ -12,18 +12,18 @@ class Question extends Component {
     }
 
     // Event handler
-    this.handleVoteUp = this.handleVoteUp.bind(this)
-    this.handleVoteDown = this.handleVoteDown.bind(this)
+    this.handleVote = this.handleVote.bind(this)
     this.updateQuestion = this.updateQuestion.bind(this)
 
   }
 
   // Event handling
 
-  handleVoteUp (event) {
+  handleVote (event) {
     const questionId = event.currentTarget.getAttribute('data-question-id')
+    const isVotingUp = event.currentTarget.getAttribute('data-is-vote-up') === 'true'
 
-    ShineClient.voteUp(questionId)
+    ShineClient.vote(questionId, isVotingUp)
       .then((JSONResponse) => {
         if (ShineResponseParser.isResponseOk(JSONResponse)) {
           return JSONResponse.json()
@@ -33,34 +33,6 @@ class Question extends Component {
       })
       .then((jsonData) => {
         this.updateQuestion(jsonData)
-      })
-      .catch((error) => {
-        this.setState({
-            alert: {
-              alertMessage: `Failed to get table information. Error in connecting to server.`,
-              showAlert: true,
-              alertType: 'danger'
-            }
-          }
-        )
-      })
-
-    event.preventDefault()
-  }
-
-  handleVoteDown (event) {
-    const questionId = event.currentTarget.getAttribute('data-question-id')
-    ShineClient.voteDown(questionId)
-      .then((JSONResponse) => {
-        if (ShineResponseParser.isResponseOk(JSONResponse)) {
-          return JSONResponse.json()
-        } else {
-          throw new Error('Something bad happened.')
-        }
-      })
-      .then((jsonData) => {
-        const updatedQuestion = jsonData
-        this.updateQuestion(updatedQuestion)
       })
       .catch((error) => {
         this.setState({
@@ -161,13 +133,13 @@ class Question extends Component {
                       <div className="qa-q-item-stats">
                         <div className="qa-voting qa-voting-net" id="voting_1">
                           <div className="qa-vote-buttons qa-vote-buttons-net">
-                            <button title=" Click to vote up" data-question-id={item.id}
-                                    onClick={this.handleVoteUp}
+                            <button title=" Click to vote up" data-is-vote-up="true" data-question-id={item.id}
+                                    onClick={this.handleVote}
                                     className="qa-vote-first-button qa-vote-up-button">
                               <span className="fa fa-chevron-up"></span>
                             </button>
-                            <button title="Click to vote down" data-question-id={item.id}
-                                    onClick={this.handleVoteDown}
+                            <button title="Click to vote down" data-is-vote-up="false" data-question-id={item.id}
+                                    onClick={this.handleVote}
                                     className="qa-vote-second-button qa-vote-down-button">
                               <span className="fa fa-chevron-down"></span>
                             </button>

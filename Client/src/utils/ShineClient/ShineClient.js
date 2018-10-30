@@ -14,14 +14,15 @@ class ShineClient {
     return ShineHttpClient.getData(url)
   }
 
-  static voteUp (questionId) {
-    const url = `${PATH_BASE}/${QUESTIONS_PATH}/${questionId}/vote/increment`
-    return ShineHttpClient.putData(url, '')
+  static vote (questionId, isVotingUp) {
+    let url
 
-  }
+    if (isVotingUp) {
+      url = `${PATH_BASE}/${QUESTIONS_PATH}/${questionId}/vote/increment`
+    } else {
+      url = `${PATH_BASE}/${QUESTIONS_PATH}/${questionId}/vote/decrement`
+    }
 
-  static voteDown (questionId) {
-    const url = `${PATH_BASE}/${QUESTIONS_PATH}/${questionId}/vote/decrement`
     return ShineHttpClient.putData(url, '')
 
   }
