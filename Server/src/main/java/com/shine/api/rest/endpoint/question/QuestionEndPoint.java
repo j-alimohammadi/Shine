@@ -40,12 +40,12 @@ public class QuestionEndPoint extends BaseEndpoint {
     public QuestionWrapper createNewQuestion(HttpServletRequest httpServletRequest,
                                              @RequestBody QuestionWrapper questionWrapper) {
 
-        Long tagCount = (long) questionWrapper.getTagIds().size();
+        Long tagCount = (long) questionWrapper.getTagNames().size();
 
-        if (!Objects.equals(tagService.findTagCountById(questionWrapper.getTagIds()), tagCount)) {
-            throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
-                    .addMessage(ShineRestException.TAGS_NOT_FOUND);
-        }
+//        if (!Objects.equals(tagService.findTagCountById(questionWrapper.getTagNames()), tagCount)) {
+//            throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+//                    .addMessage(ShineRestException.TAGS_NOT_FOUND);
+//        }
 
         if (StringUtils.isBlank(questionWrapper.getTitle())) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
@@ -71,12 +71,12 @@ public class QuestionEndPoint extends BaseEndpoint {
     @PutMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public QuestionWrapper updateQuestion(HttpServletRequest httpServletRequest,
                                           @RequestBody QuestionWrapper questionWrapper) {
-        Long tagCount = (long) questionWrapper.getTagIds().size();
+        Long tagCount = (long) questionWrapper.getTagNames().size();
 
-        if (!Objects.equals(tagService.findTagCountById(questionWrapper.getTagIds()), tagCount)) {
-            throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
-                    .addMessage(ShineRestException.TAGS_NOT_FOUND);
-        }
+//        if (!Objects.equals(tagService.findTagCountById(questionWrapper.getTagNames()), tagCount)) {
+//            throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+//                    .addMessage(ShineRestException.TAGS_NOT_FOUND);
+//        }
 
         if (StringUtils.isBlank(questionWrapper.getTitle())) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
@@ -135,5 +135,31 @@ public class QuestionEndPoint extends BaseEndpoint {
         return result;
     }
 
+
+    @PutMapping(path = "/{question-id}/vote/increment")
+    public QuestionWrapper incrementVote(@PathVariable("question-id") Long questionId,
+                                         HttpServletRequest httpServletRequest) {
+        Question question = questionService.findQuestionById(questionId);
+        questionService.voteUp(question);
+
+        QuestionWrapper response = applicationContext.getBean(QuestionWrapper.class);
+        response.wrap(question, httpServletRequest);
+
+        return response;
+
+    }
+
+    @PutMapping(path = "/{question-id}/vote/decrement")
+    public QuestionWrapper decrementVote(@PathVariable("question-id") Long questionId,
+                                         HttpServletRequest httpServletRequest) {
+        Question question = questionService.findQuestionById(questionId);
+        questionService.voteDown(question);
+
+        QuestionWrapper response = applicationContext.getBean(QuestionWrapper.class);
+        response.wrap(question, httpServletRequest);
+
+        return response;
+
+    }
 
 }

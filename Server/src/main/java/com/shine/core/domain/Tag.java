@@ -1,6 +1,9 @@
 package com.shine.core.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static com.shine.core.domain.Tag.FIND_TAGS_BY_ID;
 import static com.shine.core.domain.Tag.FIND_TAGS_COUNT_BY_ID;
@@ -38,6 +41,10 @@ public class Tag {
     @Column(name = "USED_COUNT")
     private Long usedCount;
 
+    @ManyToMany(mappedBy = "tagList")
+    private List<Question> questions = new ArrayList<>();
+
+
     public Long getId() {
         return id;
     }
@@ -60,5 +67,13 @@ public class Tag {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Question> getQuestions() {
+        return Collections.unmodifiableList(questions);
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 }

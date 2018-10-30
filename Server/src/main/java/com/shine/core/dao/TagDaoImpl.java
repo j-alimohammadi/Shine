@@ -1,6 +1,7 @@
 package com.shine.core.dao;
 
 import com.shine.common.persistence.genericDao.AbstractDao;
+import com.shine.core.domain.Question;
 import com.shine.core.domain.Tag;
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.stereotype.Repository;
@@ -28,4 +29,13 @@ public class TagDaoImpl extends AbstractDao<Tag> implements TagDao {
         return query.getSingleResult();
 
     }
+
+    @Override
+    public List<Tag> readTagsForQuestion(Question question) {
+        TypedQuery<Tag> query = entityManager.createNamedQuery("readTagByQuestion", Tag.class);
+        query.setParameter("quesyionIds", question.getId());
+        return query.getResultList();
+
+    }
+
 }

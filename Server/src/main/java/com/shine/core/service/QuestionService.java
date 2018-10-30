@@ -20,4 +20,8 @@ public interface QuestionService {
     Question findQuestionById(Long id);
 
     List<Question> findQuestions(int questionOffset, int questionLimit);
+
+    Long voteUp(Question question);
+
+    Long voteDown(Question question);
 }

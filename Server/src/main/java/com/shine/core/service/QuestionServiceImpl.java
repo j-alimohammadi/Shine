@@ -76,5 +76,29 @@ public class QuestionServiceImpl implements QuestionService {
         return questionDao.findQuestion(questionOffset, questionLimit);
     }
 
+    // todo : check for race condition
+    @Transactional
+    @Override
+    public Long voteUp(Question question) {
+        long vote = question.getVote();
+        vote++;
+        question.setVote(vote);
+
+        questionDao.update(question);
+        return vote;
+    }
+
+    @Transactional
+    @Override
+    public Long voteDown(Question question) {
+        long vote = question.getVote();
+        vote--;
+        question.setVote(vote);
+        
+        questionDao.update(question);
+        return vote;
+
+    }
+
 
 }

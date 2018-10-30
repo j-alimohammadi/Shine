@@ -22,6 +22,10 @@ public class Question extends Post {
     @Column(name = "VOTE")
     private Long vote;
 
+    @Column(name = "ANSWER_COUNT")
+    private Long answerCount;
+
+
     @JoinColumn(name = "QUESTION_ID")
     @OneToMany
     private List<Answer> answerList = new ArrayList<>();
@@ -75,5 +79,13 @@ public class Question extends Post {
 
     public void addTags(List<Tag> tagList) {
         tagList.addAll(tagList);
+    }
+
+    public Long getAnswerCount() {
+        return answerCount;
+    }
+
+    public void setAnswerCount(Long answerCount) {
+        this.answerCount = answerCount;
     }
 }

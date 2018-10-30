@@ -1,6 +1,7 @@
 package com.shine.core.service;
 
 import com.shine.core.dao.TagDao;
+import com.shine.core.domain.Question;
 import com.shine.core.domain.Tag;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,9 @@ public class TagServiceImpl implements TagService {
     @Resource
     private TagDao tagDao;
 
+    @Resource
+    private QuestionService questionService;
+
     @Transactional
     @Override
     public List<Tag> findTagsById(List<Long> tagIds) {
@@ -27,5 +31,12 @@ public class TagServiceImpl implements TagService {
     @Override
     public Long findTagCountById(List<Long> tagIds) {
         return tagDao.readTagCountById(tagIds);
+    }
+
+    @Transactional
+    @Override
+    public List<Tag> findTagsForQuestion(Question question) {
+        List<Tag> tagList = tagDao.readTagsForQuestion(question);
+        return tagList;
     }
 }

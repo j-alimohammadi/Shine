@@ -1,0 +1,13 @@
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+                 version="2.0">
+    <named-query name="readTagByQuestion">
+        <query>
+            <![CDATA[
+                 SELECT tag FROM Tag tag JOIN tag.questions AS question
+                 WHERE question.id IN (:quesyionIds)
+             ]]>
+        </query>
+    </named-query>
+</entity-mappings>
