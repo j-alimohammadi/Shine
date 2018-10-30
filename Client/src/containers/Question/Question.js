@@ -4,14 +4,91 @@ import ShineClient from '../../utils/ShineClient/ShineClient'
 import { ShineResponseParser } from '../../utils/ShineClient/Response'
 
 class Question extends Component {
+  constructor (props) {
+    super(props)
 
-  state = {
-    questions: []
+    this.state = {
+      questions: []
+    }
+
+    // Event handler
+    this.handleVoteUp = this.handleVoteUp.bind(this)
+    this.handleVoteDown = this.handleVoteDown.bind(this)
+    this.updateQuestion = this.updateQuestion.bind(this)
+
+  }
+
+  // Event handling
+
+  handleVoteUp (event) {
+    const questionId = event.currentTarget.getAttribute('data-question-id')
+
+    ShineClient.voteUp(questionId)
+      .then((JSONResponse) => {
+        if (ShineResponseParser.isResponseOk(JSONResponse)) {
+          return JSONResponse.json()
+        } else {
+          throw new Error('Something bad happened.')
+        }
+      })
+      .then((jsonData) => {
+        this.updateQuestion(jsonData)
+      })
+      .catch((error) => {
+        this.setState({
+            alert: {
+              alertMessage: `Failed to get table information. Error in connecting to server.`,
+              showAlert: true,
+              alertType: 'danger'
+            }
+          }
+        )
+      })
+
+    event.preventDefault()
+  }
+
+  handleVoteDown (event) {
+    const questionId = event.currentTarget.getAttribute('data-question-id')
+    ShineClient.voteDown(questionId)
+      .then((JSONResponse) => {
+        if (ShineResponseParser.isResponseOk(JSONResponse)) {
+          return JSONResponse.json()
+        } else {
+          throw new Error('Something bad happened.')
+        }
+      })
+      .then((jsonData) => {
+        const updatedQuestion = jsonData
+        this.updateQuestion(updatedQuestion)
+      })
+      .catch((error) => {
+        this.setState({
+            alert: {
+              alertMessage: `Failed to get table information. Error in connecting to server.`,
+              showAlert: true,
+              alertType: 'danger'
+            }
+          }
+        )
+      })
+
+    event.preventDefault()
   }
 
   componentDidMount () {
     this.getAllQuestions()
 
+  }
+
+  updateQuestion (updatedQuestion) {
+    const questions = this.state.questions
+    const foundIndex = questions.findIndex(element => {
+      return element.id === updatedQuestion.id
+    })
+
+    questions.splice(foundIndex, 1, updatedQuestion)
+    this.setState({questions: questions})
   }
 
   getAllQuestions () {
@@ -80,41 +157,44 @@ class Question extends Component {
               {
                 questions.map((item, i) => {
                   return (
-
-                      <div className="qa-q-list-item row" key={i} id={'q' + i}>
-                        <div className="qa-q-item-stats">
-                          <div className="qa-voting qa-voting-net" id="voting_1">
-                            <div className="qa-vote-buttons qa-vote-buttons-net">
-                              <button title=" Click to vote up" type="submit"
-                                      className="qa-vote-first-button qa-vote-up-button">
-                                <span className="fa fa-chevron-up"></span>
-                              </button>
-                              <button title="Click to vote down" type="submit" value="–"
-                                      className="qa-vote-second-button qa-vote-down-button">
-                                <span className="fa fa-chevron-down"></span></button>
-                            </div>
-                            <div className='qa-vote-count qa-vote-count-net'>
-                    < span className='qa-netvote-count'>
-                    < span className='qa-netvote-count-data'> {item.vote} </span><span
-                      className='qa-netvote-count-pad'> votes </span>
-                    </span>
-                            </div>
-                            <div className="qa-vote-clear clearfix">
-                            </div>
+                    <div className="qa-q-list-item row" key={i} id={'q' + i}>
+                      <div className="qa-q-item-stats">
+                        <div className="qa-voting qa-voting-net" id="voting_1">
+                          <div className="qa-vote-buttons qa-vote-buttons-net">
+                            <button title=" Click to vote up" data-question-id={item.id}
+                                    onClick={this.handleVoteUp}
+                                    className="qa-vote-first-button qa-vote-up-button">
+                              <span className="fa fa-chevron-up"></span>
+                            </button>
+                            <button title="Click to vote down" data-question-id={item.id}
+                                    onClick={this.handleVoteDown}
+                                    className="qa-vote-second-button qa-vote-down-button">
+                              <span className="fa fa-chevron-down"></span>
+                            </button>
                           </div>
-                          <span className="qa-a-count">
-              <span className="qa-a-count-data">{item.answer_count}</span><span className="qa-a-count-pad"> answer</span>
-              </span>
+                          <div className='qa-vote-count qa-vote-count-net'>
+                < span className='qa-netvote-count'>
+                < span className='qa-netvote-count-data'> {item.vote} </span><span
+                  className='qa-netvote-count-pad'> votes </span>
+                </span>
+                          </div>
+                          <div className="qa-vote-clear clearfix">
+                          </div>
                         </div>
-                        <div className="qa-q-item-main">
-                          <div className="qa-q-item-title">
-                            <a href="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask">{item.title}</a>
-                          </div>
-                          <span className="qa-q-item-avatar-meta">
+                        <span className="qa-a-count">
+              <span className="qa-a-count-data">{item.answer_count}</span><span
+                          className="qa-a-count-pad"> answer</span>
+              </span>
+                      </div>
+                      <div className="qa-q-item-main">
+                        <div className="qa-q-item-title">
+                          <a href="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask">{item.title}</a>
+                        </div>
+                        <span className="qa-q-item-avatar-meta">
               <span className="qa-q-item-meta">
               <span className="qa-q-item-what">asked</span>
               <span className="qa-q-item-when">
-              <span className="qa-q-item-when-data">4 days</span><span
+              <span className="qa-q-item-when-data"> 4 days</span><span
                 className="qa-q-item-when-pad"> ago</span>
               </span>
               <span className="qa-q-item-who">
@@ -123,18 +203,17 @@ class Question extends Component {
               </span>
               </span>
               </span>
-                          <div className="qa-q-item-tags clearfix">
-                            <ul className="qa-q-item-tag-list">
-                              <li className="qa-q-item-tag-item"><a href="./index.php?qa=tag&amp;qa_1=javad-ali-d"
-                                                                    className="qa-tag-link">javad-ali-d</a></li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div className='qa-q-item-clear clearfix'>
+                        <div className="qa-q-item-tags clearfix">
+                          <ul className="qa-q-item-tag-list">
+                            <li className="qa-q-item-tag-item"><a href="./index.php?qa=tag&amp;qa_1=javad-ali-d"
+                                                                  className="qa-tag-link">javad-ali-d</a></li>
+                          </ul>
                         </div>
                       </div>
-                   
-                )
+                      <div className='qa-q-item-clear clearfix'>
+                      </div>
+                    </div>
+                  )
 
                 })
               }

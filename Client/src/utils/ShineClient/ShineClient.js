@@ -6,27 +6,24 @@ const QUESTIONS_PATH = 'question'
 class ShineClient {
 
   /////////////////////////////////////////////
-  //            Record Management
+  //            Question Management
   /////////////////////////////////////////////
   static findQuestions (offset, limit) {
-    let url = `${PATH_BASE}/${QUESTIONS_PATH}`
+    const url = `${PATH_BASE}/${QUESTIONS_PATH}`
 
     return ShineHttpClient.getData(url)
   }
 
-  static updateRecord (tableName, updateObject) {
-    const url = `${PATH_BASE}/${tableName}?loadRelation=true`
-    return ShineHttpClient.putData(url, updateObject).then(response => response.json())
+  static voteUp (questionId) {
+    const url = `${PATH_BASE}/${QUESTIONS_PATH}/${questionId}/vote/increment`
+    return ShineHttpClient.putData(url, '')
+
   }
 
-  static createRecord (tableName, newObject) {
-    const url = `${PATH_BASE}/${tableName}?loadRelation=true`
-    return ShineHttpClient.postData(url, newObject).then(response => response.json())
-  }
+  static voteDown (questionId) {
+    const url = `${PATH_BASE}/${QUESTIONS_PATH}/${questionId}/vote/decrement`
+    return ShineHttpClient.putData(url, '')
 
-  static deleteRecord (tableName, objectId) {
-    const url = `${PATH_BASE}/${tableName}/${objectId}`
-    return ShineHttpClient.deleteData(url).then(response => response.json())
   }
 
 }
