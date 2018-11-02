@@ -4,7 +4,7 @@ import { Switch } from 'react-router-dom'
 import HOME from './components/HOME'
 import ERROR from './components/ERROR'
 import UnAnswered from './components/UnAnswered'
-import Layout from './components/Layout/Layout'
+import Layout from './components/Layout/DefaultLayout'
 import Question from './containers/Question/Question'
 import ASK from './containers/Ask/ASK'
 
@@ -29,7 +29,7 @@ class App extends Component {
           <Layout path="/question" component={Question} titleOfPage='Recent questions'/>
           <Layout path="/ask" component={ASK} titleOfPage='Ask a question'/>
           <Layout path="/un-answered" component={UnAnswered} titleOfPage='Recent questions without answers'/>
-          <Layout component={ERROR} titleOfPage='Error in reposnse of page'/>
+          <Layout component={ERROR} titleOfPage='Error in response'/>
         </Switch>
 
       </div>

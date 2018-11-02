@@ -5,7 +5,7 @@ import { Route } from 'react-router-dom'
 import Search from '../../containers/Search/Search'
 import AUX from '../../hoc/_Aux'
 
-const layout = ({component: Component, ...rest}) => {
+const defaultLayout = ({component: Component, ...rest}) => {
   return (
 
     <Route {...rest} render={matchProps => (
@@ -42,4 +42,4 @@ const layout = ({component: Component, ...rest}) => {
   )
 }
 
-export default layout
+export default defaultLayout
