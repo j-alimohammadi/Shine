@@ -53,6 +53,16 @@ class Ask extends Component {
                   </td>
                 </tr>
                 <tr>
+                  <td className="qa-form-tall-data">
+                    <input name="tags" id="tags" autoComplete="off" onKeyUp="qa_tag_hints();"
+                           onMouseUp="qa_tag_hints();" type="text" value="" className="qa-form-tall-text form-control" />
+
+                    <div className="qa-form-tall-note"><span id="tag_examples_title" style={{display:'none'}}>Example tags: </span><span
+                        id="tag_complete_title" style={{display:'none'}}>Matching tags: </span><span id="tag_hints"></span>
+                      </div>
+                  </td>
+                </tr>
+                <tr>
                   <td colSpan="1" className="qa-form-tall-buttons">
                     <button
                       onClick="qa_show_waiting_after(this, false); if (qa_ckeditor_content) qa_ckeditor_content.updateElement();"
