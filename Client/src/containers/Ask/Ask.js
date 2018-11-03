@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import AUX from '../../hoc/_Aux'
+import CKEditor from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 class Ask extends Component {
   constructor (props) {
@@ -28,7 +30,7 @@ class Ask extends Component {
                 </tr>
                 <tr>
                   <td className="qa-form-tall-data">
-                    <input name="title" id="title" autoComplete="off" onChange="qa_title_change(this.value);"
+                    <input name="title" id="title" autoComplete="off"
                            type="text" value="" className="qa-form-tall-text form-control"/>
                   </td>
                 </tr>
@@ -44,7 +46,13 @@ class Ask extends Component {
                 </tr>
                 <tr>
                   <td className="qa-form-tall-data">
-                    <input name="content_ckeditor_ok" id="content_ckeditor_ok" type="text" value="content of question"/>
+                    <CKEditor
+                      editor={ClassicEditor}
+                      onChange={(event, editor) => {
+                        const data = editor.getData()
+                      }}
+                    />
+
                   </td>
                 </tr>
                 <tr>
@@ -54,12 +62,13 @@ class Ask extends Component {
                 </tr>
                 <tr>
                   <td className="qa-form-tall-data">
-                    <input name="tags" id="tags" autoComplete="off" onKeyUp="qa_tag_hints();"
-                           onMouseUp="qa_tag_hints();" type="text" value="" className="qa-form-tall-text form-control" />
+                    <input name="tags" id="tags" autoComplete="off"
+                           type="text" value="" className="qa-form-tall-text form-control"/>
 
-                    <div className="qa-form-tall-note"><span id="tag_examples_title" style={{display:'none'}}>Example tags: </span><span
-                        id="tag_complete_title" style={{display:'none'}}>Matching tags: </span><span id="tag_hints"></span>
-                      </div>
+                    <div className="qa-form-tall-note"><span id="tag_examples_title" style={{display: 'none'}}>Example tags: </span><span
+                      id="tag_complete_title" style={{display: 'none'}}>Matching tags: </span><span
+                      id="tag_hints"></span>
+                    </div>
                   </td>
                 </tr>
                 <tr>
