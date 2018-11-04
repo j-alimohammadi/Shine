@@ -22,7 +22,7 @@ class Ask extends Component {
     const content = convertToRaw(editorState.getCurrentContent()).blocks
 
     this.setState({
-      editorState,
+      editorState
     })
   };
 
