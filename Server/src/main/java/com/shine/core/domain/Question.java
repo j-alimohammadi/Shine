@@ -20,10 +20,10 @@ public class Question extends Post {
     private Long viewCount;
 
     @Column(name = "VOTE")
-    private Long vote;
+    private Long vote = 0L;
 
     @Column(name = "ANSWER_COUNT")
-    private Long answerCount;
+    private Long answerCount = 0L;
 
 
     @JoinColumn(name = "QUESTION_ID")

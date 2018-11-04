@@ -94,16 +94,16 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
 
     @Override
     public Question unwrap(HttpServletRequest request, ApplicationContext context) {
-        final TagServiceImpl tagService = context.getBean(TagServiceImpl.class);
+        final TagService tagService = context.getBean(TagServiceImpl.class);
         final QuestionService questionService = context.getBean(QuestionService.class);
 
-//        List<Tag> tagList = tagService.findTagsById(this.tagNames);
+        List<Tag> tagList = tagService.findTagsByName(this.tagNames);
 
         Question question = questionService.createQuestionFromId(this.id);
         question.setBody(body);
         question.setTitle(title);
         question.setVote(vote);
-//        question.setTagList(tagList);
+        question.setTagList(tagList);
 
         return question;
     }

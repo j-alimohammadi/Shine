@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.shine.core.domain.Tag.FIND_TAGS_BY_ID;
-import static com.shine.core.domain.Tag.FIND_TAGS_COUNT_BY_ID;
+import static com.shine.core.domain.Tag.*;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -20,13 +19,19 @@ import static com.shine.core.domain.Tag.FIND_TAGS_COUNT_BY_ID;
         @NamedQuery(
                 name = FIND_TAGS_COUNT_BY_ID,
                 query = "SELECT COUNT(tag) FROM Tag tag WHERE tag.id in (:tagId)"
+        ),
+        @NamedQuery(
+                name = FIND_TAGS_BY_NAME,
+                query = "SELECT tag FROM Tag tag WHERE tag.name in (:tagNames)"
         )
 }
 )
 @Entity
-@Table(name = "SHINE_TAG")
+@Table(name = "SHINE_TAG", indexes = {@Index(name = "INDEX_NAME", columnList = "NAME", unique = true)})
 public class Tag {
     public static final String FIND_TAGS_BY_ID = "FIND_TAGS_BY_ID";
+
+    public static final String FIND_TAGS_BY_NAME = "FIND_TAGS_BY_NAME";
 
     public static final String FIND_TAGS_COUNT_BY_ID = "FIND_TAGS_COUNT_BY_ID";
 

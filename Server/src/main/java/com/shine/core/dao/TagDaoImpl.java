@@ -23,6 +23,14 @@ public class TagDaoImpl extends AbstractDao<Tag> implements TagDao {
     }
 
     @Override
+    public List<Tag> readTagByName(List<String> tagNames) {
+        TypedQuery<Tag> query = entityManager.createNamedQuery(Tag.FIND_TAGS_BY_NAME, Tag.class);
+        query.setParameter("tagNames", tagNames);
+        return ListUtils.emptyIfNull(query.getResultList());
+
+    }
+
+    @Override
     public Long readTagCountById(List<Long> tagIds) {
         TypedQuery<Long> query = entityManager.createNamedQuery(Tag.FIND_TAGS_COUNT_BY_ID, Long.class);
         query.setParameter("tagId", tagIds);

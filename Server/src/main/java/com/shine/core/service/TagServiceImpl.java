@@ -29,6 +29,12 @@ public class TagServiceImpl implements TagService {
 
     @Transactional
     @Override
+    public List<Tag> findTagsByName(List<String> tagNames) {
+        return tagDao.readTagByName(tagNames);
+    }
+
+    @Transactional
+    @Override
     public Long findTagCountById(List<Long> tagIds) {
         return tagDao.readTagCountById(tagIds);
     }
@@ -38,5 +44,11 @@ public class TagServiceImpl implements TagService {
     public List<Tag> findTagsForQuestion(Question question) {
         List<Tag> tagList = tagDao.readTagsForQuestion(question);
         return tagList;
+    }
+
+    @Transactional
+    @Override
+    public List<Tag> createNotExistTags(List<String> tagNames) {
+        
     }
 }

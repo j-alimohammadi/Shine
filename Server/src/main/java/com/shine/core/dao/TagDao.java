@@ -13,7 +13,11 @@ import java.util.List;
 public interface TagDao extends DAO<Tag> {
     List<Tag> readTagsById(List<Long> tagId);
 
+    List<Tag> readTagByName(List<String> tagNames);
+
     Long readTagCountById(List<Long> tagId);
 
     List<Tag> readTagsForQuestion(Question question);
+
+
 }
