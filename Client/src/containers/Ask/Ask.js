@@ -1,21 +1,34 @@
 import React, { Component } from 'react'
 import AUX from '../../hoc/_Aux'
-import CKEditor from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { Editor } from 'react-draft-wysiwyg'
+import { convertToRaw, EditorState } from 'draft-js'
+
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import './Ask.css'
 
 class Ask extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      questions: []
+      editorState: EditorState.createEmpty()
     }
 
     // Event handler
-
+    this.onEditorStateChange = this.onEditorStateChange.bind(this)
   }
 
+  onEditorStateChange (editorState) {
+    const content = convertToRaw(editorState.getCurrentContent()).blocks
+
+    this.setState({
+      editorState,
+    })
+  };
+
   render () {
+    const {editorState} = this.state
+
     return (
       <AUX>
         <div className="qa-main col-md-9 col-xs-12 pull-left">
@@ -46,11 +59,10 @@ class Ask extends Component {
                 </tr>
                 <tr>
                   <td className="qa-form-tall-data">
-                    <CKEditor
-                      editor={ClassicEditor}
-                      onChange={(event, editor) => {
-                        const data = editor.getData()
-                      }}
+                    <Editor
+                      editorState={editorState}
+                      editorClassName="ask-editor"
+                      onEditorStateChange={this.onEditorStateChange}
                     />
 
                   </td>
