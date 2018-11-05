@@ -40,9 +40,6 @@ public class QuestionEndPoint extends BaseEndpoint {
     public QuestionWrapper createNewQuestion(HttpServletRequest httpServletRequest,
                                              @RequestBody QuestionWrapper questionWrapper) {
 
-        Long tagCount = (long) questionWrapper.getTagNames().size();
-
-
         if (StringUtils.isBlank(questionWrapper.getTitle())) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
                     .addMessage(ShineRestException.INVALID_TITLE);
@@ -67,12 +64,6 @@ public class QuestionEndPoint extends BaseEndpoint {
     @PutMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public QuestionWrapper updateQuestion(HttpServletRequest httpServletRequest,
                                           @RequestBody QuestionWrapper questionWrapper) {
-        Long tagCount = (long) questionWrapper.getTagNames().size();
-
-//        if (!Objects.equals(tagService.findTagCountById(questionWrapper.getTagNames()), tagCount)) {
-//            throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
-//                    .addMessage(ShineRestException.TAGS_NOT_FOUND);
-//        }
 
         if (StringUtils.isBlank(questionWrapper.getTitle())) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
@@ -132,23 +123,17 @@ public class QuestionEndPoint extends BaseEndpoint {
     }
 
     @GetMapping(path = "/{question-id}")
-    public List<QuestionWrapper> findQuestionById(HttpServletRequest httpServletRequest,
-                                                  @RequestParam(value = "offset", defaultValue = "0") int questionOffset,
-                                                  @RequestParam(value = "limit", defaultValue = "20") int questionLimit) {
+    public QuestionWrapper findQuestionById(HttpServletRequest httpServletRequest,
+                                            @PathVariable("question-id") Long questionId) {
 
         List<QuestionWrapper> result = new ArrayList<>();
-        List<Question> questions = questionService.findQuestions(questionOffset, questionLimit);
+        Question question = questionService.findQuestionById(questionId);
 
-        questions.forEach(question -> {
-            QuestionWrapper response = applicationContext.getBean(QuestionWrapper.class);
-            response.wrap(question, httpServletRequest);
-            result.add(response);
-        });
+        QuestionWrapper response = applicationContext.getBean(QuestionWrapper.class);
+        response.wrap(question, httpServletRequest);
 
-        return result;
+        return response;
     }
-
-
 
 
     @PutMapping(path = "/{question-id}/vote/increment")
