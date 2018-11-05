@@ -2,6 +2,9 @@ package com.shine.core.service;
 
 import com.shine.core.dao.QuestionDao;
 import com.shine.core.domain.Question;
+import com.shine.core.domain.Tag;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.ListUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,11 +26,18 @@ public class QuestionServiceImpl implements QuestionService {
     @Resource
     private QuestionDao questionDao;
 
+    @Resource
+    private TagService tagService;
+
     @Transactional
     @Override
     public Question createQuestion(Question question) {
         question.setCreatedTimeStamp(new Date());
         question = questionDao.createOrUpdate(question);
+
+        if (CollectionUtils.isNotEmpty(question.getTagList())) {
+            tagService.addTagUsedCount(question.getTagList(), 1L);
+        }
 
         log.debug("Question with title [{}] created successfully", question.getTitle());
 
@@ -50,8 +60,24 @@ public class QuestionServiceImpl implements QuestionService {
     @Transactional
     @Override
     public Question updateQuestion(Question question) {
+        List<Tag> existTag = tagService.findTagsForQuestion(question);
+        List<Tag> updateTags = question.getTagList();
+
+        List<Tag> newTags = ListUtils.subtract(updateTags, existTag);
+        List<Tag> deletedTags = ListUtils.subtract(existTag, updateTags);
+
+        if (CollectionUtils.isNotEmpty(newTags)) {
+            tagService.addTagUsedCount(question.getTagList(), 1L);
+        }
+
+        if (CollectionUtils.isNotEmpty(deletedTags)) {
+            tagService.subtractTagUsedCount(question.getTagList(), 1L);
+        }
+
+
         question.setEditedTimeStamp(new Date());
         question = questionDao.createOrUpdate(question);
+
 
         log.debug("Question with id [{}] updated successfully", question.getId());
 
@@ -94,7 +120,7 @@ public class QuestionServiceImpl implements QuestionService {
         long vote = question.getVote();
         vote--;
         question.setVote(vote);
-        
+
         questionDao.update(question);
         return vote;
 

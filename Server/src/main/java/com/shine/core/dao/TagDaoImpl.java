@@ -1,5 +1,6 @@
 package com.shine.core.dao;
 
+import com.shine.common.persistence.PersistenceCommonConfig;
 import com.shine.common.persistence.genericDao.AbstractDao;
 import com.shine.core.domain.Question;
 import com.shine.core.domain.Tag;
@@ -44,6 +45,19 @@ public class TagDaoImpl extends AbstractDao<Tag> implements TagDao {
         query.setParameter("quesyionIds", question.getId());
         return query.getResultList();
 
+    }
+
+    @Override
+    public Integer bulkSaveOrUpdateTags(List<Tag> tags) {
+        for (int i = 0; i < tags.size(); i++) {
+            createOrUpdate(tags.get(i));
+            if (i % PersistenceCommonConfig.TransactionBatchSize == 0) {
+                entityManager.flush();
+                entityManager.clear();
+            }
+        }
+
+        return tags.size();
     }
 
 }

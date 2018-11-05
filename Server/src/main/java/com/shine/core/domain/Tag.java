@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static com.shine.core.domain.Tag.*;
 
@@ -53,7 +54,7 @@ public class Tag {
     private String name;
 
     @Column(name = "USED_COUNT")
-    private Long usedCount;
+    private Long usedCount = 0L;
 
     @ManyToMany(mappedBy = "tagList")
     private List<Question> questions = new ArrayList<>();
@@ -89,5 +90,18 @@ public class Tag {
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tag tag = (Tag) o;
+        return Objects.equals(name, tag.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

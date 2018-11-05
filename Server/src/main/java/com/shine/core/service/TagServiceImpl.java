@@ -1,13 +1,14 @@
 package com.shine.core.service;
 
-import com.shine.common.persistence.PersistenceCommonConfig;
 import com.shine.core.dao.TagDao;
 import com.shine.core.domain.Question;
 import com.shine.core.domain.Tag;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,8 +52,10 @@ public class TagServiceImpl implements TagService {
 
     @Transactional
     @Override
-    public List<Tag> createNotExistTags(List<String> tagNames) {
-        List<String> foundTagsNames = findTagsByName(tagNames)
+    public Integer createNotExistTags(List<String> tagNames) {
+        List<Tag> newTags = new ArrayList<>();
+
+        List<String> existTagsNames = findTagsByName(tagNames)
                 .stream()
                 .map(Tag::getName)
                 .collect(Collectors.toList());
@@ -60,21 +63,39 @@ public class TagServiceImpl implements TagService {
 
         List<String> shouldCreateTags = tagNames
                 .stream()
-                .filter(tag -> !foundTagsNames.contains(tag))
+                .filter(tag -> !existTagsNames.contains(tag))
                 .collect(Collectors.toList());
 
 
-        for (int i = 0; i < shouldCreateTags.size(); i++) {
+        shouldCreateTags.forEach(tagName -> {
             Tag item = new Tag();
-            item.setName(shouldCreateTags.get(i));
-            tagDao.createOrUpdate(item);
-            if (i % PersistenceCommonConfig.TransactionBatchSize == 0) { // 20, same as step 1 config
-                // flush a batch of inserts and release memory
-                em.flush();
-                em.clear();
-            }
+            item.setName(tagName);
+            newTags.add(item);
+        });
+
+        if (CollectionUtils.isNotEmpty(newTags)) {
+            return tagDao.bulkSaveOrUpdateTags(newTags);
+        } else {
+            return 0;
         }
 
+
+    }
+
+    @Override
+    public Integer addTagUsedCount(List<Tag> tagList, Long count) {
+        tagList.forEach(tag -> {
+            tag.setUsedCount(tag.getUsedCount() + count);
+        });
+        return tagDao.bulkSaveOrUpdateTags(tagList);
+    }
+
+    @Override
+    public Integer subtractTagUsedCount(List<Tag> tagList, Long count) {
+        tagList.forEach(tag -> {
+            tag.setUsedCount(tag.getUsedCount() - count);
+        });
+        return tagDao.bulkSaveOrUpdateTags(tagList);
 
     }
 }

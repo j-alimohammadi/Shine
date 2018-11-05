@@ -18,5 +18,24 @@ public interface TagService {
 
     List<Tag> findTagsForQuestion(Question question);
 
-    List<Tag> createNotExistTags(List<String> tagNames);
+    Integer createNotExistTags(List<String> tagNames);
+
+    /**
+     * Add number of used count to Tag
+     * @param tagList
+     * @param count
+     * @return number of affected Tags
+     */
+    Integer addTagUsedCount(List<Tag> tagList, Long count);
+
+    /**
+     * Subtract number of used count to Tag
+     * @param tagList
+     * @param count
+     * @return number of affected Tags
+     */
+    Integer subtractTagUsedCount(List<Tag> tagList, Long count);
+
+
+
 }

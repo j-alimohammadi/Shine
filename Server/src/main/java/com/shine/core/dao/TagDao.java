@@ -19,7 +19,7 @@ public interface TagDao extends DAO<Tag> {
 
     List<Tag> readTagsForQuestion(Question question);
 
-    Integer bulkInsert();
+    Integer bulkSaveOrUpdateTags(List<Tag> tags);
 
 
 }
