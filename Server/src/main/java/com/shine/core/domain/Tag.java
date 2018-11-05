@@ -1,5 +1,7 @@
 package com.shine.core.domain;
 
+import com.shine.common.persistence.TableGeneratorParameter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,8 +37,15 @@ public class Tag {
 
     public static final String FIND_TAGS_COUNT_BY_ID = "FIND_TAGS_COUNT_BY_ID";
 
+
+    @TableGenerator(name = TableGeneratorParameter.GENERATOR_NAME, // name of generator
+            table = TableGeneratorParameter.TABLE_GENERATOR_NAME, // name of table
+            pkColumnName = TableGeneratorParameter.COLUMN_NAME, // Column name of generator name
+            valueColumnName = TableGeneratorParameter.COLUMN_VALUE, // Column name of generator value
+            pkColumnValue = "TAG_ID_GEN", // a row in the table that has a value corresponding to the the value we inserted
+            allocationSize = TableGeneratorParameter.ALLOCATION_SIZE)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = TableGeneratorParameter.GENERATOR_NAME, strategy = GenerationType.TABLE)
     @Column(name = "ID")
     private Long id;
 
