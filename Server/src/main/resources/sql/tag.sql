@@ -1,13 +1,13 @@
 INSERT INTO SHINE_TAG (ID, NAME, USED_COUNT)
-VALUES (0, 'java', 0);
+VALUES (-1, 'java', 0);
 
 INSERT INTO SHINE_TAG (ID, NAME, USED_COUNT)
-VALUES (1, 'programming', 0);
+VALUES (-2, 'programming', 0);
 
 INSERT INTO SHINE_TAG (ID, NAME, USED_COUNT)
-VALUES (2, 'html', 0);
+VALUES (-3, 'html', 0);
 
 INSERT INTO SHINE_TAG (ID, NAME, USED_COUNT)
-VALUES (3, 'c++', 0);
+VALUES (-4, 'c++', 0);
 
 
