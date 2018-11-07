@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
 const validationErrorMessage = (props) => {
-  const errors = props.errors
+  const errors = props.errors === undefined ? [] : props.errors
   const showFirstErrorOnly = props.hasOwnProperty('showFirstError') ? props.showFirstError : true
 
   let output = []
