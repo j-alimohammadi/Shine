@@ -42,8 +42,6 @@ class Ask extends Component {
   }
 
   handleQuestionBodyChange (editorState) {
-    const content = convertToRaw(editorState.getCurrentContent()).blocks
-
     this.setState({
       editorState: editorState
     })
@@ -60,19 +58,28 @@ class Ask extends Component {
   handleSubmitFormQuestion (event) {
     event.preventDefault()
 
+    let errors = this.validateForm()
+    this.setState({errors: errors})
+
+    if (errors.size === 0) {
+      const content = convertToRaw(this.setState.getCurrentContent()).blocks
+
+    }
+
+  }
+
+  validateForm () {
     const {questionTitle} = this.state
     const validationResult = validate({questionTitleValidation: questionTitle}, constraints)
 
     const errors = new Map()
-
     if (validationResult !== undefined) {
       if (validationResult.hasOwnProperty('questionTitleValidation')) {
         errors.set('title', validationResult.questionTitleValidation)
       }
     }
-    
-    this.setState({errors: errors})
 
+    return errors
 
   }
 
