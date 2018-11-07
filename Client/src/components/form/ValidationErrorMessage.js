@@ -11,10 +11,12 @@ const validationErrorMessage = (props) => {
       errorOutPut.push(errors[0])
     } else {
       for (let i = 0; i < errors.length; i++) {
+
         errorOutPut.push(errors[i])
         if (i !== errors.length - 1) {
           errorOutPut.push(<br/>)
         }
+
       }
     }
 
