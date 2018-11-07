@@ -6,10 +6,14 @@ import { convertToRaw, EditorState } from 'draft-js'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import './Ask.css'
 import validate from 'validate.js'
+import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
 const constraints = {
   questionTitleValidation: {
-    presence: true,
+    presence: {
+      message: '^Please provide more information - at least 12 characters',
+      allowEmpty: false
+    },
   }
 }
 
@@ -19,10 +23,11 @@ class Ask extends Component {
 
     this.state = {
       editorState: EditorState.createEmpty(),
-      questionTitle: {
-        value: '',
-        errors: ''
-      }
+      questionTitle: '',
+      errors: new Map([
+        ['title', []]
+
+      ])
     }
 
     // Event handler
@@ -45,30 +50,23 @@ class Ask extends Component {
   }
 
   handleQuestionTitleChange (event) {
-    this.setState({questionTitle: {value: event.target.value}})
-  }
-
-  convertToMultiLine (validateResult) {
-    let errors = ''
-    for (let error of validateResult) {
-      errors += error + '<bt />'
-    }
-    return errors
+    this.setState({questionTitle: event.target.value})
   }
 
   handleSubmitFormQuestion (event) {
+    event.preventDefault()
 
     const {questionTitle} = this.state
-    const validateResult = validate({questionTitleValidation: questionTitle.value}, constraints)
-    debugger
-    if (validateResult !== undefined) {
-      const errors = this.convertToMultiLine(validateResult)
-      this.setState({
-        questionTitle: {errors: errors}
-      })
+    const validationResult = validate({questionTitleValidation: questionTitle}, constraints)
+
+    const errors = this.state.errors
+
+    if (validationResult !== undefined) {
+      if (validationResult.hasOwnProperty('questionTitleValidation'))
+        errors.set('title', validationResult.questionTitleValidation)
     }
 
-    event.preventDefault()
+    this.setState({errors: errors})
 
   }
 
@@ -89,10 +87,10 @@ class Ask extends Component {
               <tr>
                 <td className="qa-form-tall-data">
                   <input name="title" id="title"
-                         value={this.state.questionTitle.value}
+                         value={this.state.questionTitle}
                          onChange={this.handleQuestionTitleChange.bind(this)}
                          type="text" className="qa-form-tall-text form-control"/>
-                  <div className="qa-form-tall-error">{this.state.questionTitle.errors}</div>
+                  <ValidationErrorMessage errors={this.state.errors.get('title')}/>
                 </td>
               </tr>
               <tr>
