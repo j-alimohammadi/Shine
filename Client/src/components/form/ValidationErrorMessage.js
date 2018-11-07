@@ -16,7 +16,6 @@ const validationErrorMessage = (props) => {
         if (i !== errors.length - 1) {
           errorOutPut.push(<br/>)
         }
-
       }
     }
 
