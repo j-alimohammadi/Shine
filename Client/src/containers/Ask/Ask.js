@@ -53,7 +53,7 @@ class Ask extends Component {
   };
 
   handleTagChange (event) {
-    this.setState({tag: event.target.value})
+    this.setState({questionTag: event.target.value})
   }
 
   handleQuestionTitleChange (event) {
@@ -116,7 +116,7 @@ class Ask extends Component {
       result.push(item.split(' '))
     }
 
-    return result
+    return result.flat()
   }
 
   validateForm () {
@@ -187,7 +187,7 @@ class Ask extends Component {
             </tr>
             <tr>
               <td className="qa-form-tall-data">
-                <input name="tags" id="tags" type="text" value={this.state.tag}
+                <input name="tags" id="tags" type="text" value={this.state.questionTag}
                        onChange={this.handleTagChange.bind(this)}
                        className="qa-form-tall-text form-control"/>
 
