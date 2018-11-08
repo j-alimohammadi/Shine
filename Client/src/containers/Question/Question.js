@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import AUX from '../../hoc/_Aux'
 import ShineClient from '../../utils/ShineClient/ShineClient'
 import { ShineResponseParser } from '../../utils/ShineClient/Response'
+import Tag from './Tag/Tag'
 
 class Question extends Component {
   constructor (props) {
@@ -54,6 +55,7 @@ class Question extends Component {
   }
 
   updateQuestion (updatedQuestion) {
+
     const questions = this.state.questions
     const foundIndex = questions.findIndex(element => {
       return element.id === updatedQuestion.id
@@ -127,9 +129,9 @@ class Question extends Component {
           <form method="post" action="./index.php?qa=questions">
             <div className="qa-q-list">
               {
-                questions.map((item, i) => {
+                questions.map((item, index) => {
                   return (
-                    <div className="qa-q-list-item row" key={i} id={'q' + i}>
+                    <div className="qa-q-list-item row" key={item.id} id={'q' + index}>
                       <div className="qa-q-item-stats">
                         <div className="qa-voting qa-voting-net" id="voting_1">
                           <div className="qa-vote-buttons qa-vote-buttons-net">
@@ -163,24 +165,19 @@ class Question extends Component {
                           <a href="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask">{item.title}</a>
                         </div>
                         <span className="qa-q-item-avatar-meta">
-              <span className="qa-q-item-meta">
-              <span className="qa-q-item-what">asked</span>
-              <span className="qa-q-item-when">
-              <span className="qa-q-item-when-data"> 4 days</span><span
-                className="qa-q-item-when-pad"> ago</span>
-              </span>
-              <span className="qa-q-item-who">
-              <span className="qa-q-item-who-pad">by </span>
-              <span className="qa-q-item-who-data">anonymous</span>
-              </span>
-              </span>
-              </span>
-                        <div className="qa-q-item-tags clearfix">
-                          <ul className="qa-q-item-tag-list">
-                            <li className="qa-q-item-tag-item"><a href="./index.php?qa=tag&amp;qa_1=javad-ali-d"
-                                                                  className="qa-tag-link">javad-ali-d</a></li>
-                          </ul>
-                        </div>
+                          <span className="qa-q-item-meta">
+                          <span className="qa-q-item-what">asked</span>
+                          <span className="qa-q-item-when">
+                          <span className="qa-q-item-when-data"> 4 days</span><span
+                            className="qa-q-item-when-pad"> ago</span>
+                          </span>
+                          <span className="qa-q-item-who">
+                          <span className="qa-q-item-who-pad">by </span>
+                          <span className="qa-q-item-who-data">anonymous</span>
+                          </span>
+                          </span>
+                          </span>
+                        <Tag tags={item.tag_names}/>
                       </div>
                       <div className='qa-q-item-clear clearfix'>
                       </div>
