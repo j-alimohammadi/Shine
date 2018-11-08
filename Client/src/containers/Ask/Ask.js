@@ -6,6 +6,9 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import './Ask.css'
 import validate from 'validate.js'
 import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
+import ShineClient from '../../utils/ShineClient/ShineClient'
+import { Redirect } from 'react-router-dom'
+import { ShineResponseParser } from '../../utils/ShineClient/Response'
 
 const constraints = {
   questionTitleValidation: {
@@ -31,6 +34,8 @@ class Ask extends Component {
     this.state = {
       editorState: EditorState.createEmpty(),
       questionTitle: '',
+      questionTag: '',
+      toQuestionPage: false,
       errors: new Map()
     }
 
@@ -62,10 +67,56 @@ class Ask extends Component {
     this.setState({errors: errors})
 
     if (errors.size === 0) {
-      const content = convertToRaw(this.setState.getCurrentContent()).blocks
+      const questionTitle = this.state.questionTitle
+      const questionContent = convertToRaw(this.state.editorState.getCurrentContent())
+      const questionTagList = this.createTags(this.state.questionTag)
+
+      const questionObject = {}
+      questionObject['title'] = questionTitle
+      questionObject['body'] = questionContent
+      questionObject['tag_names'] = questionTagList
+
+      ShineClient.createQuestion(questionObject)
+        .then((JSONResponse) => {
+          if (ShineResponseParser.isResponseOk(JSONResponse)) {
+            this.setState({toQuestionPage: true})
+          } else {
+            throw new Error('Something bad happened.')
+          }
+        })
+        .catch((error) => {
+          this.setState({
+              alert: {
+                alertMessage: `Failed to get table information. Error in connecting to server.`,
+                showAlert: true,
+                alertType: 'danger'
+              }
+            }
+          )
+        })
 
     }
 
+  }
+
+  // todo: use regular expression
+  /**
+   * First split by comma then by space
+   * @param tag
+   */
+  createTags (tag) {
+    const result = []
+
+    if (tag.trim().length === 0) {
+      return result
+    }
+
+    let separatedByComma = tag.trim().split(',')
+    for (let item of separatedByComma) {
+      result.push(item.split(' '))
+    }
+
+    return result
   }
 
   validateForm () {
@@ -85,6 +136,10 @@ class Ask extends Component {
 
   render () {
     const {editorState} = this.state
+
+    if (this.state.toQuestionPage) {
+      return (<Redirect to='/question'/>)
+    }
 
     return (
       <div className="qa-part-form">

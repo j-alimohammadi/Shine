@@ -27,6 +27,12 @@ class ShineClient {
 
   }
 
+  static createQuestion (questionObject) {
+    const url = `${PATH_BASE}/${QUESTIONS_PATH}`
+    return ShineHttpClient.postData(url, questionObject)
+
+  }
+
 }
 
 export default ShineClient

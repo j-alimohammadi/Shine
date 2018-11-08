@@ -24,7 +24,7 @@ class Navigation extends Component {
         </header>
         <header id="nav-header">
           <nav id="nav" className="navbar navbar-static-top"
-               role="navigation" data-spy="affix" data-offset-top="120">
+                data-spy="affix" data-offset-top="120">
             <div className="container">
               <div className="navbar-header">
                 <button type="button" className="navbar-toggle collapsed" data-toggle="collapse"
@@ -41,7 +41,7 @@ class Navigation extends Component {
               <div className="donut-navigation col-sm-2 col-xs-3 pull-right">
                 <ul className="nav navbar-nav navbar-right user-nav">
                   <li className="dropdown user-dropdown">
-                    <a href="#" className="navbar-user-img dropdown-toggle" data-toggle="dropdown">
+                    <a href="/" className="navbar-user-img dropdown-toggle" data-toggle="dropdown">
                       <img src="./qa-theme/Donut-theme/images/default-profile-pic.png" width="30" height="30"
                            className="qa-avatar-image" alt=""/> </a>
                     <ul className="dropdown-menu" role="menu" id="user-dropdown-menu">

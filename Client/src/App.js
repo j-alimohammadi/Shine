@@ -9,13 +9,6 @@ import Question from './containers/Question/Question'
 import Ask from './containers/Ask/Ask'
 
 class App extends Component {
-  constructor (props) {
-    super(props)
-
-    // Event handler
-
-  }
-
   render () {
 
     return (
