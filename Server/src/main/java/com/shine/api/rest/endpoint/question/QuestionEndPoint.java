@@ -45,7 +45,7 @@ public class QuestionEndPoint extends BaseEndpoint {
                     .addMessage(ShineRestException.INVALID_TITLE);
         }
 
-        if (StringUtils.isBlank(questionWrapper.getBody())) {
+        if (StringUtils.isBlank(String.valueOf(questionWrapper.getBody()))) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
                     .addMessage(ShineRestException.INVALID_POST_BODY_CONTENT);
         }
@@ -70,7 +70,7 @@ public class QuestionEndPoint extends BaseEndpoint {
                     .addMessage(ShineRestException.INVALID_TITLE);
         }
 
-        if (StringUtils.isBlank(questionWrapper.getBody())) {
+        if (StringUtils.isBlank(String.valueOf(questionWrapper.getBody()))) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
                     .addMessage(ShineRestException.INVALID_POST_BODY_CONTENT);
         }

@@ -8,7 +8,7 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name ="SHINE_POST" )
+@Table(name = "SHINE_POST")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "POST_TYPE")
 public class Post {
@@ -17,7 +17,7 @@ public class Post {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "BODY", nullable = false)
+    @Column(name = "BODY", nullable = false, length = 2000)
     private String body;
 
     @Column(name = "CREATED_TIMESTAMP", nullable = false)

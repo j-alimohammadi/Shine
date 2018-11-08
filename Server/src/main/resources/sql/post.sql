@@ -1,12 +1,93 @@
 -- QUESTION POST
 INSERT INTO SHINE_POST (ID, POST_TYPE, BODY, CREATED_TIMESTAMP, TITLE, VIEW_COUNT, VOTE, ANSWER_COUNT)
-VALUES (-1, 'QUESTION', 'Sample question body 1', CURRENT_TIMESTAMP() + 0, 'Sample Title 1', 0, 0, 1);
+VALUES (-1, 'QUESTION', '{
+  "blocks" : [ {
+    "key" : "98upg",
+    "text" : "Sample question body 1",
+    "type" : "unstyled",
+    "depth" : 0,
+    "inlineStyleRanges" : [ {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "color-rgb(0,0,0)"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "bgcolor-rgb(255,255,255)"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "fontsize-12"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "fontfamily-Arial, sans-serif"
+    } ],
+    "entityRanges" : [ ],
+    "data" : { }
+  } ],
+  "entityMap" : { }
+}', DATEADD('SECOND',0, CURRENT_TIMESTAMP()), 'Sample Title 1', 0, 0, 1);
 
 INSERT INTO SHINE_POST (ID, POST_TYPE, BODY, CREATED_TIMESTAMP, TITLE, VIEW_COUNT, VOTE, ANSWER_COUNT)
-VALUES (-2, 'QUESTION', 'Sample question body 2', CURRENT_TIMESTAMP() + 1, 'Sample Title 2', 0, 0, 1);
+VALUES (-2, 'QUESTION', '{
+  "blocks" : [ {
+    "key" : "98upg",
+    "text" : "Sample question body 2",
+    "type" : "unstyled",
+    "depth" : 0,
+    "inlineStyleRanges" : [ {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "color-rgb(0,0,0)"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "bgcolor-rgb(255,255,255)"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "fontsize-12"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "fontfamily-Arial, sans-serif"
+    } ],
+    "entityRanges" : [ ],
+    "data" : { }
+  } ],
+  "entityMap" : { }
+}', DATEADD('SECOND',1, CURRENT_TIMESTAMP()), 'Sample Title 2', 0, 0, 1);
 
 INSERT INTO SHINE_POST (ID, POST_TYPE, BODY, CREATED_TIMESTAMP, TITLE, VIEW_COUNT, VOTE, ANSWER_COUNT)
-VALUES (-3, 'QUESTION', 'Sample question body 3', CURRENT_TIMESTAMP() + 2, 'Sample Title 3', 0, 0, 1);
+VALUES (-3, 'QUESTION', '{
+  "blocks" : [ {
+    "key" : "98upg",
+    "text" : "Sample question body 3",
+    "type" : "unstyled",
+    "depth" : 0,
+    "inlineStyleRanges" : [ {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "color-rgb(0,0,0)"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "bgcolor-rgb(255,255,255)"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "fontsize-12"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "fontfamily-Arial, sans-serif"
+    } ],
+    "entityRanges" : [ ],
+    "data" : { }
+  } ],
+  "entityMap" : { }
+}', DATEADD('SECOND',2, CURRENT_TIMESTAMP()), 'Sample Title 3', 0, 0, 1);
 
 
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.shine.common.rest.api.wrapper.APIUnWrapper;
 import com.shine.common.rest.api.wrapper.APIWrapper;
 import com.shine.common.rest.api.wrapper.BaseWrapper;
+import com.shine.common.utils.JSONMapper;
 import com.shine.core.domain.Question;
 import com.shine.core.domain.Tag;
 import com.shine.core.service.QuestionService;
@@ -18,6 +19,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -35,7 +37,7 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
     private String title;
 
     @JsonProperty
-    private String body;
+    private Map<String, Object> body;
 
     @JsonProperty
     private Long vote;
@@ -60,11 +62,11 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
         this.title = title;
     }
 
-    public String getBody() {
+    public Object getBody() {
         return body;
     }
 
-    public void setBody(String body) {
+    public void setBody(Map<String, Object> body) {
         this.body = body;
     }
 
@@ -101,7 +103,7 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
         List<Tag> tagList = tagService.findTagsByName(this.tagNames);
 
         Question question = questionService.createQuestionFromId(this.id);
-        question.setBody(body);
+        question.setBody(JSONMapper.createJSON(body));
         question.setTitle(title);
         question.setVote(vote);
         question.setTagList(tagList);
@@ -115,7 +117,7 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
 
         this.id = model.getId();
         this.title = model.getTitle();
-        this.body = model.getBody();
+        this.body = JSONMapper.createHashMapFromJSON(model.getBody());
         this.vote = model.getVote();
         this.answerCount = model.getAnswerCount();
         this.tagNames = tagList
