@@ -205,8 +205,8 @@ class Answer extends Component {
                                   <div className="qa-a-selection">
                                       <button title="" name="a2_doselect" onClick="return qa_answer_click(2, 1, this);"
                                               type="submit" value="" className="qa-a-select-button"
-                                              data-original-title="Click to select as best answer"><span
-                                        className="fa fa-check"></span></button>
+                                              data-original-title="Click to select as best answer">
+                                          <span className="fa fa-check"></span></button>
                                   </div>
                                   <div className="qa-a-item-content qa-post-content">
                                       <a name="2"></a>
@@ -250,9 +250,9 @@ class Answer extends Component {
                                          value="0-1542193599-129c4e6e11473cc427d3baa3a29990efebc56532"/>
                                   <input name="qa_click" type="hidden" value=""/>
                               </form>
-                              <div className="qa-a-item-c-list" style={{display:'none'}} id="c2_list">
+                              <div className="qa-a-item-c-list" style={{ display: 'none' }} id="c2_list">
                               </div>
-                              <div className="qa-c-form" id="c2" style={{display:'none'}}>
+                              <div className="qa-c-form" id="c2" style={{ display: 'none' }}>
                                   <h2>Your comment on this answer:</h2>
                                   <form method="post" action="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask"
                                         name="c_form_2">
@@ -261,7 +261,7 @@ class Answer extends Component {
                                           <tr>
                                               <td className="qa-form-tall-data">
                                                   <textarea name="c2_content" id="c2_content" rows="4" cols="40"
-                                                            className="qa-form-tall-text  form-control"></textarea>
+                                                            className="qa-form-tall-text  form-control"/>
                                               </td>
                                           </tr>
                                           <tr>
@@ -282,7 +282,7 @@ class Answer extends Component {
                                                              type="checkbox" value="1" checked=""
                                                              className="qa-form-tall-checkbox"/>
                                                       <span id="c2_email_shown">Email me at this address if a comment is added after mine:</span><span
-                                                    id="c2_email_hidden" style={{display:'none'}}>Email me if a comment is added after mine</span>
+                                                    id="c2_email_hidden" style={{ display: 'none' }}>Email me if a comment is added after mine</span>
                                                   </label>
                                               </td>
                                           </tr>
