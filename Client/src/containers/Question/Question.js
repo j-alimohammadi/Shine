@@ -98,7 +98,7 @@ class Question extends Component {
         <div className="row">
           <div className="pull-left col-xs-12 visible-xs side-toggle-button">
             <button type="button" className="btn btn-primary btn-xs" data-toggle="offcanvas">
-              <i className="fa fa-chevron-right toggle-icon"></i>
+              <i className="fa fa-chevron-right toggle-icon"/>
             </button>
           </div>
         </div>
@@ -138,12 +138,12 @@ class Question extends Component {
                             <button title=" Click to vote up" data-is-vote-up="true" data-question-id={item.id}
                                     onClick={this.handleVote}
                                     className="qa-vote-first-button qa-vote-up-button">
-                              <span className="fa fa-chevron-up"></span>
+                              <span className="fa fa-chevron-up"/>
                             </button>
                             <button title="Click to vote down" data-is-vote-up="false" data-question-id={item.id}
                                     onClick={this.handleVote}
                                     className="qa-vote-second-button qa-vote-down-button">
-                              <span className="fa fa-chevron-down"></span>
+                              <span className="fa fa-chevron-down"/>
                             </button>
                           </div>
                           <div className='qa-vote-count qa-vote-count-net'>
