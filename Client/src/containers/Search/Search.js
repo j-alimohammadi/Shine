@@ -11,7 +11,7 @@ class Search extends Component {
                    placeholder="Search"/>
             <span className="input-group-btn">
                     <button type="submit" value="" className="btn qa-search-button"><span
-                      className="fa fa-search"></span></button>
+                        className="fa fa-search"/></button>
                     </span>
           </div>
         </form>
