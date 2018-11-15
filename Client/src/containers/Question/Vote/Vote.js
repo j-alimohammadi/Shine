@@ -5,7 +5,7 @@ import { ShineResponseParser } from '../../../utils/ShineClient/Response'
 class Vote extends Component {
   constructor (props) {
     super(props)
-     debugger
+     
     this.state = {
       questionId: props.questionId,
       vote: props.vote

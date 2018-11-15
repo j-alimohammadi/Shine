@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import ShineClient from '../../../utils/ShineClient/ShineClient'
 import { ShineResponseParser } from '../../../utils/ShineClient/Response'
 import Vote from '../Vote/Vote'
+import Tag from '../Tag/Tag'
 
 class Answer extends Component {
   constructor (props) {
@@ -45,18 +46,20 @@ class Answer extends Component {
   }
 
   render () {
-    let vote
+  
+    let vote = ''
+    let tags = ''
+    let title = ''
 
     if (this.state.question) {
       vote = <Vote questionId={this.state.question.id} vote={this.state.question.vote}/>
-    } else {
-      vote = ''
+      tags = <Tag tags={this.state.question.tag_names}/>
+      title =  this.state.question.title
     }
 
     return (
 
       <Fragment>
-        <h1>{this.state.questionId}</h1>
         <div className="qa-part-q-view">
           <div className="qa-q-view" id="q1">
             <form method="post" action="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask">
@@ -70,15 +73,9 @@ class Answer extends Component {
               <form method="post" action="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask">
                 <div className="qa-q-view-content qa-post-content">
                   <a name="1"/>
-                  <div itemProp="text">this is a question</div>
+                  <div itemProp="text">{title}</div>
                 </div>
-                <div className="qa-q-view-tags clearfix">
-                  <ul className="qa-q-view-tag-list">
-                    <li className="qa-q-view-tag-item"><a
-                      href="./index.php?qa=tag&amp;qa_1=javad-ali-d" rel="tag"
-                      className="qa-tag-link">javad-ali-d</a></li>
-                  </ul>
-                </div>
+                {tags}
                 <span className="qa-q-view-avatar-meta">
                                 <span className="qa-q-view-meta">
                                 <a href="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask"
