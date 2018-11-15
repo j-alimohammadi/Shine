@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import AUX from '../../hoc/_Aux'
 import ShineClient from '../../utils/ShineClient/ShineClient'
-import { ShineResponseParser } from '../../utils/ShineClient/Response'
+import {ShineResponseParser} from '../../utils/ShineClient/Response'
 import Tag from './Tag/Tag'
 
 class Question extends Component {
@@ -49,20 +49,20 @@ class Question extends Component {
     event.preventDefault()
   }
 
+   updateQuestion (updatedQuestion) {
+
+        const questions = this.state.questions
+        const foundIndex = questions.findIndex(element => {
+            return element.id === updatedQuestion.id
+        })
+
+        questions.splice(foundIndex, 1, updatedQuestion)
+        this.setState({questions: questions})
+    }
+
   componentDidMount () {
     this.getAllQuestions()
 
-  }
-
-  updateQuestion (updatedQuestion) {
-
-    const questions = this.state.questions
-    const foundIndex = questions.findIndex(element => {
-      return element.id === updatedQuestion.id
-    })
-
-    questions.splice(foundIndex, 1, updatedQuestion)
-    this.setState({questions: questions})
   }
 
   getAllQuestions () {
@@ -133,32 +133,11 @@ class Question extends Component {
                   return (
                     <div className="qa-q-list-item row" key={item.id} id={'q' + index}>
                       <div className="qa-q-item-stats">
-                        <div className="qa-voting qa-voting-net" id="voting_1">
-                          <div className="qa-vote-buttons qa-vote-buttons-net">
-                            <button title=" Click to vote up" data-is-vote-up="true" data-question-id={item.id}
-                                    onClick={this.handleVote}
-                                    className="qa-vote-first-button qa-vote-up-button">
-                              <span className="fa fa-chevron-up"/>
-                            </button>
-                            <button title="Click to vote down" data-is-vote-up="false" data-question-id={item.id}
-                                    onClick={this.handleVote}
-                                    className="qa-vote-second-button qa-vote-down-button">
-                              <span className="fa fa-chevron-down"/>
-                            </button>
-                          </div>
-                          <div className='qa-vote-count qa-vote-count-net'>
-                < span className='qa-netvote-count'>
-                < span className='qa-netvote-count-data'> {item.vote} </span><span
-                  className='qa-netvote-count-pad'> votes </span>
-                </span>
-                          </div>
-                          <div className="qa-vote-clear clearfix">
-                          </div>
-                        </div>
+
                         <span className="qa-a-count">
-              <span className="qa-a-count-data">{item.answer_count}</span><span
-                          className="qa-a-count-pad"> answer</span>
-              </span>
+                         <span className="qa-a-count-data">{item.answer_count}</span>
+                            <span className="qa-a-count-pad"> answer</span>
+                        </span>
                       </div>
                       <div className="qa-q-item-main">
                         <div className="qa-q-item-title">
