@@ -126,7 +126,6 @@ public class QuestionEndPoint extends BaseEndpoint {
     public QuestionWrapper findQuestionById(HttpServletRequest httpServletRequest,
                                             @PathVariable("question-id") Long questionId) {
 
-        List<QuestionWrapper> result = new ArrayList<>();
         Question question = questionService.findQuestionById(questionId);
 
         QuestionWrapper response = applicationContext.getBean(QuestionWrapper.class);

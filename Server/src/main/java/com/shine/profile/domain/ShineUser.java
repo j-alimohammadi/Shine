@@ -13,8 +13,5 @@ public class ShineUser {
 
     private Date registerTime;
 
-    
-
-
 
 }
