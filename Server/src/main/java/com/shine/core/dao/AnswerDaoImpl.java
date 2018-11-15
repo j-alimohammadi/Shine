@@ -15,9 +15,20 @@ import java.util.List;
 public class AnswerDaoImpl extends AbstractDao<Answer> implements AnswerDao {
 
     @Override
-    public List<Answer> findAnswer(int offset, int limit) {
-        TypedQuery<Answer> answer = entityManager.createNamedQuery("findAnswer", Answer.class);
+    public List<Answer> readAnswer(int offset, int limit) {
+        TypedQuery<Answer> answer = entityManager.createNamedQuery("readAnswer", Answer.class);
         answer.setFirstResult(offset).setMaxResults(limit);
+        return ListUtils.emptyIfNull(answer.getResultList());
+
+    }
+
+    @Override
+    public List<Answer> readAnswerForQuestions(Long questionId, int offset, int limit) {
+        TypedQuery<Answer> answer = entityManager.createNamedQuery("readAnswerForQuestion", Answer.class);
+
+        answer.setParameter("questionId", questionId)
+                .setFirstResult(offset)
+                .setMaxResults(limit);
         return ListUtils.emptyIfNull(answer.getResultList());
 
     }

@@ -13,13 +13,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -109,13 +109,31 @@ public class AnswerEndPoint extends BaseEndpoint {
 
     }
 
+
+    @GetMapping(path = "/question/{questionId}")
+    public List<AnswerWrapper> findAnswersForQuestion(HttpServletRequest httpServletRequest,
+                                                      @PathVariable Long questionId,
+                                                      @RequestParam(value = "offset", defaultValue = "0") int questionOffset,
+                                                      @RequestParam(value = "limit", defaultValue = "20") int questionLimit) {
+
+        List<Answer> answers = answerService.findAnswersForQuestion(questionId, questionOffset, questionLimit);
+
+        List<AnswerWrapper> result = answers.stream().map(question -> {
+            AnswerWrapper response = applicationContext.getBean(AnswerWrapper.class);
+            response.wrap(question, httpServletRequest);
+            return response;
+        }).collect(Collectors.toList());
+
+        return result;
+    }
+
     @GetMapping(path = "")
-    public List<AnswerWrapper> findAllQuestions(HttpServletRequest httpServletRequest,
-                                                @RequestParam(value = "offset", defaultValue = "0") int questionOffset,
-                                                @RequestParam(value = "limit", defaultValue = "20") int questionLimit) {
+    public List<AnswerWrapper> findAllAnswers(HttpServletRequest httpServletRequest,
+                                              @RequestParam(value = "offset", defaultValue = "0") int questionOffset,
+                                              @RequestParam(value = "limit", defaultValue = "20") int questionLimit) {
 
         List<AnswerWrapper> result = new ArrayList<>();
-        List<Answer> questions = answerService.findAnswers(questionOffset, questionLimit);
+        List<Answer> questions = answerService.findAllAnswers(questionOffset, questionLimit);
 
         questions.forEach(question -> {
             AnswerWrapper response = applicationContext.getBean(AnswerWrapper.class);

@@ -19,5 +19,7 @@ public interface AnswerService {
 
     Answer findAnswerById(Long id);
 
-    List<Answer> findAnswers(int answerOffset, int answerLimit);
+    List<Answer> findAnswersForQuestion(Long questionId, int answerOffset, int answerLimit);
+
+    List<Answer> findAllAnswers(int answerOffset, int answerLimit);
 }

@@ -10,5 +10,7 @@ import java.util.List;
  */
 
 public interface AnswerDao extends DAO<Answer> {
-    List<Answer> findAnswer(int offset, int limit);
+    List<Answer> readAnswer(int offset, int limit);
+
+    List<Answer> readAnswerForQuestions(Long questionId, int offset, int limit);
 }

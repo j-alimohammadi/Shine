@@ -1,6 +1,7 @@
 package com.shine.api.rest.wrapper;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.shine.common.rest.api.wrapper.APIUnWrapper;
 import com.shine.common.rest.api.wrapper.APIWrapper;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 @Component("AnswerWrapper")
 @Scope("prototype")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, APIWrapper<Answer> {
 
     @JsonProperty
@@ -69,5 +71,6 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
     public void wrap(Answer answer, HttpServletRequest request) {
         this.id = answer.getId();
         this.body = answer.getBody();
+
     }
 }

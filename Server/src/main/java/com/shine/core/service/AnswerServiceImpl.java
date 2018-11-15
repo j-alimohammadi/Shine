@@ -71,7 +71,14 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Transactional
     @Override
-    public List<Answer> findAnswers(int answerOffset, int answerLimit) {
-        return answerDao.findAnswer(answerOffset, answerLimit);
+    public List<Answer> findAnswersForQuestion(Long questionId, int answerOffset, int answerLimit) {
+        return answerDao.readAnswerForQuestions(questionId, answerOffset, answerLimit);
+    }
+
+
+    @Transactional
+    @Override
+    public List<Answer> findAllAnswers(int answerOffset, int answerLimit) {
+        return answerDao.readAnswer(answerOffset, answerLimit);
     }
 }
