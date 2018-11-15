@@ -8,6 +8,13 @@ class ShineClient {
   /////////////////////////////////////////////
   //            Question Management
   /////////////////////////////////////////////
+
+  static findQuestion (questionId) {
+    const url = `${PATH_BASE}/${QUESTIONS_PATH}/${questionId}`
+
+    return ShineHttpClient.getData(url)
+  }
+
   static findQuestions (offset, limit) {
     const url = `${PATH_BASE}/${QUESTIONS_PATH}`
 

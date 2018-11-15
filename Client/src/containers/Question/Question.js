@@ -1,8 +1,9 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import AUX from '../../hoc/_Aux'
 import ShineClient from '../../utils/ShineClient/ShineClient'
-import {ShineResponseParser} from '../../utils/ShineClient/Response'
+import { ShineResponseParser } from '../../utils/ShineClient/Response'
 import Tag from './Tag/Tag'
+import Vote from './Vote/Vote'
 
 class Question extends Component {
   constructor (props) {
@@ -49,20 +50,19 @@ class Question extends Component {
     event.preventDefault()
   }
 
-   updateQuestion (updatedQuestion) {
+  updateQuestion (updatedQuestion) {
 
-        const questions = this.state.questions
-        const foundIndex = questions.findIndex(element => {
-            return element.id === updatedQuestion.id
-        })
+    const questions = this.state.questions
+    const foundIndex = questions.findIndex(element => {
+      return element.id === updatedQuestion.id
+    })
 
-        questions.splice(foundIndex, 1, updatedQuestion)
-        this.setState({questions: questions})
-    }
+    questions.splice(foundIndex, 1, updatedQuestion)
+    this.setState({questions: questions})
+  }
 
   componentDidMount () {
     this.getAllQuestions()
-
   }
 
   getAllQuestions () {
@@ -133,7 +133,7 @@ class Question extends Component {
                   return (
                     <div className="qa-q-list-item row" key={item.id} id={'q' + index}>
                       <div className="qa-q-item-stats">
-
+                        <Vote questionId={item.id} vote={item.vote}/>
                         <span className="qa-a-count">
                          <span className="qa-a-count-data">{item.answer_count}</span>
                             <span className="qa-a-count-pad"> answer</span>
@@ -141,7 +141,7 @@ class Question extends Component {
                       </div>
                       <div className="qa-q-item-main">
                         <div className="qa-q-item-title">
-                          <a href="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask">{item.title}</a>
+                          <a href={'./answer/' + item.id}>{item.title}</a>
                         </div>
                         <span className="qa-q-item-avatar-meta">
                           <span className="qa-q-item-meta">
