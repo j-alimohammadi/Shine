@@ -27,6 +27,10 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionDao questionDao;
 
     @Resource
+    private PostService postService;
+
+
+    @Resource
     private TagService tagService;
 
     @Transactional
@@ -102,27 +106,21 @@ public class QuestionServiceImpl implements QuestionService {
         return questionDao.findQuestion(questionOffset, questionLimit);
     }
 
-    // todo : check for race condition
+
     @Transactional
     @Override
     public Long voteUp(Question question) {
-        long vote = question.getVote();
-        vote++;
-        question.setVote(vote);
-
-        questionDao.update(question);
-        return vote;
+        Question updateQuestion = postService.voteUp(question);
+        questionDao.update(updateQuestion);
+        return updateQuestion.getVote();
     }
 
     @Transactional
     @Override
     public Long voteDown(Question question) {
-        long vote = question.getVote();
-        vote--;
-        question.setVote(vote);
-
-        questionDao.update(question);
-        return vote;
+        Question updateQuestion = postService.voteDown(question);
+        questionDao.update(updateQuestion);
+        return updateQuestion.getVote();
 
     }
 

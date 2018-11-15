@@ -28,6 +28,9 @@ public class Post {
     @Temporal(TemporalType.TIMESTAMP)
     private Date editedTimeStamp;
 
+    @Column(name = "VOTE")
+    private Long vote = 0L;
+
     public Long getId() {
         return id;
     }
@@ -59,4 +62,13 @@ public class Post {
     public void setEditedTimeStamp(Date editedTimeStamp) {
         this.editedTimeStamp = editedTimeStamp;
     }
+
+    public Long getVote() {
+        return vote;
+    }
+
+    public void setVote(Long vote) {
+        this.vote = vote;
+    }
+
 }

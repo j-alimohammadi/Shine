@@ -32,6 +32,9 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
     @JsonProperty
     private Long questionId;
 
+    @JsonProperty
+    private Long vote;
+
     public Long getId() {
         return id;
     }
@@ -56,6 +59,14 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
         this.questionId = questionId;
     }
 
+    public Long getVote() {
+        return vote;
+    }
+
+    public void setVote(Long vote) {
+        this.vote = vote;
+    }
+
     @Override
     public Answer unwrap(HttpServletRequest request, ApplicationContext context) {
         final AnswerServiceImpl answerService = context.getBean(AnswerServiceImpl.class);
@@ -71,6 +82,7 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
     public void wrap(Answer answer, HttpServletRequest request) {
         this.id = answer.getId();
         this.body = answer.getBody();
+        this.vote = answer.getVote();
 
     }
 }

@@ -19,9 +19,6 @@ public class Question extends Post {
     @Column(name = "VIEW_COUNT")
     private Long viewCount;
 
-    @Column(name = "VOTE")
-    private Long vote = 0L;
-
     @Column(name = "ANSWER_COUNT")
     private Long answerCount = 0L;
 
@@ -69,13 +66,6 @@ public class Question extends Post {
         this.viewCount = viewCount;
     }
 
-    public Long getVote() {
-        return vote;
-    }
-
-    public void setVote(Long vote) {
-        this.vote = vote;
-    }
 
     public void addTags(List<Tag> tagList) {
         tagList.addAll(tagList);

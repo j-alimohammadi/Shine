@@ -144,5 +144,30 @@ public class AnswerEndPoint extends BaseEndpoint {
         return result;
     }
 
+    @PutMapping(path = "/{answer-id}/vote/increment")
+    public AnswerWrapper incrementVote(@PathVariable("answer-id") Long questionId,
+                                       HttpServletRequest httpServletRequest) {
+        Answer question = answerService.findAnswerById(questionId);
+        answerService.voteUp(question);
+
+        AnswerWrapper response = applicationContext.getBean(AnswerWrapper.class);
+        response.wrap(question, httpServletRequest);
+
+        return response;
+
+    }
+
+    @PutMapping(path = "/{answer-id}/vote/decrement")
+    public AnswerWrapper decrementVote(@PathVariable("answer-id") Long questionId,
+                                       HttpServletRequest httpServletRequest) {
+        Answer question = answerService.findAnswerById(questionId);
+        answerService.voteDown(question);
+
+        AnswerWrapper response = applicationContext.getBean(AnswerWrapper.class);
+        response.wrap(question, httpServletRequest);
+
+        return response;
+
+    }
 
 }

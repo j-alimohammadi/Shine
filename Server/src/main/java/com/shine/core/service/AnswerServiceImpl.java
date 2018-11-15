@@ -22,6 +22,9 @@ public class AnswerServiceImpl implements AnswerService {
     @Resource
     private AnswerDao answerDao;
 
+    @Resource
+    private PostService postService;
+
     @Transactional
     @Override
     public Answer createAnswer(Answer answer) {
@@ -80,5 +83,23 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public List<Answer> findAllAnswers(int answerOffset, int answerLimit) {
         return answerDao.readAnswer(answerOffset, answerLimit);
+    }
+
+
+    @Transactional
+    @Override
+    public Long voteUp(Answer answer) {
+        Answer updateAnswer = postService.voteUp(answer);
+        answerDao.update(updateAnswer);
+        return updateAnswer.getVote();
+    }
+
+    @Transactional
+    @Override
+    public Long voteDown(Answer answer) {
+        Answer updateAnswer = postService.voteDown(answer);
+        answerDao.update(updateAnswer);
+        return updateAnswer.getVote();
+
     }
 }

@@ -22,4 +22,9 @@ public interface AnswerService {
     List<Answer> findAnswersForQuestion(Long questionId, int answerOffset, int answerLimit);
 
     List<Answer> findAllAnswers(int answerOffset, int answerLimit);
+
+    Long voteUp(Answer question);
+
+    Long voteDown(Answer question);
+
 }
