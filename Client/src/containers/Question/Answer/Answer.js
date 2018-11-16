@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import ShineClient from '../../../utils/ShineClient/ShineClient'
 import { ShineResponseParser } from '../../../utils/ShineClient/Response'
-import Vote from '../Vote/Vote'
 import Tag from '../Tag/Tag'
 import { EditorState } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
+import Vote from '../Vote/Vote'
 
 class Answer extends Component {
   constructor (props) {

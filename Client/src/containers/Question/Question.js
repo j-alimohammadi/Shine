@@ -3,7 +3,7 @@ import AUX from '../../hoc/_Aux'
 import ShineClient from '../../utils/ShineClient/ShineClient'
 import { ShineResponseParser } from '../../utils/ShineClient/Response'
 import Tag from './Tag/Tag'
-import Vote from './Vote/Vote'
+import vote from './Vote/Vote'
 
 
 
@@ -135,7 +135,7 @@ class Question extends Component {
                   return (
                     <div className="qa-q-list-item row" key={item.id} id={'q' + index}>
                       <div className="qa-q-item-stats">
-                        <Vote questionId={item.id} vote={item.voteQuestion}/>
+                        <vote questionId={item.id} vote={item.voteQuestion}/>
                         <span className="qa-a-count">
                          <span className="qa-a-count-data">{item.answer_count}</span>
                             <span className="qa-a-count-pad"> answer</span>
