@@ -6,13 +6,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.shine.common.rest.api.wrapper.APIUnWrapper;
 import com.shine.common.rest.api.wrapper.APIWrapper;
 import com.shine.common.rest.api.wrapper.BaseWrapper;
+import com.shine.common.utils.JSONMapper;
 import com.shine.core.domain.Answer;
 import com.shine.core.service.AnswerServiceImpl;
+import com.shine.core.service.QuestionServiceImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -27,9 +30,9 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
     private Long id;
 
     @JsonProperty
-    private String body;
+    private Map<String, Object> body;
 
-    @JsonProperty
+    @JsonProperty("question_id")
     private Long questionId;
 
     @JsonProperty
@@ -43,11 +46,11 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
         this.id = id;
     }
 
-    public String getBody() {
+    public Map<String, Object> getBody() {
         return body;
     }
 
-    public void setBody(String body) {
+    public void setBody(Map<String, Object> body) {
         this.body = body;
     }
 
@@ -70,10 +73,12 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
     @Override
     public Answer unwrap(HttpServletRequest request, ApplicationContext context) {
         final AnswerServiceImpl answerService = context.getBean(AnswerServiceImpl.class);
+        final QuestionServiceImpl questionService = context.getBean(QuestionServiceImpl.class);
 
         Answer answer = answerService.createAnswerFromId(id);
-        answer.setBody(body);
+        answer.setBody(JSONMapper.createJSON(body));
         answer.setId(id);
+        answer.setQuestion(questionService.findQuestionById(questionId));
 
         return answer;
     }
@@ -81,7 +86,7 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
     @Override
     public void wrap(Answer answer, HttpServletRequest request) {
         this.id = answer.getId();
-        this.body = answer.getBody();
+        this.body = JSONMapper.createHashMapFromJSON(answer.getBody());
         this.vote = answer.getVote();
 
     }

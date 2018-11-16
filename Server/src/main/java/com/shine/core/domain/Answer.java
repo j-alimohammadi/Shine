@@ -1,8 +1,6 @@
 package com.shine.core.domain;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -15,11 +13,24 @@ public class Answer extends Post {
     @Column(name = "IS_ACCEPTED")
     private Boolean accepted;
 
+    @JoinColumn(name = "QUESTION_ID")
+    @ManyToOne
+    private Question question;
+
     public Boolean getAccepted() {
         return accepted;
     }
 
     public void setAccepted(Boolean accepted) {
         this.accepted = accepted;
+    }
+
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 }

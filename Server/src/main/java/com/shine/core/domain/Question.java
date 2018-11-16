@@ -23,8 +23,8 @@ public class Question extends Post {
     private Long answerCount = 0L;
 
 
-    @JoinColumn(name = "QUESTION_ID")
-    @OneToMany
+
+    @OneToMany(mappedBy = "question")
     private List<Answer> answerList = new ArrayList<>();
 
     @JoinTable(

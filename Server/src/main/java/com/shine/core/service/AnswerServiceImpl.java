@@ -31,6 +31,7 @@ public class AnswerServiceImpl implements AnswerService {
         answer.setCreatedTimeStamp(new Date());
         answer = answerDao.createOrUpdate(answer);
 
+        log.info("Created answer with id [{}] successfully", answer.getId());
         return answer;
 
     }

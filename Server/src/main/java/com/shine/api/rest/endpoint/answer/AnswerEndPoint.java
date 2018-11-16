@@ -7,6 +7,7 @@ import com.shine.core.domain.Answer;
 import com.shine.core.domain.Question;
 import com.shine.core.service.AnswerService;
 import com.shine.core.service.QuestionService;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,7 @@ public class AnswerEndPoint extends BaseEndpoint {
     public AnswerWrapper createNewAnswer(HttpServletRequest httpServletRequest,
                                          @RequestBody AnswerWrapper answerWrapper) {
 
-        if (StringUtils.isBlank(answerWrapper.getBody())) {
+        if (MapUtils.isEmpty(answerWrapper.getBody())) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
                     .addMessage(ShineRestException.INVALID_POST_BODY_CONTENT);
         }
@@ -62,14 +63,14 @@ public class AnswerEndPoint extends BaseEndpoint {
     @PutMapping(path = "")
     public AnswerWrapper updateAnswer(HttpServletRequest httpServletRequest,
                                       @RequestBody AnswerWrapper answerWrapper) {
-        Question foundQuestion = questionService.findQuestionById(answerWrapper.getQuestionId());
+        Answer foundAnswer = answerService.findAnswerById(answerWrapper.getQuestionId());
 
-        if (StringUtils.isBlank(answerWrapper.getBody())) {
+        if (MapUtils.isEmpty(answerWrapper.getBody())) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
                     .addMessage(ShineRestException.INVALID_POST_BODY_CONTENT);
         }
 
-        if (Objects.isNull(foundQuestion)) {
+        if (Objects.isNull(foundAnswer)) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
                     .addMessage(ShineRestException.INVALID_QUESTION_ID);
         }
