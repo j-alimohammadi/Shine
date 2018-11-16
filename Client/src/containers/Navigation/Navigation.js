@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
-import AUX from '../../hoc/_Aux'
+import React, { Component, Fragment } from 'react'
 
 class Navigation extends Component {
   render () {
     return (
-      <AUX>
+      <Fragment>
         <header id="top-header">
           <div className="container">
             <div className="row">
@@ -24,7 +23,7 @@ class Navigation extends Component {
         </header>
         <header id="nav-header">
           <nav id="nav" className="navbar navbar-static-top"
-                data-spy="affix" data-offset-top="120">
+               data-spy="affix" data-offset-top="120">
             <div className="container">
               <div className="navbar-header">
                 <button type="button" className="navbar-toggle collapsed" data-toggle="collapse"
@@ -88,7 +87,7 @@ class Navigation extends Component {
           </nav>
         </header>
 
-      </AUX>
+      </Fragment>
     )
   }
 }

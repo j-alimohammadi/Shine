@@ -160,7 +160,8 @@ class Answer extends Component {
       return element.id === updatedAnswer.id
     })
 
-    answers.splice(foundIndex, 1, updatedAnswer)
+    answers[foundIndex].vote = updatedAnswer.vote
+
     this.setState({answers: answers})
 
   }

@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Navigation from '../../containers/Navigation/Navigation'
 import Footer from '../../containers/Footer/Footer'
 import { Route } from 'react-router-dom'
 import Search from '../../containers/Search/Search'
-import AUX from '../../hoc/_Aux'
+
+function titleOfPage (title) {
+
+}
 
 const defaultLayout = ({component: Component, ...rest}) => {
+
   return (
 
     <Route {...rest} render={matchProps => (
-      <AUX>
+      <Fragment>
         <Navigation/>
 
         <main className="donut-masthead">
@@ -36,7 +40,7 @@ const defaultLayout = ({component: Component, ...rest}) => {
         </div>
 
         <Footer/>
-      </AUX>
+      </Fragment>
     )}
     />
   )
