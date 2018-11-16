@@ -6,7 +6,6 @@ import Tag from '../Tag/Tag'
 import { EditorState } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
 
-
 class Answer extends Component {
   constructor (props) {
     super(props)
@@ -14,11 +13,13 @@ class Answer extends Component {
     this.state = {
       editorState: EditorState.createEmpty(),
       questionId: props.match.params.questionId,
-      question: null
+      question: null,
+      questionVote: -1
     }
 
     // Event handler
     this.handleAnswerChange = this.handleAnswerChange.bind(this)
+    this.handleVote = this.handleVote.bind(this)
 
   }
 
@@ -34,7 +35,7 @@ class Answer extends Component {
         }
       })
       .then((jsonData) => {
-        this.setState({question: jsonData})
+        this.setState({question: jsonData, questionVote: jsonData.vote})
       })
       .catch((error) => {
         this.setState({
@@ -54,6 +55,41 @@ class Answer extends Component {
     })
   };
 
+  handleVote (event) {
+    const questionId = this.state.question.id
+    const isVotingUp = event.currentTarget.getAttribute('data-is-vote-up') === 'true'
+
+    ShineClient.vote(questionId, isVotingUp)
+      .then((JSONResponse) => {
+        if (ShineResponseParser.isResponseOk(JSONResponse)) {
+          return JSONResponse.json()
+        } else {
+          throw new Error('Something bad happened')
+        }
+      })
+      .then((jsonData) => {
+        this.updateVote(jsonData)
+      })
+      .catch((error) => {
+        this.setState({
+            alert: {
+              alertMessage: `Failed to get table information. Error in connecting to server.`,
+              showAlert: true,
+              alertType: 'danger'
+            }
+          }
+        )
+      })
+
+    event.preventDefault()
+  }
+
+  updateVote (updatedQuestion) {
+
+    const newVote = updatedQuestion.vote
+    this.setState({questionVote: newVote})
+  }
+
   componentDidMount () {
     this.getQuestionDetail()
   }
@@ -66,7 +102,7 @@ class Answer extends Component {
     let title = ''
 
     if (this.state.question) {
-      vote = <Vote questionId={this.state.question.id} vote={this.state.question.vote}/>
+      vote = <Vote onChangeVote={this.handleVote} vote={this.state.questionVote}/>
       tags = <Tag tags={this.state.question.tag_names}/>
       title = this.state.question.title
     }
@@ -214,57 +250,37 @@ class Answer extends Component {
           <div className="qa-part-a-list">
             <h2 id="a_list_title"><span itemProp="answerCount">1</span> Answer</h2>
             <div className="qa-a-list" id="a_list">
-              <div className="qa-a-list-item " id="a2" itemProp="suggestedAnswer" itemScope=""
-                   itemType="http://schema.org/Answer">
-                <form method="post" action="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask">
-                  <div className="qa-voting qa-voting-net" id="voting_2">
-                    <div className="qa-vote-buttons qa-vote-buttons-net">
-                      <button title="You cannot vote on your own posts" type="submit"
-                              className="qa-vote-first-button qa-vote-up-disabled" disabled="disabled">
-                        <span className="fa fa-chevron-up"/></button>
-                      <button title="You cannot vote on your own posts" type="submit"
-                              className="qa-vote-second-button qa-vote-down-disabled"
-                              disabled="disabled"><span className="fa fa-chevron-down"/></button>
-                    </div>
-                    <div className="qa-vote-count qa-vote-count-net">
-                                    <span className="qa-netvote-count">
-                                    <span className="qa-netvote-count-data">0</span><span
-                                      className="qa-netvote-count-pad"> votes
-                                        <meta itemProp="upvoteCount" content="0"/></span>
-                                    </span>
-                    </div>
-                    <div className="qa-vote-clear clearfix">
-                    </div>
-                  </div>
-                  <input name="code" type="hidden"
-                         value="0-1542193599-3d03c828c1cd3f84c4edd816dfb740c42ca4ccf1"/>
-                </form>
+              <div className="qa-a-list-item " id="a2" itemProp="suggestedAnswer">
+
                 <div className="qa-a-item-main">
                   <form method="post" action="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask">
                     <div className="qa-a-selection">
                       <button title="" name="a2_doselect"
                               type="submit" className="qa-a-select-button"
                               data-original-title="Click to select as best answer">
-                        <span className="fa fa-check"></span></button>
+                        <span className="fa fa-check"/></button>
                     </div>
                     <div className="qa-a-item-content qa-post-content">
                       <a name="2"></a>
                       <div itemProp="text">this is my answer you can see it</div>
                     </div>
                     <span className="qa-a-item-avatar-meta">
-<span className="qa-a-item-meta">
-<a href="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask&amp;show=2#a2" className="qa-a-item-what">answered</a>
-<span className="qa-a-item-when">
-<span className="qa-a-item-when-data"><time itemProp="dateCreated" dateTime="2018-10-21T11:19:06+0000" title=""
-                                            data-original-title="2018-10-21T11:19:06+0000">Oct 21</time></span>
-</span>
-<span className="qa-a-item-who">
-<span className="qa-a-item-who-pad">by </span>
-<span className="qa-a-item-who-data"><span itemProp="author" itemScope="" itemType="http://schema.org/Person"><span
-  itemProp="name">name</span></span></span>
-</span>
-</span>
-</span>
+                    <span className="qa-a-item-meta">
+                    <a href="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask&amp;show=2#a2"
+                       className="qa-a-item-what">answered</a>
+                    <span className="qa-a-item-when">
+                    <span className="qa-a-item-when-data"><time itemProp="dateCreated"
+                                                                dateTime="2018-10-21T11:19:06+0000" title=""
+                                                                data-original-title="2018-10-21T11:19:06+0000">Oct 21</time></span>
+                    </span>
+                    <span className="qa-a-item-who">
+                    <span className="qa-a-item-who-pad">by </span>
+                    <span className="qa-a-item-who-data"><span itemProp="author" itemScope=""
+                                                               itemType="http://schema.org/Person"><span
+                      itemProp="name">name</span></span></span>
+                    </span>
+                    </span>
+                    </span>
                     <div className="qa-a-item-buttons">
                       <button name="a2_doedit" title="" type="submit"
                               className="qa-form-light-button qa-form-light-button-edit"
