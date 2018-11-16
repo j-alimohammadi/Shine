@@ -2226,7 +2226,7 @@ header#nav-header {
 .qa-netvote-count-pad {
   font-size: 12px;
 }
-/* separate vote buttons counter */
+/* separate voteQuestion buttons counter */
 .qa-upvote-count,
 .qa-downvote-count {
   text-align: center;

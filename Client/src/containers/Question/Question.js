@@ -25,9 +25,9 @@ class Question extends Component {
 
   handleVote (event) {
     const questionId = event.currentTarget.getAttribute('data-question-id')
-    const isVotingUp = event.currentTarget.getAttribute('data-is-vote-up') === 'true'
+    const isVotingUp = event.currentTarget.getAttribute('data-is-voteQuestion-up') === 'true'
 
-    ShineClient.vote(questionId, isVotingUp)
+    ShineClient.voteQuestion(questionId, isVotingUp)
       .then((JSONResponse) => {
         if (ShineResponseParser.isResponseOk(JSONResponse)) {
           return JSONResponse.json()
@@ -135,7 +135,7 @@ class Question extends Component {
                   return (
                     <div className="qa-q-list-item row" key={item.id} id={'q' + index}>
                       <div className="qa-q-item-stats">
-                        <Vote questionId={item.id} vote={item.vote}/>
+                        <Vote questionId={item.id} vote={item.voteQuestion}/>
                         <span className="qa-a-count">
                          <span className="qa-a-count-data">{item.answer_count}</span>
                             <span className="qa-a-count-pad"> answer</span>
