@@ -178,7 +178,8 @@ class Answer extends Component {
     ShineClient.createAnswer(answerObject)
       .then((JSONResponse) => {
         if (ShineResponseParser.isResponseOk(JSONResponse)) {
-          this.setState({toQuestionPage: true})
+          this.setState({toQuestionPage: true, editorState: EditorState.createEmpty()})
+          this.getAnswerForQuestion()
         } else {
           throw new Error('Something bad happened.')
         }
@@ -221,17 +222,17 @@ class Answer extends Component {
           <div className="qa-part-a-list">
             <h2 id="a_list_title"><span itemProp="answerCount">{this.state.question.answer_count}</span> Answer</h2>
             <div className="qa-a-list" id="a_list">
-              <div className="qa-a-list-item " id="a2" itemProp="suggestedAnswer">
 
-                <div className="qa-a-item-main">
-                  {
-                    answer.map((item, index) => {
-                      return (
-                        <form key={item.id} method="post" action="/">
-                          <div className="qa-q-view-stats">
-                            <Vote onChangeVote={this.handleAnswerVote} vote={item.vote} postId={item.id}/>
-                          </div>
 
+              {
+                answer.map((item, index) => {
+                  return (
+                    <div className="qa-a-list-item " key={item.id} itemProp="suggestedAnswer">
+                      <div className="qa-q-view-stats">
+                        <Vote onChangeVote={this.handleAnswerVote} vote={item.vote} postId={item.id}/>
+                      </div>
+                      <div className="qa-a-item-main">
+                        <form method="post" action="/">
                           <div className="qa-a-selection">
 
                           </div>
@@ -244,8 +245,8 @@ class Answer extends Component {
                                 editorClassName="answer-editor"
                                 onEditorStateChange={this.handleAnswerChange}
                               />
-                              
-                              </div>
+
+                            </div>
                           </div>
                           <span className="qa-a-item-avatar-meta">
                             <span className="qa-a-item-meta">
@@ -265,16 +266,35 @@ class Answer extends Component {
                               </span>
                             </span>
                             </span>
+                          <div className="qa-a-item-buttons">
+                            <button name="a11_doedit" title="Edit this answer" type="submit"
+                                    className="qa-form-light-button qa-form-light-button-edit">edit
+                            </button>
+                            <button name="a11_dohide" onClick="return qa_answer_click(11, 1, this);"
+                                    title="Hide this answer" type="submit"
+                                    className="qa-form-light-button qa-form-light-button-hide">hide
+                            </button>
+                            <button name="a11_dofollow" title="Ask a new question relating to this answer" type="submit"
+                                    className="qa-form-light-button qa-form-light-button-follow">ask related question
+                            </button>
+                            <button name="a11_docomment" onClick="return qa_toggle_element('c11')"
+                                    title="Add a comment on this answer" type="submit"
+                                    className="qa-form-light-button qa-form-light-button-comment">comment
+                            </button>
+                          </div>
                         </form>
-                      )
-                    })
-                  }
+                      </div>
 
-                </div>
-                <div className="qa-a-item-clear clearfix">
-                </div>
-              </div>
+                      <div className="qa-a-item-clear clearfix">
+                      </div>
+                    </div>
+                  )
+                })
+              }
+
+
             </div>
+
           </div>
       }
 
