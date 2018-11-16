@@ -14,12 +14,14 @@ class Answer extends Component {
       editorState: EditorState.createEmpty(),
       questionId: props.match.params.questionId,
       question: null,
-      questionVote: -1
+      questionVote: -1,
+      answerVote: -1
     }
 
     // Event handler
     this.handleAnswerChange = this.handleAnswerChange.bind(this)
-    this.handleVote = this.handleVote.bind(this)
+    this.handleQuestionVote = this.handleQuestionVote.bind(this)
+    this.handleAnswerVote = this.handleAnswerVote.bind(this)
 
   }
 
@@ -55,7 +57,7 @@ class Answer extends Component {
     })
   };
 
-  handleVote (event) {
+  handleQuestionVote (event) {
     const questionId = this.state.question.id
     const isVotingUp = event.currentTarget.getAttribute('data-is-vote-up') === 'true'
 
@@ -68,7 +70,35 @@ class Answer extends Component {
         }
       })
       .then((jsonData) => {
-        this.updateVote(jsonData)
+        this.updateQuestionVote(jsonData)
+      })
+      .catch((error) => {
+        this.setState({
+            alert: {
+              alertMessage: `Failed to get table information. Error in connecting to server.`,
+              showAlert: true,
+              alertType: 'danger'
+            }
+          }
+        )
+      })
+
+    event.preventDefault()
+  }
+  handleAnswerVote (event) {
+    const questionId = this.state.question.id
+    const isVotingUp = event.currentTarget.getAttribute('data-is-vote-up') === 'true'
+
+    ShineClient.vote(questionId, isVotingUp)
+      .then((JSONResponse) => {
+        if (ShineResponseParser.isResponseOk(JSONResponse)) {
+          return JSONResponse.json()
+        } else {
+          throw new Error('Something bad happened')
+        }
+      })
+      .then((jsonData) => {
+        this.updateQuestionVote(jsonData)
       })
       .catch((error) => {
         this.setState({
@@ -84,8 +114,7 @@ class Answer extends Component {
     event.preventDefault()
   }
 
-  updateVote (updatedQuestion) {
-
+  updateQuestionVote (updatedQuestion) {
     const newVote = updatedQuestion.vote
     this.setState({questionVote: newVote})
   }
@@ -97,12 +126,14 @@ class Answer extends Component {
   render () {
     const {editorState} = this.state
 
-    let vote = ''
+    let questionVote = ''
+    let answerVote=''
     let tags = ''
     let title = ''
 
     if (this.state.question) {
-      vote = <Vote onChangeVote={this.handleVote} vote={this.state.questionVote}/>
+      questionVote = <Vote onChangeVote={this.handleQuestionVote} vote={this.state.questionVote}/>
+      answerVote = <Vote onChangeVote={this.handleQuestionVote} vote={this.state.questionVote}/>
       tags = <Tag tags={this.state.question.tag_names}/>
       title = this.state.question.title
     }
@@ -115,10 +146,8 @@ class Answer extends Component {
             <div className="qa-q-view" id="q1">
               <form method="post" action="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask">
                 <div className="qa-q-view-stats">
-                  {vote}
+                  {questionVote}
                 </div>
-                <input name="code" type="hidden"
-                       value="0-1542193599-3d03c828c1cd3f84c4edd816dfb740c42ca4ccf1"/>
               </form>
               <div className="qa-q-view-main">
                 <form method="post" action="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask">
@@ -254,6 +283,10 @@ class Answer extends Component {
 
                 <div className="qa-a-item-main">
                   <form method="post" action="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask">
+                    <div className="qa-q-view-stats">
+                      {questionVote}
+                    </div>
+
                     <div className="qa-a-selection">
                       <button title="" name="a2_doselect"
                               type="submit" className="qa-a-select-button"
