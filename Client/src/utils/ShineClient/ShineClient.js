@@ -65,6 +65,12 @@ class ShineClient {
 
   }
 
+  static createAnswer (answerObject) {
+    const url = `${PATH_BASE}/${ANSWER_PATH}`
+    return ShineHttpClient.postData(url, answerObject)
+
+  }
+
 }
 
 export default ShineClient

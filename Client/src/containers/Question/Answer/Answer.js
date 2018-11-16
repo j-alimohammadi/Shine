@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import ShineClient from '../../../utils/ShineClient/ShineClient'
 import { ShineResponseParser } from '../../../utils/ShineClient/Response'
 import Tag from '../Tag/Tag'
-import { EditorState } from 'draft-js'
+import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
 import Vote from '../Vote/Vote'
 
@@ -16,13 +16,15 @@ class Answer extends Component {
       question: null,
       answers: [],
       questionVote: -1,
-      answerVote: -1
+      answerVote: -1,
+      answerBody: ''
     }
 
     // Event handler
     this.handleAnswerChange = this.handleAnswerChange.bind(this)
     this.handleQuestionVote = this.handleQuestionVote.bind(this)
     this.handleAnswerVote = this.handleAnswerVote.bind(this)
+    this.handleSubmitFormAnswer = this.handleSubmitFormAnswer.bind(this)
 
   }
 
@@ -63,8 +65,18 @@ class Answer extends Component {
           throw new Error('Something bad happened.')
         }
       })
-      .then((jsonData) => {
-        this.setState({answers: jsonData})
+      .then((answerData) => {
+        let answers = []
+        for (let answer of answerData) {
+          let id = answer.id
+          let vote = answer.vote
+          let body = EditorState.createWithContent(convertFromRaw(answer.body))
+          let newAnswer = {id: id, vote: vote, body: body}
+          answers.push(newAnswer)
+
+        }
+
+        this.setState({answers: answers})
       })
       .catch((error) => {
         this.setState({
@@ -153,6 +165,37 @@ class Answer extends Component {
 
   }
 
+  handleSubmitFormAnswer (event) {
+    event.preventDefault()
+
+    const answerContent = convertToRaw(this.state.editorState.getCurrentContent())
+    const questionId = this.state.questionId
+
+    const answerObject = {}
+    answerObject['body'] = answerContent
+    answerObject['question_id'] = questionId
+
+    ShineClient.createAnswer(answerObject)
+      .then((JSONResponse) => {
+        if (ShineResponseParser.isResponseOk(JSONResponse)) {
+          this.setState({toQuestionPage: true})
+        } else {
+          throw new Error('Something bad happened.')
+        }
+      })
+      .catch((error) => {
+        this.setState({
+            alert: {
+              alertMessage: `Failed to get table information. Error in connecting to server.`,
+              showAlert: true,
+              alertType: 'danger'
+            }
+          }
+        )
+      })
+
+  }
+
   componentDidMount () {
     this.getQuestionDetail()
     this.getAnswerForQuestion()
@@ -190,14 +233,19 @@ class Answer extends Component {
                           </div>
 
                           <div className="qa-a-selection">
-                            <button title="" name="a2_doselect"
-                                    type="submit" className="qa-a-select-button"
-                                    data-original-title="Click to select as best answer">
-                              <span className="fa fa-check"/></button>
+
                           </div>
                           <div className="qa-a-item-content qa-post-content">
-                            <a name="2"></a>
-                            <div itemProp="text">this is my answer you can see it</div>
+                            <div itemProp="text">
+                              <Editor
+                                toolbarHidden="true"
+                                readOnly="true"
+                                editorState={item.body}
+                                editorClassName="answer-editor"
+                                onEditorStateChange={this.handleAnswerChange}
+                              />
+                              
+                              </div>
                           </div>
                           <span className="qa-a-item-avatar-meta">
                             <span className="qa-a-item-meta">
@@ -304,7 +352,7 @@ class Answer extends Component {
           <div className="qa-part-a-form">
             <div className="qa-a-form" id="anew">
               <h2>Your answer</h2>
-              <form method="post" action="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask" name="a_form">
+              <form method="post" onSubmit={this.handleSubmitFormAnswer}>
                 <table className="qa-form-tall-table">
                   <tbody>
                   <tr>
@@ -316,51 +364,11 @@ class Answer extends Component {
                       />
                     </td>
                   </tr>
-                  <tr>
-                    <td className="qa-form-tall-label">
-                      Your name to display (optional):
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="qa-form-tall-data">
-                      <input name="a_name" type="text"
-                             className="qa-form-tall-text form-control"/>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="qa-form-tall-label">
-                      <label>
-                        <input name="a_notify" id="a_notify"
-                               type="checkbox" value="1" className="qa-form-tall-checkbox"/>
-                        <span
-                          id="a_email_shown">Email me at this address if my answer is selected or commented on:</span>
-                        <span id="a_email_hidden" style={{display: 'none'}}>Email me if my answer is selected or commented on</span>
-                      </label>
-                    </td>
-                  </tr>
-                  </tbody>
-                  <tbody id="a_email_display">
-                  <tr>
-                    <td className="qa-form-tall-data">
-                      <input name="a_email" id="a_email" type="text"
-                             className="qa-form-tall-text form-control"/>
-                      <div className="qa-form-tall-note">Privacy: Your email address will only be
-                        used for sending these notifications.
-                      </div>
-                    </td>
-                  </tr>
                   </tbody>
                   <tbody>
                   <tr>
                     <td colSpan="1" className="qa-form-tall-buttons">
-                      <button
-                        title="" type="submit"
-                        className="qa-form-tall-button qa-form-tall-button-answer"
-                        data-original-title="">Add answer
-                      </button>
-                      <button name="docancel" title=""
-                              type="submit" className="qa-form-tall-button qa-form-tall-button-cancel"
-                              data-original-title="">Cancel
+                      <button type="submit" className="qa-form-tall-button qa-form-tall-button-answer">Add answer
                       </button>
                     </td>
                   </tr>
