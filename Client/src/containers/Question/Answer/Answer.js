@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react'
+import React, {Component, Fragment} from 'react'
 import ShineClient from '../../../utils/ShineClient/ShineClient'
-import { ShineResponseParser } from '../../../utils/ShineClient/Response'
+import {ShineResponseParser} from '../../../utils/ShineClient/Response'
 import Tag from '../Tag/Tag'
-import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
-import { Editor } from 'react-draft-wysiwyg'
+import {convertFromRaw, convertToRaw, EditorState} from 'draft-js'
+import {Editor} from 'react-draft-wysiwyg'
 import Vote from '../Vote/Vote'
 
 class Answer extends Component {
@@ -208,7 +208,7 @@ class Answer extends Component {
 
     let questionVote = ''
     let tags = ''
-    let title = ''
+    let body = EditorState.createEmpty()
     let answerTag = ''
     const answer = this.state.answers
 
@@ -216,14 +216,13 @@ class Answer extends Component {
       questionVote =
         <Vote onChangeVote={this.handleQuestionVote} vote={this.state.questionVote} postId={this.state.question.id}/>
       tags = <Tag tags={this.state.question.tag_names}/>
-      title = this.state.question.title
+      body = EditorState.createWithContent(convertFromRaw(this.state.question.body))
 
       if (this.state.question.answer_count > 0) {
         answerTag =
           <div className="qa-part-a-list">
             <h2 id="a_list_title"><span itemProp="answerCount">{this.state.question.answer_count}</span> Answer</h2>
             <div className="qa-a-list" id="a_list">
-
 
               {
                 answer.map((item, index) => {
@@ -307,16 +306,22 @@ class Answer extends Component {
         <div className="qa-template-question qa-body-js-on">
           <div className="qa-part-q-view">
             <div className="qa-q-view" id="q1">
-              <form method="post" action="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask">
+              <form method="post" >
                 <div className="qa-q-view-stats">
                   {questionVote}
                 </div>
               </form>
               <div className="qa-q-view-main">
-                <form method="post" action="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask">
+                <form method="post" >
                   <div className="qa-q-view-content qa-post-content">
-                    <a name="1"/>
-                    <div itemProp="text">{title}</div>
+                    <div itemProp="text">
+                        <Editor
+                          toolbarHidden="true"
+                          readOnly="true"
+                          editorState={body}
+                          editorClassName="answer-editor"
+                        />
+                    </div>
                   </div>
                   {tags}
                   <span className="qa-q-view-avatar-meta">
@@ -354,9 +359,6 @@ class Answer extends Component {
                             data-original-title="Answer this question">answer
                     </button>
                   </div>
-                  <input name="code" type="hidden"
-                         value="0-1542193599-0c728c53f25f18ce6f962a1d743142c68f013db7"/>
-                  <input name="qa_click" type="hidden"/>
                 </form>
                 <div className="qa-q-view-c-list" style={{display: 'none'}} id="c1_list">
                 </div>
