@@ -19,7 +19,7 @@ class App extends Component {
           <Layout path="/question" component={Question} titleOfPage='Recent questions'/>
           <Layout path="/ask" component={Ask} titleOfPage='Ask a question'/>
           <Layout path="/un-answered" component={UnAnswered} titleOfPage='Recent questions without answers'/>
-          <Layout path="/answer/:questionId" component={Answer} titleOfPage='Recent questions without answers'/>
+          <Layout path="/answer/:questionId/:title" component={Answer} />
           <Layout component={ERROR} titleOfPage='Error in response'/>
         </Switch>
 

@@ -28,6 +28,10 @@ class Answer extends Component {
 
   }
 
+   getTitle () {
+    return 'answer title'
+  }
+
   getQuestionDetail () {
     const {questionId} = this.state
 
