@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
-import AUX from '../../hoc/_Aux'
+import React, { Component, Fragment } from 'react'
 
 class Footer extends Component {
   render () {
     return (
-      <AUX>
+      <Fragment>
         <div className="donut-site-stats-bottom">
           <div className="container">
             <div className="row">
@@ -45,10 +44,10 @@ class Footer extends Component {
             </div>
           </div>
         </footer>
-        <div style={{position:'absolute', left:'-9999px', top:'-9999px'}}>
+        <div style={{position: 'absolute', left: '-9999px', top: '-9999px'}}>
           <span id="qa-waiting-template" className="qa-waiting fa fa-spinner fa-spin"></span>
         </div>
-      </AUX>
+      </Fragment>
     )
   }
 }

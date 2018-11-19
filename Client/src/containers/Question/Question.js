@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import AUX from '../../hoc/_Aux'
+import React, { Component, Fragment } from 'react'
 import ShineClient from '../../utils/ShineClient/ShineClient'
 import { ShineResponseParser } from '../../utils/ShineClient/Response'
 import Tag from './Tag/Tag'
+import Vote from './Vote/Vote'
 
 class Question extends Component {
   constructor (props) {
@@ -20,11 +20,9 @@ class Question extends Component {
 
   // Event handling
 
-  handleVote (event) {
-    const questionId = event.currentTarget.getAttribute('data-question-id')
-    const isVotingUp = event.currentTarget.getAttribute('data-is-vote-up') === 'true'
-
-    ShineClient.vote(questionId, isVotingUp)
+  handleVote (questionId, isVotingUp, event) {
+    debugger
+    ShineClient.voteQuestion(questionId, isVotingUp)
       .then((JSONResponse) => {
         if (ShineResponseParser.isResponseOk(JSONResponse)) {
           return JSONResponse.json()
@@ -49,11 +47,6 @@ class Question extends Component {
     event.preventDefault()
   }
 
-  componentDidMount () {
-    this.getAllQuestions()
-
-  }
-
   updateQuestion (updatedQuestion) {
 
     const questions = this.state.questions
@@ -63,6 +56,10 @@ class Question extends Component {
 
     questions.splice(foundIndex, 1, updatedQuestion)
     this.setState({questions: questions})
+  }
+
+  componentDidMount () {
+    this.getAllQuestions()
   }
 
   getAllQuestions () {
@@ -94,11 +91,11 @@ class Question extends Component {
     const questions = this.state.questions
 
     return (
-      <AUX>
+      <Fragment>
         <div className="row">
           <div className="pull-left col-xs-12 visible-xs side-toggle-button">
             <button type="button" className="btn btn-primary btn-xs" data-toggle="offcanvas">
-              <i className="fa fa-chevron-right toggle-icon"></i>
+              <i className="fa fa-chevron-right toggle-icon"/>
             </button>
           </div>
         </div>
@@ -106,19 +103,23 @@ class Question extends Component {
           <div className="qa-nav-sub">
             <ul className="qa-nav-sub-list">
               <li className="qa-nav-sub-item qa-nav-sub-recent active">
-                <a href="./index.php?qa=questions" className="qa-nav-sub-link qa-nav-sub-selected">Recent</a>
+                <a href="./index.php?qa=questions"
+                   className="qa-nav-sub-link qa-nav-sub-selected">Recent</a>
               </li>
               <li className="qa-nav-sub-item qa-nav-sub-hot">
                 <a href="./index.php?qa=questions&amp;sort=hot" className="qa-nav-sub-link">Hot!</a>
               </li>
               <li className="qa-nav-sub-item qa-nav-sub-votes">
-                <a href="./index.php?qa=questions&amp;sort=votes" className="qa-nav-sub-link">Most votes</a>
+                <a href="./index.php?qa=questions&amp;sort=votes" className="qa-nav-sub-link">Most
+                  votes</a>
               </li>
               <li className="qa-nav-sub-item qa-nav-sub-answers">
-                <a href="./index.php?qa=questions&amp;sort=answers" className="qa-nav-sub-link">Most answers</a>
+                <a href="./index.php?qa=questions&amp;sort=answers" className="qa-nav-sub-link">Most
+                  answers</a>
               </li>
               <li className="qa-nav-sub-item qa-nav-sub-views">
-                <a href="./index.php?qa=questions&amp;sort=views" className="qa-nav-sub-link">Most views</a>
+                <a href="./index.php?qa=questions&amp;sort=views" className="qa-nav-sub-link">Most
+                  views</a>
               </li>
             </ul>
             <div className="qa-nav-sub-clear clearfix">
@@ -133,36 +134,17 @@ class Question extends Component {
                   return (
                     <div className="qa-q-list-item row" key={item.id} id={'q' + index}>
                       <div className="qa-q-item-stats">
-                        <div className="qa-voting qa-voting-net" id="voting_1">
-                          <div className="qa-vote-buttons qa-vote-buttons-net">
-                            <button title=" Click to vote up" data-is-vote-up="true" data-question-id={item.id}
-                                    onClick={this.handleVote}
-                                    className="qa-vote-first-button qa-vote-up-button">
-                              <span className="fa fa-chevron-up"></span>
-                            </button>
-                            <button title="Click to vote down" data-is-vote-up="false" data-question-id={item.id}
-                                    onClick={this.handleVote}
-                                    className="qa-vote-second-button qa-vote-down-button">
-                              <span className="fa fa-chevron-down"></span>
-                            </button>
-                          </div>
-                          <div className='qa-vote-count qa-vote-count-net'>
-                < span className='qa-netvote-count'>
-                < span className='qa-netvote-count-data'> {item.vote} </span><span
-                  className='qa-netvote-count-pad'> votes </span>
-                </span>
-                          </div>
-                          <div className="qa-vote-clear clearfix">
-                          </div>
-                        </div>
+                        <Vote onChangeVote={this.handleVote}
+                              postId={item.id}
+                              vote={item.vote}/>
                         <span className="qa-a-count">
-              <span className="qa-a-count-data">{item.answer_count}</span><span
-                          className="qa-a-count-pad"> answer</span>
-              </span>
+                         <span className="qa-a-count-data">{item.answer_count}</span>
+                            <span className="qa-a-count-pad"> answer</span>
+                        </span>
                       </div>
                       <div className="qa-q-item-main">
                         <div className="qa-q-item-title">
-                          <a href="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask">{item.title}</a>
+                          <a href={`./answer/${item.id}/${item.title}`}>{item.title}</a>
                         </div>
                         <span className="qa-q-item-avatar-meta">
                           <span className="qa-q-item-meta">
@@ -194,7 +176,7 @@ class Question extends Component {
           Help get things started by <a href="./index.php?qa=ask">asking a question</a>.
         </div>
 
-      </AUX>
+      </Fragment>
     )
   }
 
