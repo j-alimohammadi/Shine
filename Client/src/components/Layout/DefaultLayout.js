@@ -26,7 +26,7 @@ const defaultLayout = ({component: Component, ...rest}) => {
             <div className="page-title">
               <h1>
                 {
-                  titleOfPage(rest.titleOfPage, matchProps.match, Component)
+                    rest.titleOfPage
                 }
               </h1>
             </div>

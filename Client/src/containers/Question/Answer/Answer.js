@@ -5,6 +5,7 @@ import Tag from '../Tag/Tag'
 import {convertFromRaw, convertToRaw, EditorState} from 'draft-js'
 import {Editor} from 'react-draft-wysiwyg'
 import Vote from '../Vote/Vote'
+import Search from "../../Search/Search";
 
 class Answer extends Component {
   constructor (props) {
@@ -214,6 +215,7 @@ class Answer extends Component {
     let tags = ''
     let body = EditorState.createEmpty()
     let answerTag = ''
+    let questionTitle=''
     const answer = this.state.answers
 
     if (this.state.question) {
@@ -221,7 +223,7 @@ class Answer extends Component {
         <Vote onChangeVote={this.handleQuestionVote} vote={this.state.questionVote} postId={this.state.question.id}/>
       tags = <Tag tags={this.state.question.tag_names}/>
       body = EditorState.createWithContent(convertFromRaw(this.state.question.body))
-
+      questionTitle =this.state.question.title
       if (this.state.question.answer_count > 0) {
         answerTag =
           <div className="qa-part-a-list">
@@ -307,28 +309,44 @@ class Answer extends Component {
     return (
 
       <Fragment>
-        <div className="qa-template-question qa-body-js-on">
-          <div className="qa-part-q-view">
-            <div className="qa-q-view" id="q1">
-              <form method="post" >
-                <div className="qa-q-view-stats">
-                  {questionVote}
-                </div>
-              </form>
-              <div className="qa-q-view-main">
-                <form method="post" >
-                  <div className="qa-q-view-content qa-post-content">
-                    <div itemProp="text">
-                        <Editor
-                          toolbarHidden="true"
-                          readOnly="true"
-                          editorState={body}
-                          editorClassName="answer-editor"
-                        />
-                    </div>
+          <main className="donut-masthead">
+              <div className="container">
+                  <div className="page-title">
+                      <h1>
+                          {
+                              questionTitle
+                          }
+                      </h1>
                   </div>
-                  {tags}
-                  <span className="qa-q-view-avatar-meta">
+              </div>
+          </main>
+
+          <div className="qa-body-wrapper container">
+              <div className="qa-main-shadow clearfix">
+                  <div className="qa-main-wrapper clearfix row">
+                      <div className="qa-main col-md-9 col-xs-12 pull-left">
+                          <div className="qa-template-question qa-body-js-on">
+                              <div className="qa-part-q-view">
+                                  <div className="qa-q-view" id="q1">
+                                      <form method="post" >
+                                          <div className="qa-q-view-stats">
+                                              {questionVote}
+                                          </div>
+                                      </form>
+                                      <div className="qa-q-view-main">
+                                          <form method="post" >
+                                              <div className="qa-q-view-content qa-post-content">
+                                                  <div itemProp="text">
+                                                      <Editor
+                                                        toolbarHidden="true"
+                                                        readOnly="true"
+                                                        editorState={body}
+                                                        editorClassName="answer-editor"
+                                                      />
+                                                  </div>
+                                              </div>
+                                              {tags}
+                                              <span className="qa-q-view-avatar-meta">
                                 <span className="qa-q-view-meta">
                                 <a href="./index.php?qa=1&amp;qa_1=this-is-an-question-to-ask"
                                    className="qa-q-view-what">asked</a>
@@ -345,68 +363,76 @@ class Answer extends Component {
                                 </span>
                                 </span>
                                 </span>
-                  <div className="qa-q-view-buttons">
-                    <button name="q_doedit" title="" type="submit"
-                            className="qa-form-light-button qa-form-light-button-edit"
-                            data-original-title="Edit this question">edit
-                    </button>
-                    <button name="q_doclose" title="" type="submit"
-                            className="qa-form-light-button qa-form-light-button-close"
-                            data-original-title="Close this question to any new answers">close
-                    </button>
-                    <button name="q_dohide" title=""
-                            type="submit" className="qa-form-light-button qa-form-light-button-hide"
-                            data-original-title="Hide this question">hide
-                    </button>
-                    <button name="q_doanswer" id="q_doanswer" title="" type="submit"
-                            className="qa-form-light-button qa-form-light-button-answer"
-                            data-original-title="Answer this question">answer
-                    </button>
+                                              <div className="qa-q-view-buttons">
+                                                  <button name="q_doedit" title="" type="submit"
+                                                          className="qa-form-light-button qa-form-light-button-edit"
+                                                          data-original-title="Edit this question">edit
+                                                  </button>
+                                                  <button name="q_doclose" title="" type="submit"
+                                                          className="qa-form-light-button qa-form-light-button-close"
+                                                          data-original-title="Close this question to any new answers">close
+                                                  </button>
+                                                  <button name="q_dohide" title=""
+                                                          type="submit" className="qa-form-light-button qa-form-light-button-hide"
+                                                          data-original-title="Hide this question">hide
+                                                  </button>
+                                                  <button name="q_doanswer" id="q_doanswer" title="" type="submit"
+                                                          className="qa-form-light-button qa-form-light-button-answer"
+                                                          data-original-title="Answer this question">answer
+                                                  </button>
+                                              </div>
+                                          </form>
+                                          <div className="qa-q-view-c-list" style={{display: 'none'}} id="c1_list">
+                                          </div>
+
+                                          <div className="qa-c-form">
+                                          </div>
+
+                                      </div>
+
+                                      <div className="qa-q-view-clear clearfix">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div className="qa-part-a-form">
+                                  <div className="qa-a-form" id="anew">
+                                      <h2>Your answer</h2>
+                                      <form method="post" onSubmit={this.handleSubmitFormAnswer}>
+                                          <table className="qa-form-tall-table">
+                                              <tbody>
+                                              <tr>
+                                                  <td className="qa-form-tall-data">
+                                                      <Editor
+                                                        editorState={editorState}
+                                                        editorClassName="ask-editor"
+                                                        onEditorStateChange={this.handleAnswerChange}
+                                                      />
+                                                  </td>
+                                              </tr>
+                                              </tbody>
+                                              <tbody>
+                                              <tr>
+                                                  <td colSpan="1" className="qa-form-tall-buttons">
+                                                      <button type="submit" className="qa-form-tall-button qa-form-tall-button-answer">Add answer
+                                                      </button>
+                                                  </td>
+                                              </tr>
+                                              </tbody>
+                                          </table>
+                                          <input name="a_editor" type="hidden" value="WYSIWYG Editor"/>
+                                      </form>
+                                  </div>
+                              </div>
+                              {answerTag}
+                          </div>
+
+                      </div>
+                      <div className="qa-sidepanel col-md-3 col-xs-12 pull-right">
+                          <Search/>
+                      </div>
                   </div>
-                </form>
-                <div className="qa-q-view-c-list" style={{display: 'none'}} id="c1_list">
-                </div>
-
-                <div className="qa-c-form">
-                </div>
-
               </div>
-
-              <div className="qa-q-view-clear clearfix">
-              </div>
-            </div>
           </div>
-          <div className="qa-part-a-form">
-            <div className="qa-a-form" id="anew">
-              <h2>Your answer</h2>
-              <form method="post" onSubmit={this.handleSubmitFormAnswer}>
-                <table className="qa-form-tall-table">
-                  <tbody>
-                  <tr>
-                    <td className="qa-form-tall-data">
-                      <Editor
-                        editorState={editorState}
-                        editorClassName="ask-editor"
-                        onEditorStateChange={this.handleAnswerChange}
-                      />
-                    </td>
-                  </tr>
-                  </tbody>
-                  <tbody>
-                  <tr>
-                    <td colSpan="1" className="qa-form-tall-buttons">
-                      <button type="submit" className="qa-form-tall-button qa-form-tall-button-answer">Add answer
-                      </button>
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
-                <input name="a_editor" type="hidden" value="WYSIWYG Editor"/>
-              </form>
-            </div>
-          </div>
-          {answerTag}
-        </div>
       </Fragment>
 
     )

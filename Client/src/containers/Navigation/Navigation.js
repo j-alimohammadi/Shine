@@ -29,7 +29,7 @@ class Navigation extends Component {
                 <button type="button" className="navbar-toggle collapsed" data-toggle="collapse"
                         data-target=".navbar-collapse">
                   <span className="sr-only">Toggle navigation</span>
-                  <span className="glyphicon glyphicon-menu-hamburger"></span>
+                  <span className="glyphicon glyphicon-menu-hamburger"/>
                 </button>
               </div>
               <div className="col-sm-3 col-xs-8 logo-wrapper">
@@ -47,27 +47,27 @@ class Navigation extends Component {
                       <li className="dropdown-header">Signed in as javad</li>
                       <li>
                         <a href="./index.php?qa=user&amp;qa_1=javad">
-                          <span className="fa fa-user"></span>
+                          <span className="fa fa-user"/>
                           javad </a>
                       </li>
                       <li>
                         <a href="./index.php?qa=messages">
-                          <span className="fa fa-envelope"></span>
+                          <span className="fa fa-envelope"/>
                           Private messages </a>
                       </li>
                       <li>
                         <a href="./index.php?qa=user&amp;qa_1=javad">
-                          <span className="fa fa-money"></span>
+                          <span className="fa fa-money"/>
                           100 Points </a>
                       </li>
                       <li>
                         <a href="./index.php?qa=updates">
-                          <span className="fa fa-bell-o"></span>
+                          <span className="fa fa-bell-o"/>
                           My Updates </a>
                       </li>
                       <li>
                         <a href="./index.php?qa=logout">
-                          <span className="fa fa-sign-out"></span>
+                          <span className="fa fa-sign-out"/>
                           Logout </a>
                       </li>
                     </ul>
