@@ -16,6 +16,9 @@ public class Question extends Post {
     @Column(name = "TITLE")
     private String title;
 
+    @Column(name = "URL_ADDRESS")
+    private String questionAddress;
+
     @Column(name = "VIEW_COUNT")
     private Long viewCount;
 
@@ -76,6 +79,14 @@ public class Question extends Post {
 
     public void setAnswerCount(Long answerCount) {
         this.answerCount = answerCount;
+    }
+
+    public String getQuestionAddress() {
+        return questionAddress;
+    }
+
+    public void setQuestionAddress(String questionAddress) {
+        this.questionAddress = questionAddress;
     }
 
     @Override

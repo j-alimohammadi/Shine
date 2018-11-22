@@ -1,5 +1,6 @@
 package com.shine.core.service;
 
+import com.shine.common.web.TextUtility;
 import com.shine.core.dao.QuestionDao;
 import com.shine.core.domain.Answer;
 import com.shine.core.domain.Question;
@@ -41,6 +42,9 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Question createQuestion(Question question) {
         question.setCreatedTimeStamp(new Date());
+        question.setTitle(TextUtility.normalizeText(question.getTitle()));
+        question.setQuestionAddress(TextUtility.normalizeToURL(question.getTitle()));
+
         question = questionDao.createOrUpdate(question);
 
         if (CollectionUtils.isNotEmpty(question.getTagList())) {
@@ -84,6 +88,8 @@ public class QuestionServiceImpl implements QuestionService {
 
 
         question.setEditedTimeStamp(new Date());
+        question.setTitle(TextUtility.normalizeText(question.getTitle()));
+        question.setQuestionAddress(TextUtility.normalizeToURL(question.getTitle()));
         question = questionDao.createOrUpdate(question);
 
 
