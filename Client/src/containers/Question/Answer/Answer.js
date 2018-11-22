@@ -246,7 +246,6 @@ class Answer extends Component {
         errors.set('answerBody', validationResult.answerBodyValidation)
       }
     }
-    debugger
     return errors
 
   }
@@ -255,7 +254,6 @@ class Answer extends Component {
     event.preventDefault()
 
     let errors = this.validateForm()
-    debugger
     this.setState({errors: errors})
 
     if (errors.size === 0) {
