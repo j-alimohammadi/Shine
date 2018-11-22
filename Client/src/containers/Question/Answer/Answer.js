@@ -6,6 +6,24 @@ import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
 import Vote from '../Vote/Vote'
 import Search from '../../Search/Search'
+import validate from 'validate.js'
+import ValidationErrorMessage from '../../../components/form/ValidationErrorMessage'
+
+const constraints = {
+  answerBodyValidation: {
+    presence: {
+      message: '^Please provide more information - at least 12 characters',
+      allowEmpty: false
+    },
+    length: {
+      minimum: 12,
+      tooShort: '^Please provide more information - at least 12 characters',
+      tokenizer: function (value) {
+        return value.trim()
+      }
+    }
+  }
+}
 
 class Answer extends Component {
   constructor (props) {
@@ -18,7 +36,8 @@ class Answer extends Component {
       answers: [],
       questionVote: -1,
       answerVote: -1,
-      answerBody: ''
+      answerBody: '',
+      errors: new Map()
     }
 
     // Event handler
@@ -217,35 +236,56 @@ class Answer extends Component {
 
   }
 
+  validateForm () {
+    const answerBody = this.state.editorState.getCurrentContent().getPlainText();
+
+    const validationResult = validate({answerBodyValidation: answerBody}, constraints)
+    const errors = new Map()
+    if (validationResult !== undefined) {
+      if (validationResult.hasOwnProperty('answerBodyValidation')) {
+        errors.set('answerBody', validationResult.answerBodyValidation)
+      }
+    }
+    debugger
+    return errors
+
+  }
+
   handleSubmitFormAnswer (event) {
     event.preventDefault()
 
-    const answerContent = convertToRaw(this.state.editorState.getCurrentContent())
-    const questionId = this.state.questionId
+    let errors = this.validateForm()
+    debugger
+    this.setState({errors: errors})
 
-    const answerObject = {}
-    answerObject['body'] = answerContent
-    answerObject['question_id'] = questionId
+    if (errors.size === 0) {
+      const answerContent = convertToRaw(this.state.editorState.getCurrentContent())
+      const questionId = this.state.questionId
 
-    ShineClient.createAnswer(answerObject)
-      .then((JSONResponse) => {
-        if (ShineResponseParser.isResponseOk(JSONResponse)) {
-          this.setState({goToQuestionPage: true, editorState: EditorState.createEmpty()})
-          this.getAnswerForQuestion()
-        } else {
-          throw new Error('Something bad happened.')
-        }
-      })
-      .catch((error) => {
-        this.setState({
-            alert: {
-              alertMessage: `Failed to get table information. Error in connecting to server.`,
-              showAlert: true,
-              alertType: 'danger'
-            }
+      const answerObject = {}
+      answerObject['body'] = answerContent
+      answerObject['question_id'] = questionId
+
+      ShineClient.createAnswer(answerObject)
+        .then((JSONResponse) => {
+          if (ShineResponseParser.isResponseOk(JSONResponse)) {
+            this.setState({goToQuestionPage: true, editorState: EditorState.createEmpty()})
+            this.getAnswerForQuestion()
+          } else {
+            throw new Error('Something bad happened.')
           }
-        )
-      })
+        })
+        .catch((error) => {
+          this.setState({
+              alert: {
+                alertMessage: `Failed to get table information. Error in connecting to server.`,
+                showAlert: true,
+                alertType: 'danger'
+              }
+            }
+          )
+        })
+    }
 
   }
 
@@ -392,6 +432,7 @@ class Answer extends Component {
                                 editorClassName="answer-editor"
                               />
                             </div>
+
                           </div>
                           {tags}
                           <span className="qa-q-view-avatar-meta">
@@ -454,6 +495,7 @@ class Answer extends Component {
                                 editorClassName="ask-editor"
                                 onEditorStateChange={this.handleAnswerChange}
                               />
+                              <ValidationErrorMessage errors={this.state.errors.get('answerBody')}/>
                             </td>
                           </tr>
                           </tbody>
