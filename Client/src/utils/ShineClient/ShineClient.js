@@ -22,6 +22,17 @@ class ShineClient {
     return ShineHttpClient.getData(url)
   }
 
+  static createQuestion (questionObject) {
+    const url = `${PATH_BASE}/${QUESTIONS_PATH}`
+    return ShineHttpClient.postData(url, questionObject)
+
+  }
+
+  static acceptAnswer (questionId, answerId) {
+    const url = `${PATH_BASE}/${QUESTIONS_PATH}/${questionId}/accept/answer/${answerId}`
+    return ShineHttpClient.putData(url)
+  }
+
   static voteQuestion (questionId, isVotingUp) {
     let url
 
@@ -32,12 +43,6 @@ class ShineClient {
     }
 
     return ShineHttpClient.putData(url, '')
-
-  }
-
-  static createQuestion (questionObject) {
-    const url = `${PATH_BASE}/${QUESTIONS_PATH}`
-    return ShineHttpClient.postData(url, questionObject)
 
   }
 
@@ -52,6 +57,12 @@ class ShineClient {
     return answers
   }
 
+  static createAnswer (answerObject) {
+    const url = `${PATH_BASE}/${ANSWER_PATH}`
+    return ShineHttpClient.postData(url, answerObject)
+
+  }
+
   static voteAnswer (answerId, isVotingUp) {
     let url
 
@@ -62,12 +73,6 @@ class ShineClient {
     }
 
     return ShineHttpClient.putData(url, '')
-
-  }
-
-  static createAnswer (answerObject) {
-    const url = `${PATH_BASE}/${ANSWER_PATH}`
-    return ShineHttpClient.postData(url, answerObject)
 
   }
 

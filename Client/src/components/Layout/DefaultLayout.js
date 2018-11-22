@@ -4,15 +4,6 @@ import Footer from '../../containers/Footer/Footer'
 import { Route } from 'react-router-dom'
 import Search from '../../containers/Search/Search'
 
-function titleOfPage (titleOfPage, titlePath, Component) {
-
-  if (titleOfPage)
-    return titleOfPage
-
-  return titlePath.params.title
-
-}
-
 const defaultLayout = ({component: Component, ...rest}) => {
 
   return (
