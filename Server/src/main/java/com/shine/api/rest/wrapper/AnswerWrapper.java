@@ -91,7 +91,7 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
         answer.setBody(JSONMapper.createJSON(body));
         answer.setId(id);
         answer.setQuestion(questionService.findQuestionById(questionId));
-
+        answer.setAccepted(BooleanUtils.toBoolean(isAnswerAccept));
         return answer;
     }
 
@@ -100,7 +100,7 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
         this.id = answer.getId();
         this.body = JSONMapper.createHashMapFromJSON(answer.getBody());
         this.vote = answer.getVote();
-        this.isAnswerAccept = BooleanUtils.isTrue(answer.getAccepted());
+        this.isAnswerAccept = BooleanUtils.toBoolean(answer.getAccepted());
 
     }
 }
