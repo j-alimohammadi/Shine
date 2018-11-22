@@ -35,7 +35,7 @@ class Ask extends Component {
       editorState: EditorState.createEmpty(),
       questionTitle: '',
       questionTag: '',
-      toQuestionPage: false,
+      goToQuestionPage: false,
       errors: new Map()
     }
 
@@ -79,7 +79,7 @@ class Ask extends Component {
       ShineClient.createQuestion(questionObject)
         .then((JSONResponse) => {
           if (ShineResponseParser.isResponseOk(JSONResponse)) {
-            this.setState({toQuestionPage: true})
+            this.setState({goToQuestionPage: true})
           } else {
             throw new Error('Something bad happened.')
           }
@@ -137,7 +137,7 @@ class Ask extends Component {
   render () {
     const {editorState} = this.state
 
-    if (this.state.toQuestionPage) {
+    if (this.state.goToQuestionPage) {
       return (<Redirect to='/question'/>)
     }
 
