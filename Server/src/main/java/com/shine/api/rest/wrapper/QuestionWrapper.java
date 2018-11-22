@@ -11,6 +11,7 @@ import com.shine.core.domain.Tag;
 import com.shine.core.service.QuestionService;
 import com.shine.core.service.TagService;
 import com.shine.core.service.TagServiceImpl;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -115,7 +116,7 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
         Question question = questionService.createQuestionFromId(this.id);
         question.setBody(JSONMapper.createJSON(body));
         question.setTitle(title);
-        question.setVote(vote);
+        question.setVote(ObjectUtils.defaultIfNull(vote, 0L));
         question.setTagList(tagList);
 
         return question;
