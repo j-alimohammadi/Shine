@@ -5,9 +5,10 @@
     <named-query name="readAnswerForQuestion">
         <query>
             <![CDATA[
-                 SELECT answerList FROM Question AS question
-                 JOIN question.answerList AS answerList
-                 WHERE question.id = :questionId
+                SELECT answer FROM Answer AS answer
+                JOIN answer.question AS question
+                WHERE question.id = :questionId
+                ORDER BY answer.accepted DESC 
              ]]>
         </query>
     </named-query>

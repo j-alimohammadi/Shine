@@ -30,14 +30,22 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Transactional
     @Override
-    public Answer saveOrUpdateAnswer(Answer answer) {
+    public Answer saveAnswer(Answer answer) {
         answer.setCreatedTimeStamp(new Date());
         answer = answerDao.createOrUpdate(answer);
         questionService.addAnswerCount(answer.getQuestion().getId(), 1L);
 
-        log.info("Created/Updated answer with id [{}] successfully", answer.getId());
+        log.info("Created answer with id [{}] successfully", answer.getId());
         return answer;
 
+    }
+
+    @Transactional
+    @Override
+    public Answer updateAnswer(Answer answer) {
+        answer = answerDao.createOrUpdate(answer);
+        log.info("Updated answer with id [{}] successfully", answer.getId());
+        return answer;
     }
 
     @Override

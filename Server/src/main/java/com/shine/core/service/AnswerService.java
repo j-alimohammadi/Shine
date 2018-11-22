@@ -9,7 +9,9 @@ import java.util.List;
  */
 
 public interface AnswerService {
-    Answer saveOrUpdateAnswer(Answer answer);
+    Answer saveAnswer(Answer answer);
+
+    Answer updateAnswer(Answer answer);
 
     Answer createAnswerFromId(Long id);
 

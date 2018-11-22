@@ -25,7 +25,6 @@ public class Answer extends Post {
         this.accepted = accepted;
     }
 
-
     public Question getQuestion() {
         return question;
     }

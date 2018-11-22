@@ -147,7 +147,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         answer.setAccepted(true);
         log.debug("Accepted answer [{}] for question [{}]", answer, answer.getQuestion());
-        answerService.saveOrUpdateAnswer(answer);
+        answerService.updateAnswer(answer);
 
         return answer;
     }
