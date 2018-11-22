@@ -136,16 +136,8 @@ class Answer extends Component {
         }
       })
       .then((acceptedAnswer) => {
-        const answers = this.state.answers
-        for (let answer of answers) {
-          if (answer.id === acceptedAnswer.id) {
-            answer.isAnswerAccept = true
-          } else {
-            answer.isAnswerAccept = false
-          }
-        }
-
-        this.setState({answers: answers})
+        this.getQuestionDetail()
+        this.getAnswerForQuestion()
 
       })
       .catch((error) => {
@@ -237,7 +229,7 @@ class Answer extends Component {
   }
 
   validateForm () {
-    const answerBody = this.state.editorState.getCurrentContent().getPlainText();
+    const answerBody = this.state.editorState.getCurrentContent().getPlainText()
 
     const validationResult = validate({answerBodyValidation: answerBody}, constraints)
     const errors = new Map()
