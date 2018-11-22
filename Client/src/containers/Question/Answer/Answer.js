@@ -96,6 +96,17 @@ class Answer extends Component {
   handleAcceptAnswer (questionId, answerId, event) {
     event.preventDefault()
 
+    const isAnswerFound = this.state.answers
+      .filter(answer => {
+
+      })
+      .map(answwer => {return true})
+      .length > 0
+
+    if (isAnswerFound) {
+      return
+    }
+
     ShineClient.acceptAnswer(questionId, answerId)
       .then((JSONResponse) => {
 

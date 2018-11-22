@@ -144,7 +144,7 @@ class Question extends Component {
                       </div>
                       <div className="qa-q-item-main">
                         <div className="qa-q-item-title">
-                          <a href={`./answer/${item.id}/${item.title}`}>{item.title}</a>
+                          <a href={`./answer/${item.id}/${item.question_url}`}>{item.title}</a>
                         </div>
                         <span className="qa-q-item-avatar-meta">
                           <span className="qa-q-item-meta">
