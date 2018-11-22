@@ -33,4 +33,12 @@ public class Answer extends Post {
     public void setQuestion(Question question) {
         this.question = question;
     }
+
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "id= '" + getId() + '\'' +
+                "} ";
+    }
+
 }

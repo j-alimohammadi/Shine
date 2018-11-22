@@ -2,10 +2,12 @@ package com.shine.api.rest.endpoint.question;
 
 import com.shine.api.rest.endpoint.BaseEndpoint;
 import com.shine.api.rest.exception.ShineRestException;
+import com.shine.api.rest.wrapper.AnswerWrapper;
 import com.shine.api.rest.wrapper.QuestionWrapper;
+import com.shine.core.domain.Answer;
 import com.shine.core.domain.Question;
+import com.shine.core.service.AnswerService;
 import com.shine.core.service.QuestionService;
-import com.shine.core.service.TagService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,12 +31,12 @@ import java.util.Objects;
 public class QuestionEndPoint extends BaseEndpoint {
     private final static Logger log = LoggerFactory.getLogger(QuestionEndPoint.class);
 
-
     @Resource
     private QuestionService questionService;
 
     @Resource
-    private TagService tagService;
+    private AnswerService answerService;
+
 
     @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public QuestionWrapper createNewQuestion(HttpServletRequest httpServletRequest,
@@ -156,6 +158,34 @@ public class QuestionEndPoint extends BaseEndpoint {
 
         QuestionWrapper response = applicationContext.getBean(QuestionWrapper.class);
         response.wrap(question, httpServletRequest);
+
+        return response;
+
+    }
+
+
+    @PutMapping(path = "/{question-id}/accept/answer/{answer-id}")
+    public AnswerWrapper acceptAnswer(@PathVariable("question-id") Long questionId,
+                                      @PathVariable("answer-id") Long answerId,
+                                      HttpServletRequest httpServletRequest) {
+
+        Question question = questionService.findQuestionById(questionId);
+        Answer answer = answerService.findAnswerById(answerId);
+
+        if (Objects.isNull(question)) {
+            throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+                    .addMessage(ShineRestException.INVALID_QUESTION_ID);
+        }
+
+        if (Objects.isNull(answer)) {
+            throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+                    .addMessage(ShineRestException.INVALID_ANSWER_ID);
+        }
+
+
+        Answer acceptedAnswer = questionService.acceptAnswer(answer);
+        AnswerWrapper response = applicationContext.getBean(AnswerWrapper.class);
+        response.wrap(acceptedAnswer, httpServletRequest);
 
         return response;
 

@@ -4,11 +4,9 @@ import com.shine.api.rest.endpoint.BaseEndpoint;
 import com.shine.api.rest.exception.ShineRestException;
 import com.shine.api.rest.wrapper.AnswerWrapper;
 import com.shine.core.domain.Answer;
-import com.shine.core.domain.Question;
 import com.shine.core.service.AnswerService;
 import com.shine.core.service.QuestionService;
 import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -148,11 +146,11 @@ public class AnswerEndPoint extends BaseEndpoint {
     @PutMapping(path = "/{answer-id}/vote/increment")
     public AnswerWrapper incrementVote(@PathVariable("answer-id") Long questionId,
                                        HttpServletRequest httpServletRequest) {
-        Answer question = answerService.findAnswerById(questionId);
-        answerService.voteUp(question);
+        Answer foundAnswer = answerService.findAnswerById(questionId);
+        answerService.voteUp(foundAnswer);
 
         AnswerWrapper response = applicationContext.getBean(AnswerWrapper.class);
-        response.wrap(question, httpServletRequest);
+        response.wrap(foundAnswer, httpServletRequest);
 
         return response;
 
@@ -161,14 +159,15 @@ public class AnswerEndPoint extends BaseEndpoint {
     @PutMapping(path = "/{answer-id}/vote/decrement")
     public AnswerWrapper decrementVote(@PathVariable("answer-id") Long questionId,
                                        HttpServletRequest httpServletRequest) {
-        Answer question = answerService.findAnswerById(questionId);
-        answerService.voteDown(question);
+        Answer foundAnswer = answerService.findAnswerById(questionId);
+        answerService.voteDown(foundAnswer);
 
         AnswerWrapper response = applicationContext.getBean(AnswerWrapper.class);
-        response.wrap(question, httpServletRequest);
+        response.wrap(foundAnswer, httpServletRequest);
 
         return response;
 
     }
+
 
 }

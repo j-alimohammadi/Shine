@@ -12,4 +12,5 @@ import java.util.List;
 public interface QuestionDao extends DAO<Question> {
     List<Question> findQuestion(int offset, int limit);
 
+    int rejectAllAnswerForQuestion(Long questionId);
 }

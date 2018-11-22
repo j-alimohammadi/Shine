@@ -9,4 +9,15 @@
              ]]>
         </query>
     </named-query>
+
+    <named-query name="rejectAllAnswers">
+        <query>
+            <![CDATA[
+                 UPDATE Answer answer
+                 set accepted = FALSE
+                 WHERE answer.question.id= :questionId
+
+             ]]>
+        </query>
+    </named-query>
 </entity-mappings>

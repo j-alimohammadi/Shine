@@ -1,10 +1,12 @@
 package com.shine.core.dao;
 
 import com.shine.common.persistence.genericDao.AbstractDao;
+import com.shine.core.domain.Answer;
 import com.shine.core.domain.Question;
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -20,5 +22,15 @@ public class QuestionDaoImpl extends AbstractDao<Question> implements QuestionDa
         TypedQuery<Question> question = entityManager.createNamedQuery("findQuestion", Question.class);
         question.setFirstResult(offset).setMaxResults(limit);
         return ListUtils.emptyIfNull(question.getResultList());
+    }
+
+    @Override
+    public int rejectAllAnswerForQuestion(Long questionId) {
+        Query rejectAllAnswers = entityManager.createNamedQuery("rejectAllAnswers");
+
+        rejectAllAnswers.setParameter("questionId", questionId);
+
+        return rejectAllAnswers.executeUpdate();
+
     }
 }

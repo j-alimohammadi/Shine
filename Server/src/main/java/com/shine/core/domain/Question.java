@@ -23,7 +23,6 @@ public class Question extends Post {
     private Long answerCount = 0L;
 
 
-
     @OneToMany(mappedBy = "question")
     private List<Answer> answerList = new ArrayList<>();
 
@@ -77,5 +76,13 @@ public class Question extends Post {
 
     public void setAnswerCount(Long answerCount) {
         this.answerCount = answerCount;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id= '" + getId() + '\'' +
+                "title='" + title + '\'' +
+                "} ";
     }
 }

@@ -23,8 +23,8 @@ public interface AnswerService {
 
     List<Answer> findAllAnswers(int answerOffset, int answerLimit);
 
-    Long voteUp(Answer question);
+    Long voteUp(Answer answer);
 
-    Long voteDown(Answer question);
+    Long voteDown(Answer answer);
 
 }

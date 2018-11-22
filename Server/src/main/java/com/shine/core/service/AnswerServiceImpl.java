@@ -103,4 +103,5 @@ public class AnswerServiceImpl implements AnswerService {
         return updateAnswer.getVote();
 
     }
+
 }

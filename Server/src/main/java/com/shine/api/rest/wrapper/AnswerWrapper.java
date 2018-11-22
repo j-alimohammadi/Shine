@@ -10,6 +10,7 @@ import com.shine.common.utils.JSONMapper;
 import com.shine.core.domain.Answer;
 import com.shine.core.service.AnswerServiceImpl;
 import com.shine.core.service.QuestionServiceImpl;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -26,17 +27,20 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, APIWrapper<Answer> {
 
-    @JsonProperty
+    @JsonProperty("id")
     private Long id;
 
-    @JsonProperty
+    @JsonProperty("body")
     private Map<String, Object> body;
 
     @JsonProperty("question_id")
     private Long questionId;
 
-    @JsonProperty
+    @JsonProperty("vote")
     private Long vote;
+
+    @JsonProperty("is_answer_accept")
+    private Boolean isAnswerAccept;
 
     public Long getId() {
         return id;
@@ -70,6 +74,14 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
         this.vote = vote;
     }
 
+    public Boolean getAnswerAccept() {
+        return isAnswerAccept;
+    }
+
+    public void setAnswerAccept(Boolean answerAccept) {
+        isAnswerAccept = answerAccept;
+    }
+
     @Override
     public Answer unwrap(HttpServletRequest request, ApplicationContext context) {
         final AnswerServiceImpl answerService = context.getBean(AnswerServiceImpl.class);
@@ -88,6 +100,7 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
         this.id = answer.getId();
         this.body = JSONMapper.createHashMapFromJSON(answer.getBody());
         this.vote = answer.getVote();
+        this.isAnswerAccept = BooleanUtils.isTrue(answer.getAccepted());
 
     }
 }

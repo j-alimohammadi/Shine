@@ -1,6 +1,7 @@
 package com.shine.core.service;
 
 import com.shine.core.dao.QuestionDao;
+import com.shine.core.domain.Answer;
 import com.shine.core.domain.Question;
 import com.shine.core.domain.Tag;
 import org.apache.commons.collections4.CollectionUtils;
@@ -25,6 +26,9 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Resource
     private QuestionDao questionDao;
+
+    @Resource
+    private AnswerService answerService;
 
     @Resource
     private PostService postService;
@@ -122,6 +126,24 @@ public class QuestionServiceImpl implements QuestionService {
         questionDao.update(updateQuestion);
         return updateQuestion.getVote();
 
+    }
+
+    @Transactional
+    @Override
+    public Answer acceptAnswer(Answer answer) {
+        if (answer.getAccepted()) {
+            log.info("Answer [{}] is already accepted. Nothing to do.", answer);
+            return answer;
+        }
+
+        questionDao.rejectAllAnswerForQuestion(answer.getQuestion().getId());
+        log.debug("Rejected all answer for question [{}]", answer.getQuestion());
+
+        answer.setAccepted(true);
+        log.debug("Accepted answer [{}] for question [{}]", answer, answer.getQuestion());
+        answerService.updateAnswer(answer);
+
+        return answer;
     }
 
 

@@ -1,5 +1,6 @@
 package com.shine.core.service;
 
+import com.shine.core.domain.Answer;
 import com.shine.core.domain.Question;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface QuestionService {
     Long voteUp(Question question);
 
     Long voteDown(Question question);
+
+    Answer acceptAnswer(Answer answer);
 }

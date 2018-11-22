@@ -32,4 +32,6 @@ public class AnswerDaoImpl extends AbstractDao<Answer> implements AnswerDao {
         return ListUtils.emptyIfNull(answer.getResultList());
 
     }
+
+
 }
