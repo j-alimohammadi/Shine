@@ -50,7 +50,7 @@ public class AnswerEndPoint extends BaseEndpoint {
 
         Answer answer = answerWrapper.unwrap(httpServletRequest, applicationContext);
 
-        answer = answerService.createAnswer(answer);
+        answer = answerService.saveOrUpdateAnswer(answer);
 
         AnswerWrapper response = applicationContext.getBean(AnswerWrapper.class);
         response.wrap(answer, httpServletRequest);
@@ -81,7 +81,7 @@ public class AnswerEndPoint extends BaseEndpoint {
 
         Answer answer = answerWrapper.unwrap(httpServletRequest, applicationContext);
 
-        answer = answerService.createAnswer(answer);
+        answer = answerService.saveOrUpdateAnswer(answer);
 
         AnswerWrapper response = applicationContext.getBean(AnswerWrapper.class);
         response.wrap(answer, httpServletRequest);

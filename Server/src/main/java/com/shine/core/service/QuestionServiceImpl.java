@@ -147,10 +147,28 @@ public class QuestionServiceImpl implements QuestionService {
 
         answer.setAccepted(true);
         log.debug("Accepted answer [{}] for question [{}]", answer, answer.getQuestion());
-        answerService.updateAnswer(answer);
+        answerService.saveOrUpdateAnswer(answer);
 
         return answer;
     }
 
+    @Transactional
+    @Override
+    public Long addAnswerCount(Long questionId, final Long count) {
+        Question question;
+        synchronized (this) {
+            question = questionDao.find(questionId);
+            final long oldCount = question.getAnswerCount();
+            question.setAnswerCount(oldCount + count);
+            questionDao.update(question);
+        }
 
+        return question.getAnswerCount();
+    }
+
+    @Transactional
+    @Override
+    public Long subtractAnswerCount(Long questionId, final Long count) {
+        return addAnswerCount(questionId, -count);
+    }
 }

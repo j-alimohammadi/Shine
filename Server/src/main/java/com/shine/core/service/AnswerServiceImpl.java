@@ -23,15 +23,19 @@ public class AnswerServiceImpl implements AnswerService {
     private AnswerDao answerDao;
 
     @Resource
+    private QuestionService questionService;
+
+    @Resource
     private PostService postService;
 
     @Transactional
     @Override
-    public Answer createAnswer(Answer answer) {
+    public Answer saveOrUpdateAnswer(Answer answer) {
         answer.setCreatedTimeStamp(new Date());
         answer = answerDao.createOrUpdate(answer);
+        questionService.addAnswerCount(answer.getQuestion().getId(), 1L);
 
-        log.info("Created answer with id [{}] successfully", answer.getId());
+        log.info("Created/Updated answer with id [{}] successfully", answer.getId());
         return answer;
 
     }
@@ -44,19 +48,6 @@ public class AnswerServiceImpl implements AnswerService {
         } else {
             answer = answerDao.find(answerId);
         }
-
-
-        return answer;
-
-    }
-
-    @Transactional
-    @Override
-    public Answer updateAnswer(Answer answer) {
-        answer.setEditedTimeStamp(new Date());
-        answer = answerDao.createOrUpdate(answer);
-
-        log.debug("Answer with id [{}] updated successfully", answer.getId());
 
         return answer;
     }

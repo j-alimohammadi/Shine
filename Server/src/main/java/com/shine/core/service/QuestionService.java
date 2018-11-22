@@ -27,4 +27,8 @@ public interface QuestionService {
     Long voteDown(Question question);
 
     Answer acceptAnswer(Answer answer);
+
+    Long addAnswerCount(Long questionId, Long count);
+
+    Long subtractAnswerCount(Long questionId, Long count);
 }
