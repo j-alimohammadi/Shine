@@ -230,7 +230,7 @@ class Answer extends Component {
     ShineClient.createAnswer(answerObject)
       .then((JSONResponse) => {
         if (ShineResponseParser.isResponseOk(JSONResponse)) {
-          this.setState({toQuestionPage: true, editorState: EditorState.createEmpty()})
+          this.setState({goToQuestionPage: true, editorState: EditorState.createEmpty()})
           this.getAnswerForQuestion()
         } else {
           throw new Error('Something bad happened.')
