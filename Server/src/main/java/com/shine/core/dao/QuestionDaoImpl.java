@@ -18,10 +18,35 @@ import java.util.List;
 public class QuestionDaoImpl extends AbstractDao<Question> implements QuestionDao {
 
     @Override
-    public List<Question> findQuestion(int offset, int limit) {
-        TypedQuery<Question> question = entityManager.createNamedQuery("findQuestion", Question.class);
+    public List<Question> findQuestionOrderByUpdate(int offset, int limit) {
+        TypedQuery<Question> question = entityManager.createNamedQuery("findQuestionOrderByUpdate", Question.class);
         question.setFirstResult(offset).setMaxResults(limit);
         return ListUtils.emptyIfNull(question.getResultList());
+
+    }
+
+    @Override
+    public List<Question> findQuestionOrderByVotes(int offset, int limit) {
+        TypedQuery<Question> question = entityManager.createNamedQuery("findQuestionOrderByUpdate", Question.class);
+        question.setFirstResult(offset).setMaxResults(limit);
+        return ListUtils.emptyIfNull(question.getResultList());
+
+    }
+
+    @Override
+    public List<Question> findQuestionOrderByAnswerCount(int offset, int limit) {
+        TypedQuery<Question> question = entityManager.createNamedQuery("findQuestionOrderByAnswerCount", Question.class);
+        question.setFirstResult(offset).setMaxResults(limit);
+        return ListUtils.emptyIfNull(question.getResultList());
+
+    }
+
+    @Override
+    public List<Question> findQuestionOrderByViewCount(int offset, int limit) {
+        TypedQuery<Question> question = entityManager.createNamedQuery("findQuestionOrderByViewCount", Question.class);
+        question.setFirstResult(offset).setMaxResults(limit);
+        return ListUtils.emptyIfNull(question.getResultList());
+
     }
 
     @Override

@@ -10,7 +10,13 @@ import java.util.List;
  */
 
 public interface QuestionDao extends DAO<Question> {
-    List<Question> findQuestion(int offset, int limit);
+    List<Question> findQuestionOrderByUpdate(int offset, int limit);
+
+    List<Question> findQuestionOrderByVotes(int offset, int limit);
+
+    List<Question> findQuestionOrderByAnswerCount(int offset, int limit);
+
+    List<Question> findQuestionOrderByViewCount(int offset, int limit);
 
     int rejectAllAnswerForQuestion(Long questionId);
 }

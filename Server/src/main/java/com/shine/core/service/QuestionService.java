@@ -2,6 +2,7 @@ package com.shine.core.service;
 
 import com.shine.core.domain.Answer;
 import com.shine.core.domain.Question;
+import com.shine.search.SearchOrder;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface QuestionService {
 
     Question findQuestionById(Long id);
 
-    List<Question> findQuestions(int questionOffset, int questionLimit);
+    List<Question> findQuestions(int questionOffset, int questionLimit, SearchOrder orderBy);
 
     Long voteUp(Question question);
 
