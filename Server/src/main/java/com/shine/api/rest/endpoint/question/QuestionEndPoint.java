@@ -95,12 +95,11 @@ public class QuestionEndPoint extends BaseEndpoint {
 
     @DeleteMapping(path = "/{question-id}")
     public ResponseEntity deleteQuestionById(@PathVariable("question-id") Long questionId) {
-        Question question = questionService.findQuestionById(questionId);
-
-        if (Objects.isNull(question)) {
-            throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
-                    .addMessage(ShineRestException.INVALID_QUESTION_ID);
-        }
+        Question question = questionService.findQuestionById(questionId)
+                .orElseThrow(() -> {
+                    return ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+                            .addMessage(ShineRestException.INVALID_QUESTION_ID);
+                });
 
         questionService.deleteQuestionById(questionId);
         String message = String.format("Question [%s] deleted successfully", questionId);
@@ -136,7 +135,11 @@ public class QuestionEndPoint extends BaseEndpoint {
     public QuestionWrapper findQuestionById(HttpServletRequest httpServletRequest,
                                             @PathVariable("question-id") Long questionId) {
 
-        Question question = questionService.findQuestionById(questionId);
+        Question question = questionService.findQuestionById(questionId)
+                .orElseThrow(() -> {
+                    return ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+                            .addMessage(ShineRestException.INVALID_QUESTION_ID);
+                });
 
         QuestionWrapper response = applicationContext.getBean(QuestionWrapper.class);
         response.wrap(question, httpServletRequest);
@@ -148,8 +151,14 @@ public class QuestionEndPoint extends BaseEndpoint {
     @PutMapping(path = "/{question-id}/vote/increment")
     public QuestionWrapper incrementVote(@PathVariable("question-id") Long questionId,
                                          HttpServletRequest httpServletRequest) {
-        Question question = questionService.findQuestionById(questionId);
-        questionService.voteUp(question);
+
+        Question question = questionService.findQuestionById(questionId)
+                .orElseThrow(() -> {
+                    return ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+                            .addMessage(ShineRestException.INVALID_QUESTION_ID);
+                });
+
+        question = questionService.voteUp(question);
 
         QuestionWrapper response = applicationContext.getBean(QuestionWrapper.class);
         response.wrap(question, httpServletRequest);
@@ -161,8 +170,12 @@ public class QuestionEndPoint extends BaseEndpoint {
     @PutMapping(path = "/{question-id}/vote/decrement")
     public QuestionWrapper decrementVote(@PathVariable("question-id") Long questionId,
                                          HttpServletRequest httpServletRequest) {
-        Question question = questionService.findQuestionById(questionId);
-        questionService.voteDown(question);
+        Question question = questionService.findQuestionById(questionId)
+                .orElseThrow(() -> {
+                    return ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+                            .addMessage(ShineRestException.INVALID_QUESTION_ID);
+                });
+        question = questionService.voteDown(question);
 
         QuestionWrapper response = applicationContext.getBean(QuestionWrapper.class);
         response.wrap(question, httpServletRequest);
@@ -177,19 +190,17 @@ public class QuestionEndPoint extends BaseEndpoint {
                                       @PathVariable("answer-id") Long answerId,
                                       HttpServletRequest httpServletRequest) {
 
-        Question question = questionService.findQuestionById(questionId);
-        Answer answer = answerService.findAnswerById(answerId);
+        Question question = questionService.findQuestionById(questionId)
+                .orElseThrow(() -> {
+                    return ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+                            .addMessage(ShineRestException.INVALID_QUESTION_ID);
+                });
 
-        if (Objects.isNull(question)) {
-            throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
-                    .addMessage(ShineRestException.INVALID_QUESTION_ID);
-        }
-
-        if (Objects.isNull(answer)) {
-            throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
-                    .addMessage(ShineRestException.INVALID_ANSWER_ID);
-        }
-
+        Answer answer = answerService.findAnswerById(answerId)
+                .orElseThrow(() -> {
+                    return ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+                            .addMessage(ShineRestException.INVALID_ANSWER_ID);
+                });
 
         Answer acceptedAnswer = questionService.acceptAnswer(answer);
         AnswerWrapper response = applicationContext.getBean(AnswerWrapper.class);

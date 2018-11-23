@@ -5,6 +5,7 @@ import com.shine.api.rest.exception.ShineRestException;
 import com.shine.api.rest.wrapper.AnswerWrapper;
 import com.shine.core.domain.Answer;
 import com.shine.core.service.AnswerService;
+import com.shine.core.service.PostService;
 import com.shine.core.service.QuestionService;
 import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
@@ -34,6 +35,9 @@ public class AnswerEndPoint extends BaseEndpoint {
     @Resource
     private QuestionService questionService;
 
+    @Resource
+    private PostService postService;
+
     @PostMapping(path = "")
     public AnswerWrapper createNewAnswer(HttpServletRequest httpServletRequest,
                                          @RequestBody AnswerWrapper answerWrapper) {
@@ -61,16 +65,15 @@ public class AnswerEndPoint extends BaseEndpoint {
     @PutMapping(path = "")
     public AnswerWrapper updateAnswer(HttpServletRequest httpServletRequest,
                                       @RequestBody AnswerWrapper answerWrapper) {
-        Answer foundAnswer = answerService.findAnswerById(answerWrapper.getQuestionId());
+        Answer foundAnswer = answerService.findAnswerById(answerWrapper.getQuestionId())
+                .orElseThrow(() -> {
+                    return ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+                            .addMessage(ShineRestException.INVALID_QUESTION_ID);
+                });
 
         if (MapUtils.isEmpty(answerWrapper.getBody())) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
                     .addMessage(ShineRestException.INVALID_POST_BODY_CONTENT);
-        }
-
-        if (Objects.isNull(foundAnswer)) {
-            throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
-                    .addMessage(ShineRestException.INVALID_QUESTION_ID);
         }
 
         if (Objects.isNull(answerWrapper.getId())) {
@@ -93,12 +96,11 @@ public class AnswerEndPoint extends BaseEndpoint {
 
     @PutMapping(path = "/{answer-id}")
     public ResponseEntity<String> deleteAnswer(@PathVariable("answer-id") Long answerId) {
-        Answer answer = answerService.findAnswerById(answerId);
-
-        if (Objects.isNull(answer)) {
-            throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
-                    .addMessage(ShineRestException.INVALID_ANSWER_ID);
-        }
+        Answer answer = answerService.findAnswerById(answerId)
+                .orElseThrow(() -> {
+                    return ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+                            .addMessage(ShineRestException.INVALID_ANSWER_ID);
+                });
 
         questionService.deleteQuestionById(answerId);
         String message = String.format("Answer [%s] deleted successfully", answerId);
@@ -144,10 +146,15 @@ public class AnswerEndPoint extends BaseEndpoint {
     }
 
     @PutMapping(path = "/{answer-id}/vote/increment")
-    public AnswerWrapper incrementVote(@PathVariable("answer-id") Long questionId,
+    public AnswerWrapper incrementVote(@PathVariable("answer-id") Long answerId,
                                        HttpServletRequest httpServletRequest) {
-        Answer foundAnswer = answerService.findAnswerById(questionId);
-        answerService.voteUp(foundAnswer);
+
+        Answer foundAnswer = answerService.findAnswerById(answerId)
+                .orElseThrow(() -> {
+                    return ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+                            .addMessage(ShineRestException.INVALID_ANSWER_ID);
+                });
+        foundAnswer = answerService.voteUp(foundAnswer);
 
         AnswerWrapper response = applicationContext.getBean(AnswerWrapper.class);
         response.wrap(foundAnswer, httpServletRequest);
@@ -157,10 +164,15 @@ public class AnswerEndPoint extends BaseEndpoint {
     }
 
     @PutMapping(path = "/{answer-id}/vote/decrement")
-    public AnswerWrapper decrementVote(@PathVariable("answer-id") Long questionId,
+    public AnswerWrapper decrementVote(@PathVariable("answer-id") Long answerId,
                                        HttpServletRequest httpServletRequest) {
-        Answer foundAnswer = answerService.findAnswerById(questionId);
-        answerService.voteDown(foundAnswer);
+        Answer foundAnswer = answerService.findAnswerById(answerId)
+                .orElseThrow(() -> {
+                    return ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+                            .addMessage(ShineRestException.INVALID_ANSWER_ID);
+                });
+
+        foundAnswer = answerService.voteDown(foundAnswer);
 
         AnswerWrapper response = applicationContext.getBean(AnswerWrapper.class);
         response.wrap(foundAnswer, httpServletRequest);

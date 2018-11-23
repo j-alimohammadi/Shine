@@ -2,6 +2,7 @@ package com.shine.common.persistence.genericDao;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -12,12 +13,12 @@ public interface DAO<T> {
     T createOrUpdate(T object);
 
     /**
-     * Find item by id and return it or null otherwise
+     * Find item by id and return Optional
      *
      * @param id
      * @return
      */
-    T find(Serializable id);
+    Optional<T> find(Serializable id);
 
     /**
      * Load lazy item with id if not found throws exception
@@ -28,6 +29,14 @@ public interface DAO<T> {
     T load(Serializable id);
 
     List<T> getAll();
+
+    /**
+     * Refresh entity from database and sync entity status with database.
+     *
+     * @param entity
+     * @return
+     */
+    T refresh(T entity);
 
     void update(T t);
 

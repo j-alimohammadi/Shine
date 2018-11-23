@@ -7,8 +7,8 @@ import com.shine.core.domain.Post;
  */
 
 public interface PostService {
-    <T extends Post> T voteUp(T post);
+    <T extends Post> T voteUp(Long postId);
 
-    <T extends Post> T voteDown(T post);
+    <T extends Post> T voteDown(Long postId);
 
 }

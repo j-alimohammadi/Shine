@@ -5,6 +5,7 @@ import com.shine.core.domain.Question;
 import com.shine.search.SearchOrder;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -19,17 +20,17 @@ public interface QuestionService {
 
     void deleteQuestionById(Long id);
 
-    Question findQuestionById(Long id);
+    Optional<Question> findQuestionById(Long id);
 
     List<Question> findQuestions(int questionOffset, int questionLimit, SearchOrder orderBy);
 
-    Long voteUp(Question question);
+    Question voteUp(Question question);
 
-    Long voteDown(Question question);
+    Question voteDown(Question question);
 
     Answer acceptAnswer(Answer answer);
 
-    Long addAnswerCount(Long questionId, Long count);
+    Long addAnswerCount(Question question, Long count);
 
-    Long subtractAnswerCount(Long questionId, Long count);
+    Long subtractAnswerCount(Question question, Long count);
 }

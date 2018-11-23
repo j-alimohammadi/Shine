@@ -1,33 +1,46 @@
 package com.shine.core.service;
 
+import com.shine.core.dao.PostDao;
 import com.shine.core.domain.Post;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 @Service
 public class PostServiceImpl implements PostService {
+    @Resource
+    private PostDao postDao;
 
-    // todo : check for race condition
+
+    @SuppressWarnings("unchecked")
+    @Transactional
     @Override
-    public <T extends Post> T voteUp(T post) {
+    public synchronized <T extends Post> T voteUp(Long postId) {
+        Post post = postDao.find(postId)
+                .orElseThrow(() -> {
+                    return new RuntimeException(String.format("Post id [%s] not found", postId));
+                });
         long vote = post.getVote();
         vote++;
         post.setVote(vote);
-
-        return post;
-
+        return (T) postDao.createOrUpdate(post);
     }
 
-    // todo : check for race condition
+    @SuppressWarnings("unchecked")
+    @Transactional
     @Override
-    public <T extends Post> T voteDown(T post) {
+    public synchronized <T extends Post> T voteDown(Long postId) {
+        Post post = postDao.find(postId)
+                .orElseThrow(() -> {
+                    return new RuntimeException(String.format("Post id [%s] not found", postId));
+                });
         long vote = post.getVote();
         vote--;
         post.setVote(vote);
-
-        return post;
-
+        return (T) postDao.createOrUpdate(post);
     }
 }

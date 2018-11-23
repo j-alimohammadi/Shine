@@ -3,6 +3,7 @@ package com.shine.api.rest.wrapper;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.shine.api.rest.exception.ShineRestException;
 import com.shine.common.rest.api.wrapper.APIUnWrapper;
 import com.shine.common.rest.api.wrapper.APIWrapper;
 import com.shine.common.rest.api.wrapper.BaseWrapper;
@@ -13,6 +14,7 @@ import com.shine.core.service.QuestionServiceImpl;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -90,7 +92,11 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
         Answer answer = answerService.createAnswerFromId(id);
         answer.setBody(JSONMapper.createJSON(body));
         answer.setId(id);
-        answer.setQuestion(questionService.findQuestionById(questionId));
+        answer.setQuestion(questionService.findQuestionById(questionId)
+                .orElseThrow(() -> {
+                    return ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+                            .addMessage(ShineRestException.INVALID_QUESTION_ID);
+                }));
         answer.setAccepted(BooleanUtils.toBoolean(isAnswerAccept));
         return answer;
     }

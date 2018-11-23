@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -33,7 +34,7 @@ public class AnswerServiceImpl implements AnswerService {
     public Answer saveAnswer(Answer answer) {
         answer.setCreatedTimeStamp(new Date());
         answer = answerDao.createOrUpdate(answer);
-        questionService.addAnswerCount(answer.getQuestion().getId(), 1L);
+        questionService.addAnswerCount(answer.getQuestion(), 1L);
 
         log.info("Created answer with id [{}] successfully", answer.getId());
         return answer;
@@ -54,7 +55,8 @@ public class AnswerServiceImpl implements AnswerService {
         if (Objects.isNull(answerId)) {
             answer = new Answer();
         } else {
-            answer = answerDao.find(answerId);
+            answer = answerDao.find(answerId)
+                    .orElse(new Answer());
         }
 
         return answer;
@@ -68,7 +70,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Transactional
     @Override
-    public Answer findAnswerById(Long id) {
+    public Optional<Answer> findAnswerById(Long id) {
         return answerDao.find(id);
     }
 
@@ -88,18 +90,14 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Transactional
     @Override
-    public Long voteUp(Answer answer) {
-        Answer updateAnswer = postService.voteUp(answer);
-        answerDao.update(updateAnswer);
-        return updateAnswer.getVote();
+    public Answer voteUp(Answer answer) {
+        return postService.voteUp(answer.getId());
     }
 
     @Transactional
     @Override
-    public Long voteDown(Answer answer) {
-        Answer updateAnswer = postService.voteDown(answer);
-        answerDao.update(updateAnswer);
-        return updateAnswer.getVote();
+    public Answer voteDown(Answer answer) {
+        return postService.voteDown(answer.getId());
 
     }
 

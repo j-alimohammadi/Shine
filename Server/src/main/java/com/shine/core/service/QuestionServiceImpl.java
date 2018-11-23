@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -63,7 +64,7 @@ public class QuestionServiceImpl implements QuestionService {
         if (Objects.isNull(questionId)) {
             question = new Question();
         } else {
-            question = questionDao.find(questionId);
+            question = questionDao.find(questionId).orElse(new Question());
         }
 
 
@@ -107,7 +108,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Transactional
     @Override
-    public Question findQuestionById(Long id) {
+    public Optional<Question> findQuestionById(Long id) {
         return questionDao.find(id);
     }
 
@@ -134,19 +135,14 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Transactional
     @Override
-    public Long voteUp(Question question) {
-        Question updateQuestion = postService.voteUp(question);
-        questionDao.update(updateQuestion);
-        return updateQuestion.getVote();
+    public Question voteUp(Question question) {
+        return postService.voteUp(question.getId());
     }
 
     @Transactional
     @Override
-    public Long voteDown(Question question) {
-        Question updateQuestion = postService.voteDown(question);
-        questionDao.update(updateQuestion);
-        return updateQuestion.getVote();
-
+    public Question voteDown(Question question) {
+        return postService.voteDown(question.getId());
     }
 
     @Transactional
@@ -169,10 +165,9 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Transactional
     @Override
-    public Long addAnswerCount(Long questionId, final Long count) {
-        Question question;
+    public Long addAnswerCount(Question question, final Long count) {
         synchronized (this) {
-            question = questionDao.find(questionId);
+            questionDao.refresh(question);
             final long oldCount = question.getAnswerCount();
             question.setAnswerCount(oldCount + count);
             questionDao.update(question);
@@ -183,7 +178,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Transactional
     @Override
-    public Long subtractAnswerCount(Long questionId, final Long count) {
-        return addAnswerCount(questionId, -count);
+    public Long subtractAnswerCount(Question question, final Long count) {
+        return addAnswerCount(question, -count);
     }
 }
