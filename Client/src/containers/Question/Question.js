@@ -103,22 +103,19 @@ class Question extends Component {
           <div className="qa-nav-sub">
             <ul className="qa-nav-sub-list">
               <li className="qa-nav-sub-item qa-nav-sub-recent active">
-                <a href="./index.php?qa=questions"
+                <a href="/question/sort/recent"
                    className="qa-nav-sub-link qa-nav-sub-selected">Recent</a>
               </li>
-              <li className="qa-nav-sub-item qa-nav-sub-hot">
-                <a href="./index.php?qa=questions&amp;sort=hot" className="qa-nav-sub-link">Hot!</a>
-              </li>
               <li className="qa-nav-sub-item qa-nav-sub-votes">
-                <a href="./index.php?qa=questions&amp;sort=votes" className="qa-nav-sub-link">Most
+                <a href="/question/sort/votes" className="qa-nav-sub-link">Most
                   votes</a>
               </li>
               <li className="qa-nav-sub-item qa-nav-sub-answers">
-                <a href="./index.php?qa=questions&amp;sort=answers" className="qa-nav-sub-link">Most
+                <a href="/question/sort/answers" className="qa-nav-sub-link">Most
                   answers</a>
               </li>
               <li className="qa-nav-sub-item qa-nav-sub-views">
-                <a href="./index.php?qa=questions&amp;sort=views" className="qa-nav-sub-link">Most
+                <a href="/question/sort/views" className="qa-nav-sub-link">Most
                   views</a>
               </li>
             </ul>
