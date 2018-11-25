@@ -1,4 +1,4 @@
-package com.shine.search;
+package com.shine.core.search;
 
 import java.util.EnumSet;
 import java.util.Optional;

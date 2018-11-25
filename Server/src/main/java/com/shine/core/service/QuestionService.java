@@ -2,7 +2,7 @@ package com.shine.core.service;
 
 import com.shine.core.domain.Answer;
 import com.shine.core.domain.Question;
-import com.shine.search.SearchOrder;
+import com.shine.core.search.SearchOrder;
 
 import java.util.List;
 import java.util.Optional;

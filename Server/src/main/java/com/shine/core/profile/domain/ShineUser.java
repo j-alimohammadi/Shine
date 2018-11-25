@@ -1,4 +1,4 @@
-package com.shine.profile.domain;
+package com.shine.core.profile.domain;
 
 import java.util.Date;
 

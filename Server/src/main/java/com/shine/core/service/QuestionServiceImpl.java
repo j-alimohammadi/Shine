@@ -5,7 +5,7 @@ import com.shine.core.dao.QuestionDao;
 import com.shine.core.domain.Answer;
 import com.shine.core.domain.Question;
 import com.shine.core.domain.Tag;
-import com.shine.search.SearchOrder;
+import com.shine.core.search.SearchOrder;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.slf4j.Logger;

@@ -7,9 +7,12 @@ import com.shine.api.rest.wrapper.QuestionWrapper;
 import com.shine.common.config.ShineConfigReader;
 import com.shine.core.domain.Answer;
 import com.shine.core.domain.Question;
+import com.shine.core.search.SearchOrder;
+import com.shine.core.search.ShineSearchService;
+import com.shine.core.search.domain.SearchCriteria;
 import com.shine.core.service.AnswerService;
 import com.shine.core.service.QuestionService;
-import com.shine.search.SearchOrder;
+import com.shine.web.SearchFacetService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +41,10 @@ public class QuestionEndPoint extends BaseEndpoint {
 
     @Resource
     private AnswerService answerService;
+
+    @Resource
+    private SearchFacetService searchFacetService;
+
 
 
     @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -109,18 +116,21 @@ public class QuestionEndPoint extends BaseEndpoint {
     }
 
     @GetMapping(path = {"", "/sort/{order-by}"})
-    public List<QuestionWrapper> findAllQuestions(HttpServletRequest httpServletRequest,
-                                                  @PathVariable(value = "order-by", required = false) String orderBy,
-                                                  @RequestParam(value = "offset", defaultValue = "0") int questionOffset,
-                                                  @RequestParam(value = "limit", defaultValue = "20") int questionLimit) {
+    public List<QuestionWrapper> findQuestions(HttpServletRequest httpServletRequest,
+                                               @PathVariable(value = "order-by", required = false) String orderBy,
+                                               @RequestParam(value = "offset", defaultValue = "0") int questionOffset,
+                                               @RequestParam(value = "limit", defaultValue = "20") int questionLimit) {
 
         SearchOrder searchOrder = SearchOrder.getSearchOrder(orderBy)
                 .orElse(SearchOrder.valueOf(ShineConfigReader.readProperty("question.default.sort",
                         SearchOrder.RECENT_UPDATE.value)));
 
+        SearchCriteria searchCriteria = searchFacetService.buildSearchCriteria(httpServletRequest);
+
 
         List<QuestionWrapper> result = new ArrayList<>();
         List<Question> questions = questionService.findQuestions(questionOffset, questionLimit, searchOrder);
+
 
         questions.forEach(question -> {
             QuestionWrapper response = applicationContext.getBean(QuestionWrapper.class);

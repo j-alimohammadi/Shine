@@ -31,16 +31,16 @@ import java.util.stream.Collectors;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Question>, APIWrapper<Question> {
 
-    @JsonProperty
+    @JsonProperty("id")
     private Long id;
 
-    @JsonProperty
+    @JsonProperty("title")
     private String title;
 
-    @JsonProperty
+    @JsonProperty("body")
     private Map<String, Object> body;
 
-    @JsonProperty
+    @JsonProperty("vote")
     private Long vote;
 
     @JsonProperty(value = "answer_count")
