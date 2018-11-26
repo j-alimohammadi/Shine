@@ -21,5 +21,4 @@ public interface TagDao extends DAO<Tag> {
 
     Integer bulkSaveOrUpdateTags(List<Tag> tags);
 
-
 }

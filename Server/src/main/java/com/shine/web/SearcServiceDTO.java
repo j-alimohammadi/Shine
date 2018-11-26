@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Andre Azzolini (apazzolini)
  */
 
-public interface SearchFacetService {
+public interface SearcServiceDTO {
 
     SearchCriteria buildSearchCriteria(HttpServletRequest httpServletRequest);
 

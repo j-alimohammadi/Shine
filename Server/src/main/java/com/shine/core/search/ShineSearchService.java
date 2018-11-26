@@ -11,7 +11,4 @@ public interface ShineSearchService {
 
     SearchResult findResult(SearchCriteria searchCriteria);
 
-    SearchResult findResultByQuery(SearchCriteria searchCriteria, String query);
-
-
 }

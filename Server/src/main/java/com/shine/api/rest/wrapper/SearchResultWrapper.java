@@ -15,7 +15,7 @@ import java.util.Map;
 @Scope("prototype")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class SearchResaultWrapper {
+public class SearchResultWrapper {
     @JsonProperty("id")
     private Long id;
 
@@ -28,8 +28,8 @@ public class SearchResaultWrapper {
     @JsonProperty("vote")
     private Long vote;
 
-
-    
+    @JsonProperty("post_type")
+    private String postType;
 
 
 }

@@ -12,8 +12,8 @@ import java.util.Objects;
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
-@Service("shineSearchFacetDTOService")
-public class SearchFacetServiceImpl implements SearchFacetService {
+@Service("shineSearchServiceDTOImpl")
+public class SearchServiceDTOImpl implements SearcServiceDTO {
 
     @Override
     public SearchCriteria buildSearchCriteria(HttpServletRequest httpServletRequest) {

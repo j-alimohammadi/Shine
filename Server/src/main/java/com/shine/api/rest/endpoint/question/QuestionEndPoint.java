@@ -8,11 +8,10 @@ import com.shine.common.config.ShineConfigReader;
 import com.shine.core.domain.Answer;
 import com.shine.core.domain.Question;
 import com.shine.core.search.SearchOrder;
-import com.shine.core.search.ShineSearchService;
 import com.shine.core.search.domain.SearchCriteria;
 import com.shine.core.service.AnswerService;
 import com.shine.core.service.QuestionService;
-import com.shine.web.SearchFacetService;
+import com.shine.web.SearcServiceDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +42,7 @@ public class QuestionEndPoint extends BaseEndpoint {
     private AnswerService answerService;
 
     @Resource
-    private SearchFacetService searchFacetService;
+    private SearcServiceDTO searcServiceDTO;
 
 
 
@@ -125,7 +124,7 @@ public class QuestionEndPoint extends BaseEndpoint {
                 .orElse(SearchOrder.valueOf(ShineConfigReader.readProperty("question.default.sort",
                         SearchOrder.RECENT_UPDATE.value)));
 
-        SearchCriteria searchCriteria = searchFacetService.buildSearchCriteria(httpServletRequest);
+        SearchCriteria searchCriteria = searcServiceDTO.buildSearchCriteria(httpServletRequest);
 
 
         List<QuestionWrapper> result = new ArrayList<>();

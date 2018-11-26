@@ -2,6 +2,7 @@ package com.shine.api.rest.wrapper;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -16,17 +17,20 @@ import java.util.List;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class SearchResultHolderWrapper {
+    @JsonProperty("page")
     private Integer page;
 
+    @JsonProperty("page_size")
     private Integer pageSize;
 
+    @JsonProperty("total_page")
     private Integer totalPage;
 
-    private Integer resaultSize;
+    @JsonProperty("result_size")
+    private Integer resultSize;
 
-    private List<SearchResaultWrapper> searchResaultWrappers = new ArrayList<>();
-
-
+    @JsonProperty("result")
+    private List<SearchResultWrapper> searchResult = new ArrayList<>();
 
 
 }
