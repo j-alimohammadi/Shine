@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
  * around classes.  Any class that will be exposed via JAXB annotations to the JAXRS API
  * may implement this as a convenience to provide a standard method to unwrap data objects.
  * <p>
- * <b>Note:</b> Adapted from BroadleafCommerce: https://github.com/BroadleafCommerce/BroadleafCommerce
+ * <b>Note:</b> Adapted from BroadleafCommerce: https://github.com/BroadleafCommerce/BroadleafCommerce which is under
+ * "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt
  */
 
 public interface APIUnWrapper<T> {

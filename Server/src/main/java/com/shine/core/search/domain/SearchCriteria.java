@@ -11,7 +11,7 @@ public class SearchCriteria {
 
     public final static String PAGE_SIZE_PARAMETER = "pageSize";
     public final static String PAGE_NUMBER_PARAMETER = "page";
-    public final static String SORT_PARAMETER = "sort";
+    public final static String SORT_PARAMETER = "sortBy";
     public final static String QUERY_PARAMETER = "q";
 
 

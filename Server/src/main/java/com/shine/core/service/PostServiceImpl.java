@@ -2,10 +2,12 @@ package com.shine.core.service;
 
 import com.shine.core.dao.PostDao;
 import com.shine.core.domain.Post;
+import com.shine.core.search.domain.SearchCriteria;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -42,5 +44,11 @@ public class PostServiceImpl implements PostService {
         vote--;
         post.setVote(vote);
         return (T) postDao.createOrUpdate(post);
+    }
+
+    @Transactional
+    @Override
+    public <T extends Post> List<T> findFilteredProductByCriteria(SearchCriteria searchCriteria) {
+        return null;
     }
 }

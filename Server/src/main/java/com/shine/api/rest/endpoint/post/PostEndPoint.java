@@ -1,8 +1,9 @@
 package com.shine.api.rest.endpoint.post;
 
-import com.shine.api.rest.wrapper.SearchResultHolderWrapper;
+import com.shine.api.rest.wrapper.SearchResultWrapper;
 import com.shine.core.search.ShineSearchService;
 import com.shine.core.search.domain.SearchCriteria;
+import com.shine.core.search.domain.SearchResult;
 import com.shine.web.SearcServiceDTO;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +27,12 @@ public class PostEndPoint {
     private ShineSearchService shineSearchService;
 
     @RequestMapping(name = "/search", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public SearchResultHolderWrapper searchInPosts(HttpServletRequest httpServletRequest) {
+    public SearchResultWrapper searchInPosts(HttpServletRequest httpServletRequest) {
         SearchCriteria searchCriteria = searcServiceDTO.buildSearchCriteria(httpServletRequest);
+        SearchResult searchResult = shineSearchService.findResult(searchCriteria);
 
-        shineSearchService.findResult(searchCriteria);
+        
+
 
     }
 }

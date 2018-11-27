@@ -3,33 +3,39 @@ package com.shine.api.rest.wrapper;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.shine.common.rest.api.wrapper.APIWrapper;
+import com.shine.common.rest.api.wrapper.BaseWrapper;
+import com.shine.core.search.domain.SearchResult;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
-@Component("PostWrapper")
+@Component("SearchResultWrapper")
 @Scope("prototype")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class SearchResultWrapper {
-    @JsonProperty("id")
-    private Long id;
+public class SearchResultWrapper extends BaseWrapper implements APIWrapper<SearchResult> {
+    @JsonProperty("page")
+    private Integer page;
 
-    @JsonProperty("post_title")
-    private String postTitle;
+    @JsonProperty("page_size")
+    private Integer pageSize;
 
-    @JsonProperty("body")
-    private Map<String, Object> body;
+    @JsonProperty("total_page")
+    private Integer totalPage;
 
-    @JsonProperty("vote")
-    private Long vote;
+    @JsonProperty("result_size")
+    private Integer resultSize;
 
-    @JsonProperty("post_type")
-    private String postType;
+    @JsonProperty("result")
+    private List<SearchResult> searchResult = new ArrayList<>();
+
+    
 
 
 }
