@@ -7,7 +7,7 @@ import java.util.Map;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 
-public class SearchCriteria {
+public class    SearchCriteria {
 
     public final static String PAGE_SIZE_PARAMETER = "pageSize";
     public final static String PAGE_NUMBER_PARAMETER = "page";
