@@ -3,6 +3,7 @@ package com.shine.core.dao;
 import com.shine.common.persistence.genericDao.AbstractDao;
 import com.shine.core.domain.Post;
 import com.shine.core.search.domain.SearchCriteria;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
@@ -21,34 +22,36 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Post> criteria = criteriaBuilder.createQuery(Post.class);
 
-
         Root<Post> postRoot = criteria.from(Post.class);
-
-
-        // query parameters
-        ParameterExpression<String> bodyParameter = criteriaBuilder.parameter(String.class);
-
-
+        TypedQuery<Post> typedQuery = entityManager.createQuery(criteria);
         List<Predicate> restrictions = new ArrayList<>();
-        restrictions.add(criteriaBuilder.or(
-                criteriaBuilder.like(criteriaBuilder.lower()like(criteriaBuilder.lo))
-        ))
 
 
-        TypedQuery<Post> query = entityManager.createQuery(
+        // query parameter
+        final String query = searchCriteria.getQuery();
+        if (StringUtils.isNotBlank(query)) {
+            ParameterExpression<String> bodyParameter = criteriaBuilder.parameter(String.class);
+            typedQuery.setParameter(bodyParameter, '%' + query + '%');
 
-                .where(criteriaBuilder.like(postRoot.get("body"), bodyParameter))
-        );
+            restrictions.add(
+                    criteriaBuilder.like(criteriaBuilder.lower(postRoot.get("body")), bodyParameter)
+            );
 
-        addSortBy()
+        }
 
 
-        query.setParameter(bodyParameter, searchCriteria.getQuery());
+        criteria.select(postRoot).where(restrictions.toArray(new Predicate[0]));
+        addSortBy(searchCriteria, criteriaBuilder, restrictions);
 
-        return query.getResultList();
+
+        return typedQuery.getResultList();
     }
 
-    private void addSortBy() {
+    private void addSortBy(SearchCriteria searchCriteria,
+                           CriteriaBuilder criteriaBuilder,
+                           List<Predicate> restrictions) {
+        final String sortQuery = searchCriteria.getSortQuery();
+
 
     }
 }
