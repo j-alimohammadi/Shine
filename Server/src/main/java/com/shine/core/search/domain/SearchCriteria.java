@@ -12,12 +12,9 @@ public class SearchCriteria {
     public final static String PAGE_SIZE_PARAMETER = "pageSize";
     public final static String PAGE_NUMBER_PARAMETER = "page";
     public final static String SORT_PARAMETER = "sortBy";
-    public final static String POST_TYPE_PARAMETER = "postType";
     public final static String QUERY_PARAMETER = "q";
 
     private String query;
-
-    private String postType;
 
     private String sortBy;
 
@@ -26,6 +23,8 @@ public class SearchCriteria {
     private Integer pageSize;
 
     private Integer startIndex;
+
+    private Class postType;
 
     private Map<String, String[]> filterCriteria = new HashMap<>();
 
@@ -46,11 +45,11 @@ public class SearchCriteria {
         this.sortBy = sortBy;
     }
 
-    public String getPostType() {
+    public Class getPostType() {
         return postType;
     }
 
-    public void setPostType(String postType) {
+    public void setPostType(Class postType) {
         this.postType = postType;
     }
 

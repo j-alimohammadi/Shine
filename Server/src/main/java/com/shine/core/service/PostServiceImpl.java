@@ -48,7 +48,7 @@ public class PostServiceImpl implements PostService {
 
     @Transactional
     @Override
-    public <T extends Post> List<T> findFilteredProductByCriteria(SearchCriteria searchCriteria) {
+    public <T extends Post> List<T> findFilteredPostsByCriteria(SearchCriteria searchCriteria) {
         return null;
     }
 }

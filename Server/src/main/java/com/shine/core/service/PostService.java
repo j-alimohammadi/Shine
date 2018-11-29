@@ -14,7 +14,7 @@ public interface PostService {
 
     <T extends Post> T voteDown(Long postId);
 
-    <T extends Post> List<T> findFilteredProductByCriteria(SearchCriteria searchCriteria);
+    <T extends Post> List<T> findFilteredPostsByCriteria(SearchCriteria searchCriteria);
 
 
 }
