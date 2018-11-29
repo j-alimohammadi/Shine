@@ -12,12 +12,14 @@ public class SearchCriteria {
     public final static String PAGE_SIZE_PARAMETER = "pageSize";
     public final static String PAGE_NUMBER_PARAMETER = "page";
     public final static String SORT_PARAMETER = "sortBy";
+    public final static String POST_TYPE_PARAMETER = "postType";
     public final static String QUERY_PARAMETER = "q";
-
 
     private String query;
 
-    private String sortQuery;
+    private String postType;
+
+    private String sortBy;
 
     private Integer page;
 
@@ -36,12 +38,20 @@ public class SearchCriteria {
         this.query = query;
     }
 
-    public String getSortQuery() {
-        return sortQuery;
+    public String getSortBy() {
+        return sortBy;
     }
 
-    public void setSortQuery(String sortQuery) {
-        this.sortQuery = sortQuery;
+    public void setSortBy(String sortBy) {
+        this.sortBy = sortBy;
+    }
+
+    public String getPostType() {
+        return postType;
+    }
+
+    public void setPostType(String postType) {
+        this.postType = postType;
     }
 
     public Integer getPage() {

@@ -7,7 +7,7 @@ import com.shine.api.rest.wrapper.QuestionWrapper;
 import com.shine.common.config.ShineConfigReader;
 import com.shine.core.domain.Answer;
 import com.shine.core.domain.Question;
-import com.shine.core.search.SearchOrder;
+import com.shine.core.search.OrderByParameter;
 import com.shine.core.search.domain.SearchCriteria;
 import com.shine.core.service.AnswerService;
 import com.shine.core.service.QuestionService;
@@ -120,9 +120,9 @@ public class QuestionEndPoint extends BaseEndpoint {
                                                @RequestParam(value = "offset", defaultValue = "0") int questionOffset,
                                                @RequestParam(value = "limit", defaultValue = "20") int questionLimit) {
 
-        SearchOrder searchOrder = SearchOrder.getSearchOrder(orderBy)
-                .orElse(SearchOrder.valueOf(ShineConfigReader.readProperty("question.default.sort",
-                        SearchOrder.RECENT_UPDATE.value)));
+        OrderByParameter searchOrder = OrderByParameter.getOrderByParameter(orderBy)
+                .orElse(OrderByParameter.valueOf(ShineConfigReader.readProperty("question.default.sort",
+                        OrderByParameter.RECENT_UPDATE.value)));
 
         SearchCriteria searchCriteria = searcServiceDTO.buildSearchCriteria(httpServletRequest);
 

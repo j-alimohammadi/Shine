@@ -2,12 +2,15 @@ package com.shine.web;
 
 import com.shine.common.config.ShineConfigReader;
 import com.shine.core.search.domain.SearchCriteria;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -34,9 +37,17 @@ public class SearchServiceDTOImpl implements SearcServiceDTO {
             } else if (Objects.equals(parameterName, SearchCriteria.PAGE_NUMBER_PARAMETER)) {
                 searchCriteria.setPage(Integer.valueOf(parameter.getValue()[0]));
             } else if (Objects.equals(parameterName, SearchCriteria.SORT_PARAMETER)) {
-                searchCriteria.setSortQuery(String.join(",", parameter.getValue()));
+
+                Optional<String> sortByParameter = Stream.of(parameter.getValue())
+                        .filter(StringUtils::isNotBlank)
+                        .reduce((s, s2) -> {
+                            return String.join(",", s, s2);
+                        });
+
+                searchCriteria.setSortBy(sortByParameter.orElse(""));
+
             } else if (Objects.equals(parameterName, SearchCriteria.QUERY_PARAMETER)) {
-                searchCriteria.setSortQuery(parameter.getValue()[0]);
+                searchCriteria.setQuery(parameter.getValue()[0]);
 
             } else {
                 facets.put(parameter.getKey(), parameter.getValue());
