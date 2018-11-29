@@ -12,6 +12,6 @@ import java.util.List;
 
 public interface PostDao extends DAO<Post> {
 
-    List<Post> readFilteredPostsByCriteria(SearchCriteria searchCriteria);
+    <T extends Post> List<T> readFilteredPostsByCriteria(SearchCriteria searchCriteria);
 
 }

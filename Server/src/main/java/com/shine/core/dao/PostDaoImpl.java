@@ -22,7 +22,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
 
     @Override
-    public List<Post> readFilteredPostsByCriteria(SearchCriteria searchCriteria) {
+    public <T extends Post> List<T> readFilteredPostsByCriteria(SearchCriteria searchCriteria) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Post> criteria = criteriaBuilder.createQuery(Post.class);
 

@@ -24,7 +24,7 @@ public class SearchCriteria {
 
     private Integer startIndex;
 
-    private Class postType;
+    private String postType;
 
     private Map<String, String[]> filterCriteria = new HashMap<>();
 
@@ -45,11 +45,11 @@ public class SearchCriteria {
         this.sortBy = sortBy;
     }
 
-    public Class getPostType() {
+    public String getPostType() {
         return postType;
     }
 
-    public void setPostType(Class postType) {
+    public void setPostType(String postType) {
         this.postType = postType;
     }
 

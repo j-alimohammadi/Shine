@@ -74,6 +74,8 @@ public class SearchField {
         this.abbreviation = abbreviation;
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
