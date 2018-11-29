@@ -6,10 +6,7 @@ import com.shine.core.search.domain.SearchCriteria;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.List;
 
 /**
@@ -25,10 +22,11 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
         CriteriaQuery<Post> criteria = criteriaBuilder.createQuery(Post.class);
         Root<Post> postRoot = criteria.from(Post.class);
 
-
+        Subquery
         // query parameters
         ParameterExpression<String> titleParameter = criteriaBuilder.parameter(String.class);
-        TypedQuery<Post> query = entityManager.createQuery(criteria.select())
+        TypedQuery<Post> query = entityManager.createQuery(criteria.select());
+        query.su
 
 
         criteria.select(postRoot).
