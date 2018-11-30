@@ -7,7 +7,7 @@ import java.util.EnumSet;
  */
 
 public enum PostType {
-    POST("Post"), QUESTION("Question"), ANSWER("Answer");
+    POST(Constants.POST), QUESTION(Constants.QUESTION), ANSWER(Constants.ANSWER);
 
     public String type;
 
@@ -23,5 +23,11 @@ public enum PostType {
         }
 
         return null;
+    }
+
+    public interface Constants {
+        String POST = "Post";
+        String QUESTION = "Question";
+        String ANSWER = "Answer";
     }
 }

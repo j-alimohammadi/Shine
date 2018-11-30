@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@DiscriminatorValue("ANSWER")
+@DiscriminatorValue(PostType.Constants.ANSWER)
 public class Answer extends Post {
 
     @Column(name = "IS_ACCEPTED")

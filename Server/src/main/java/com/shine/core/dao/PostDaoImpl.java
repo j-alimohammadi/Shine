@@ -14,6 +14,7 @@ import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -23,12 +24,12 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
 
     @Override
-    public <T extends Post> List<T> readFilteredPostsByCriteria(SearchCriteria searchCriteria, List<PostType> postType) {
+    public <T extends Post> List<T> readFilteredPostsByCriteria(SearchCriteria searchCriteria, List<PostType> postTypes) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Post> criteria = criteriaBuilder.createQuery(Post.class);
 
         Root<Post> postRoot = criteria.from(Post.class);
-        TypedQuery<Post> typedQuery = entityManager.createQuery(criteria);
+
         List<Predicate> restrictions = new ArrayList<>();
 
 
@@ -42,11 +43,29 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
         }
 
 
-        criteria.select(postRoot).where(restrictions.toArray(new Predicate[0]));
+        addPostTypeRestriction(postRoot, restrictions, postTypes);
+
         addSortBy(searchCriteria, postRoot);
+
+        criteria.where(restrictions.toArray(new Predicate[0]));
+
+        TypedQuery<Post> typedQuery = entityManager.createQuery(criteria);
 
 
         return typedQuery.getResultList();
+    }
+
+    private void addPostTypeRestriction(Root<Post> postRoot, List<Predicate> restrictions, List<PostType> postTypes) {
+        List<String> postTypeStringList = postTypes
+                .stream()
+                .map(postType1 -> postType1.type)
+                .collect(Collectors.toList());
+
+
+        Predicate postTypePredicate = postRoot.get("postType").in(postTypeStringList);
+
+        restrictions.add(postTypePredicate);
+
     }
 
     private void addSortBy(SearchCriteria searchCriteria, Path<? extends Post> post) {

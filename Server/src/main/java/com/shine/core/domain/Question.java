@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 @Entity
-@DiscriminatorValue("QUESTION")
+@DiscriminatorValue(PostType.Constants.QUESTION)
 public class Question extends Post {
 
     @Column(name = "TITLE")

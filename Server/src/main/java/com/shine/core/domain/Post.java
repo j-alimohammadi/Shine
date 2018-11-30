@@ -31,6 +31,10 @@ public class Post {
     @Column(name = "VOTE")
     private Long vote = 0L;
 
+    @Column(name = "POST_TYPE", updatable = false, insertable = false, nullable = false)
+    private String postType;
+
+
     public Long getId() {
         return id;
     }
@@ -71,4 +75,11 @@ public class Post {
         this.vote = vote;
     }
 
+    public String getPostType() {
+        return postType;
+    }
+
+    public void setPostType(String postType) {
+        this.postType = postType;
+    }
 }
