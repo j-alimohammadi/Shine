@@ -1,7 +1,6 @@
 package com.shine.core.search.domain;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,8 +24,6 @@ public class SearchCriteria {
 
     private Integer startIndex;
 
-    private List<String> entityType;
-
     private Map<String, String[]> filterCriteria = new HashMap<>();
 
 
@@ -44,14 +41,6 @@ public class SearchCriteria {
 
     public void setSortBy(String sortBy) {
         this.sortBy = sortBy;
-    }
-
-    public String getEntityType() {
-        return entityType;
-    }
-
-    public void setEntityType(String entityType) {
-        this.entityType = entityType;
     }
 
     public Integer getPage() {

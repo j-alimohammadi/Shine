@@ -2,13 +2,13 @@ package com.shine.core.dao;
 
 import com.shine.common.persistence.genericDao.AbstractDao;
 import com.shine.core.domain.Post;
+import com.shine.core.domain.PostType;
 import com.shine.core.search.Order;
 import com.shine.core.search.OrderByParameter;
 import com.shine.core.search.domain.SearchCriteria;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
 
     @Override
-    public <T extends Post> List<T> readFilteredPostsByCriteria(SearchCriteria searchCriteria) {
+    public <T extends Post> List<T> readFilteredPostsByCriteria(SearchCriteria searchCriteria, List<PostType> postType) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Post> criteria = criteriaBuilder.createQuery(Post.class);
 
@@ -35,16 +35,13 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
         // query parameter
         final String query = searchCriteria.getQuery();
         if (StringUtils.isNotBlank(query)) {
-            ParameterExpression<String> bodyParameter = criteriaBuilder.parameter(String.class);
-            typedQuery.setParameter(bodyParameter, '%' + query + '%');
-
             restrictions.add(
-                    criteriaBuilder.like(criteriaBuilder.lower(postRoot.get("body")), bodyParameter)
+                    criteriaBuilder.like(criteriaBuilder.lower(postRoot.get("body")), '%' + query + '%')
             );
 
         }
 
-        
+
         criteria.select(postRoot).where(restrictions.toArray(new Predicate[0]));
         addSortBy(searchCriteria, postRoot);
 

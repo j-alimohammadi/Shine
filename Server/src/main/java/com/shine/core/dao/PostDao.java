@@ -2,6 +2,7 @@ package com.shine.core.dao;
 
 import com.shine.common.persistence.genericDao.DAO;
 import com.shine.core.domain.Post;
+import com.shine.core.domain.PostType;
 import com.shine.core.search.domain.SearchCriteria;
 
 import java.util.List;
@@ -12,6 +13,6 @@ import java.util.List;
 
 public interface PostDao extends DAO<Post> {
 
-    <T extends Post> List<T> readFilteredPostsByCriteria(SearchCriteria searchCriteria);
+    <T extends Post> List<T> readFilteredPostsByCriteria(SearchCriteria searchCriteria, List<PostType> postType);
 
 }

@@ -1,8 +1,8 @@
 package com.shine.core.search.service;
 
+import com.shine.core.domain.PostType;
 import com.shine.core.search.ShineSearchService;
 import com.shine.core.search.dao.SearchFieldDao;
-import com.shine.core.search.EntityType;
 import com.shine.core.search.domain.SearchCriteria;
 import com.shine.core.search.domain.SearchField;
 import com.shine.core.search.domain.SearchResult;
@@ -10,8 +10,7 @@ import com.shine.core.service.PostService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -28,26 +27,38 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
 
     @Override
     public SearchResult findResult(SearchCriteria searchCriteria) {
-        setPostType(searchCriteria);
+
+        List<PostType> postTypes = findPostType(searchCriteria);
+
         setFilterCriteria(searchCriteria);
 
-        return postService.findFilteredPostsByCriteria(searchCriteria);
+        postService.findFilteredPostsByCriteria(searchCriteria, postTypes);
     }
 
-    private void setPostType(SearchCriteria searchCriteria) {
+    private List<PostType> findPostType(SearchCriteria searchCriteria) {
+        PostType postType = null;
         Map<String, String[]> filterCriteria = searchCriteria.getFilterCriteria();
-
 
 
         for (Map.Entry<String, String[]> entry : filterCriteria.entrySet()) {
 
             Optional<SearchField> searchField = searchFieldDao.readFieldByAbbreviation(entry.getKey());
-            searchField.ifPresent(searchField1 -> {
-                if (searchField1.getEntityType().equalsIgnoreCase(EntityType.QUESTION.value)) {
-                    searchCriteria.setEntityType(searchField1.getEntityType());
-                    return;
+            if (searchField.isPresent()) {
+                final String entityType = searchField.get().getEntityType();
+                postType = PostType.getPostType(entityType);
+
+                if (!Objects.isNull(postType) &&
+                        (postType.equals(PostType.QUESTION) | postType.equals(PostType.ANSWER))) {
+                    break;
                 }
-            });
+            }
+        }
+
+        // We only want to search with Answer or Question post type
+        if (Objects.isNull(postType) || postType.equals(PostType.POST)) {
+            return Arrays.asList(PostType.ANSWER, PostType.QUESTION);
+        } else {
+            return Collections.singletonList(postType);
         }
 
 

@@ -1,6 +1,7 @@
 package com.shine.core.service;
 
 import com.shine.core.domain.Post;
+import com.shine.core.domain.PostType;
 import com.shine.core.search.domain.SearchCriteria;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface PostService {
 
     <T extends Post> T voteDown(Long postId);
 
-    <T extends Post> List<T> findFilteredPostsByCriteria(SearchCriteria searchCriteria);
+    <T extends Post> List<T> findFilteredPostsByCriteria(SearchCriteria searchCriteria, List<PostType> postTypeList);
 
 
 }
