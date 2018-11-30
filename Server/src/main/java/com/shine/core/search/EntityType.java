@@ -1,4 +1,4 @@
-package com.shine.core.search.domain;
+package com.shine.core.search;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>

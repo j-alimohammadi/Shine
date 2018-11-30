@@ -8,6 +8,7 @@ import com.shine.core.search.domain.SearchCriteria;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
         }
 
-
+        
         criteria.select(postRoot).where(restrictions.toArray(new Predicate[0]));
         addSortBy(searchCriteria, postRoot);
 

@@ -2,7 +2,7 @@ package com.shine.core.search.service;
 
 import com.shine.core.search.ShineSearchService;
 import com.shine.core.search.dao.SearchFieldDao;
-import com.shine.core.search.domain.EntityType;
+import com.shine.core.search.EntityType;
 import com.shine.core.search.domain.SearchCriteria;
 import com.shine.core.search.domain.SearchField;
 import com.shine.core.search.domain.SearchResult;
@@ -44,7 +44,7 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
             Optional<SearchField> searchField = searchFieldDao.readFieldByAbbreviation(entry.getKey());
             searchField.ifPresent(searchField1 -> {
                 if (searchField1.getEntityType().equalsIgnoreCase(EntityType.QUESTION.value)) {
-                    searchCriteria.setPostType(searchField1.getEntityType());
+                    searchCriteria.setEntityType(searchField1.getEntityType());
                     return;
                 }
             });
