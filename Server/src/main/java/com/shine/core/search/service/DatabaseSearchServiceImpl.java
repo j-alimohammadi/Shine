@@ -67,8 +67,11 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
     private void setFilterCriteria(SearchCriteria searchCriteria) {
 
         // set post type
+        Map<String, String[]> filterCriteria = searchCriteria.getFilterCriteria();
+        for (Map.Entry<String, String[]> entry : searchCriteria.getFilterCriteria().entrySet()) {
+            searchFieldDao.readFieldByAbbreviation(entry.getKey());
+        }
 
-        searchFieldDao.readFieldByAbbreviation()
     }
 
 
