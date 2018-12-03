@@ -29,7 +29,7 @@ public class PostEndPoint {
     @RequestMapping(name = "/search", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public SearchResultWrapper searchInPosts(HttpServletRequest httpServletRequest) {
         SearchCriteria searchCriteria = searcServiceDTO.buildSearchCriteria(httpServletRequest);
-        SearchResult searchResult = shineSearchService.findResult(searchCriteria);
+        SearchResult searchResult = shineSearchService.searchPosts(searchCriteria);
 
         
 

@@ -26,7 +26,7 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
 
 
     @Override
-    public SearchResult findResult(SearchCriteria searchCriteria) {
+    public SearchResult searchPosts(SearchCriteria searchCriteria) {
 
         List<PostType> postTypes = findPostType(searchCriteria);
 

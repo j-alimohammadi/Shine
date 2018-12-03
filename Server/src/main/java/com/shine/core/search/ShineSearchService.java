@@ -9,6 +9,6 @@ import com.shine.core.search.domain.SearchResult;
 
 public interface ShineSearchService {
 
-    SearchResult findResult(SearchCriteria searchCriteria);
+    SearchResult searchPosts(SearchCriteria searchCriteria);
 
 }
