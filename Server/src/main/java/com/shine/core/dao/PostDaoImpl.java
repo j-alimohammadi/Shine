@@ -5,8 +5,7 @@ import com.shine.core.domain.Answer;
 import com.shine.core.domain.Post;
 import com.shine.core.domain.PostType;
 import com.shine.core.domain.Question;
-import com.shine.core.search.Order;
-import com.shine.core.search.OrderByParameter;
+import com.shine.core.search.domain.OrderBy;
 import com.shine.core.search.domain.SearchCriteria;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -47,7 +46,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
         addSearchCriteria(searchCriteria, postRoot, restrictions);
         addPostTypeRestriction(postRoot, restrictions, postTypes);
-        addSortBy(searchCriteria, postRoot);
+        addSortBy(searchCriteria, postRoot, criteria);
 
 
         criteria.where(restrictions.toArray(new Predicate[0]));
@@ -66,8 +65,8 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
             // find post type according to last separated by dot section
             List<String> searchPath = Arrays.asList(entry.getKey().split("\\."));
-            final String postTypeString = searchPath.get(searchPath.size() - 2);
-            final String attributeName = searchPath.get(searchPath.size() - 1);
+            final String postTypeString = searchPath.get(0);
+            final String attributeName = searchPath.get(1);
 
             PostType postType = PostType.getPostType(postTypeString);
 
@@ -104,48 +103,46 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
     }
 
-    private void addSortBy(SearchCriteria searchCriteria, Path<Post> postRoot) {
+    private void addSortBy(SearchCriteria searchCriteria, Path<Post> postRoot, CriteriaQuery<Post> criteriaQuery) {
         final String sortBy = searchCriteria.getSortBy();
         Path<? extends Post> path;
 
         if (StringUtils.isNotBlank(sortBy)) {
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            List<javax.persistence.criteria.Order> sorts = new ArrayList<>();
+            List<Order> orders = new ArrayList<>();
 
             List<String> sortParams = Arrays.asList(sortBy.split(","));
 
             for (String sortParam : sortParams) {
                 String[] parameters = sortParam.split(" ");
 
-                if (OrderByParameter.isExist(parameters[0])) {
-                    boolean isAscending = false;
-                    if (parameters.length == 2) {
-                        isAscending = Order.isAscending(parameters[1]);
-                    }
+                boolean isAscending = false;
+                if (parameters.length == 2) {
+                    isAscending = OrderBy.isAscending(parameters[1]);
+                }
 
-                    List<String> searchPath = Arrays.asList(parameters[0].split("\\."));
-                    final String postTypeString = searchPath.get(searchPath.size() - 2);
-                    final String attributeName = searchPath.get(searchPath.size() - 1);
+                List<String> searchPath = Arrays.asList(parameters[0].split("\\."));
+                final String postTypeString = searchPath.get(0);
+                final String attributeName = searchPath.get(1);
 
-                    PostType postType = PostType.getPostType(postTypeString);
+                PostType postType = PostType.getPostType(postTypeString);
 
-                    if (Objects.isNull(postType)) {
-                        log.warn("Post type [{}] not found", postTypeString);
-                        continue;
-                    }
+                if (Objects.isNull(postType)) {
+                    log.warn("Post type [{}] not found", postTypeString);
+                    continue;
+                }
 
-                    path = changePathAccordingToPostType(postRoot, postType);
+                path = changePathAccordingToPostType(postRoot, postType);
 
-                    if (isAscending) {
-                        sorts.add(criteriaBuilder.asc(path.get(attributeName)));
-                    } else {
-                        sorts.add(criteriaBuilder.desc(path.get(attributeName)));
-                    }
+                if (isAscending) {
+                    orders.add(criteriaBuilder.asc(path.get(attributeName)));
+                } else {
+                    orders.add(criteriaBuilder.desc(path.get(attributeName)));
                 }
             }
 
+            criteriaQuery.orderBy(orders);
         }
-
 
     }
 

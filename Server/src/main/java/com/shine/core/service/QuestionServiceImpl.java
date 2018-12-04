@@ -5,7 +5,6 @@ import com.shine.core.dao.QuestionDao;
 import com.shine.core.domain.Answer;
 import com.shine.core.domain.Question;
 import com.shine.core.domain.Tag;
-import com.shine.core.search.OrderByParameter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.slf4j.Logger;
@@ -111,27 +110,6 @@ public class QuestionServiceImpl implements QuestionService {
     public Optional<Question> findQuestionById(Long id) {
         return questionDao.find(id);
     }
-
-    @Transactional
-    @Override
-    public List<Question> findQuestions(int questionOffset, int questionLimit, OrderByParameter orderByParameter) {
-        switch (orderByParameter) {
-            case RECENT_UPDATE:
-                return questionDao.findQuestionOrderByUpdate(questionOffset, questionLimit);
-            case MOST_VOTES:
-                return questionDao.findQuestionOrderByVotes(questionOffset, questionLimit);
-            case ANSWER_COUNTS:
-                return questionDao.findQuestionOrderByAnswerCount(questionOffset, questionLimit);
-            case VIEW_COUNTS:
-                return questionDao.findQuestionOrderByViewCount(questionOffset, questionLimit);
-
-            default:
-                return questionDao.findQuestionOrderByUpdate(questionOffset, questionLimit);
-        }
-
-
-    }
-
 
     @Transactional
     @Override

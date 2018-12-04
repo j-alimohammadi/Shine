@@ -74,7 +74,9 @@ public class SearchField {
         this.abbreviation = abbreviation;
     }
 
-
+    public String getFullQulificationName() {
+        return entityType + "." + propertyName;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -16,8 +16,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 @RestController
-@RequestMapping(value = "/post", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-
+@RequestMapping(value = "/post")
 public class PostEndPoint {
 
     @Resource
@@ -26,7 +25,7 @@ public class PostEndPoint {
     @Resource(name = "databaseSearchServiceImpl")
     private ShineSearchService shineSearchService;
 
-    @RequestMapping(name = "/search", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path = "/search")
     public SearchResultWrapper searchInPosts(HttpServletRequest httpServletRequest) {
         SearchCriteria searchCriteria = searcServiceDTO.buildSearchCriteria(httpServletRequest);
         SearchResult searchResult = shineSearchService.searchPosts(searchCriteria);

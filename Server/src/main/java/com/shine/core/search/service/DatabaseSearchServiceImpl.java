@@ -8,6 +8,7 @@ import com.shine.core.search.domain.SearchCriteria;
 import com.shine.core.search.domain.SearchField;
 import com.shine.core.search.domain.SearchResult;
 import com.shine.core.service.PostService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -31,7 +32,7 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
 
         List<PostType> postTypes = findPostType(searchCriteria);
 
-        setFilterCriteria(searchCriteria);
+        changeFilterKeyToAttribute(searchCriteria);
 
         List<Post> foundPosts = postService.findFilteredPostsByCriteria(searchCriteria, postTypes);
 
@@ -67,15 +68,40 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
 
     }
 
-    private void setFilterCriteria(SearchCriteria searchCriteria) {
+    private void changeFilterKeyToAttribute(SearchCriteria searchCriteria) {
 
-        // set post type
+        // Convert search key to attribute
         Map<String, String[]> filterCriteria = searchCriteria.getFilterCriteria();
         for (Map.Entry<String, String[]> entry : searchCriteria.getFilterCriteria().entrySet()) {
-            searchFieldDao.readFieldByAbbreviation(entry.getKey());
+            Optional<SearchField> searchField = searchFieldDao.readFieldByAbbreviation(entry.getKey());
+
+
+            if (!searchField.isPresent()) {
+                continue;
+            } else {
+                filterCriteria.put(searchField.get().getFullQulificationName(), entry.getValue());
+            }
+
+
+        }
+        searchCriteria.setFilterCriteria(filterCriteria);
+
+        // Convert url key to attribute. For example: key1 asc, key2 desc  ==> entity1.field1 asc, entity1.field2 desc
+        String sortedBy = searchCriteria.getSortBy();
+        if (StringUtils.isNotBlank(sortedBy)) {
+            StringBuilder sortedByUrl = new StringBuilder();
+            for (String param : sortedBy.split(",")) {
+                final String paramName = param.split(" ")[0];
+                Optional<SearchField> searchField = searchFieldDao.readFieldByAbbreviation(paramName);
+                if (!searchField.isPresent()) {
+                    continue;
+                } else {
+                    String fullQualifiedName = param.replace(paramName, searchField.get().getFullQulificationName());
+                    sortedByUrl.append(fullQualifiedName);
+                }
+            }
+            searchCriteria.setSortBy(sortedByUrl.toString());
         }
 
     }
-
-
 }

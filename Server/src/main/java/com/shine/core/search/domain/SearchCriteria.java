@@ -18,7 +18,7 @@ public class SearchCriteria {
 
     private String sortBy;
 
-    private Integer page;
+    private Integer page = 1;
 
     private Integer pageSize;
 

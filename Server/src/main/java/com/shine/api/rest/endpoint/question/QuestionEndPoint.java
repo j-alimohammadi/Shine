@@ -4,11 +4,8 @@ import com.shine.api.rest.endpoint.BaseEndpoint;
 import com.shine.api.rest.exception.ShineRestException;
 import com.shine.api.rest.wrapper.AnswerWrapper;
 import com.shine.api.rest.wrapper.QuestionWrapper;
-import com.shine.common.config.ShineConfigReader;
 import com.shine.core.domain.Answer;
 import com.shine.core.domain.Question;
-import com.shine.core.search.OrderByParameter;
-import com.shine.core.search.domain.SearchCriteria;
 import com.shine.core.service.AnswerService;
 import com.shine.core.service.QuestionService;
 import com.shine.web.SearcServiceDTO;
@@ -22,8 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -114,31 +109,6 @@ public class QuestionEndPoint extends BaseEndpoint {
         return ResponseEntity.ok(message);
     }
 
-    @GetMapping(path = {"", "/sort/{order-by}"})
-    public List<QuestionWrapper> findQuestions(HttpServletRequest httpServletRequest,
-                                               @PathVariable(value = "order-by", required = false) String orderBy,
-                                               @RequestParam(value = "offset", defaultValue = "0") int questionOffset,
-                                               @RequestParam(value = "limit", defaultValue = "20") int questionLimit) {
-
-        OrderByParameter searchOrder = OrderByParameter.getOrderByParameter(orderBy)
-                .orElse(OrderByParameter.valueOf(ShineConfigReader.readProperty("question.default.sort",
-                        OrderByParameter.RECENT_UPDATE.value)));
-
-        SearchCriteria searchCriteria = searcServiceDTO.buildSearchCriteria(httpServletRequest);
-
-
-        List<QuestionWrapper> result = new ArrayList<>();
-        List<Question> questions = questionService.findQuestions(questionOffset, questionLimit, searchOrder);
-
-
-        questions.forEach(question -> {
-            QuestionWrapper response = applicationContext.getBean(QuestionWrapper.class);
-            response.wrap(question, httpServletRequest);
-            result.add(response);
-        });
-
-        return result;
-    }
 
     @GetMapping(path = "/{question-id}")
     public QuestionWrapper findQuestionById(HttpServletRequest httpServletRequest,
