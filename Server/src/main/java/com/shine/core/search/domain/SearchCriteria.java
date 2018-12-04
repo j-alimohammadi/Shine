@@ -22,8 +22,6 @@ public class SearchCriteria {
 
     private Integer pageSize;
 
-    private Integer startIndex;
-
     private Map<String, String[]> filterCriteria = new HashMap<>();
 
 
@@ -57,14 +55,6 @@ public class SearchCriteria {
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
-    }
-
-    public Integer getStartIndex() {
-        return startIndex;
-    }
-
-    public void setStartIndex(Integer startIndex) {
-        this.startIndex = startIndex;
     }
 
     public Map<String, String[]> getFilterCriteria() {

@@ -2,8 +2,10 @@ package com.shine.core.search.service;
 
 import com.shine.core.domain.Post;
 import com.shine.core.domain.PostType;
+import com.shine.core.domain.Question;
 import com.shine.core.search.ShineSearchService;
 import com.shine.core.search.dao.SearchFieldDao;
+import com.shine.core.search.domain.PostTypeSearchResultItem;
 import com.shine.core.search.domain.SearchCriteria;
 import com.shine.core.search.domain.SearchField;
 import com.shine.core.search.domain.SearchResult;
@@ -29,12 +31,23 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
 
     @Override
     public SearchResult searchPosts(SearchCriteria searchCriteria) {
-
+        SearchResult searchResult = new SearchResult();
         List<PostType> postTypes = findPostType(searchCriteria);
-
         changeFilterKeyToAttribute(searchCriteria);
 
         List<Post> foundPosts = postService.findFilteredPostsByCriteria(searchCriteria, postTypes);
+
+
+        foundPosts.forEach(post -> {
+            PostTypeSearchResultItem postTypeSearchResultItem = PostTypeSearchResultItem.
+                    PostTypeSearchResultItemBuilder.aPostTypeSearchResultItem()
+                    .withPostId(post.getId())
+                    .withPostType(post instanceof Question ? PostType.QUESTION : PostType.ANSWER)
+                    .withBody(post.getBody())
+
+
+            searchResult.getSearchItems()
+        });
 
         return null;
     }

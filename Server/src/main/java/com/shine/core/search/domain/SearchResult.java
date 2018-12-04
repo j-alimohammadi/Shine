@@ -1,5 +1,6 @@
 package com.shine.core.search.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,19 +10,21 @@ import java.util.List;
  */
 
 public class SearchResult {
-    private List<SearchItemDTO> searchItems;
+    private List<PostTypeSearchResultItem> searchItems = new ArrayList<>();
 
     private int pageSize;
 
     private int page;
 
-    private int totalSize;
+    private int totalResultSize;
 
-    public List<SearchItemDTO> getSearchItems() {
+    private int totalPageSize;
+
+    public List<PostTypeSearchResultItem> getSearchItems() {
         return searchItems;
     }
 
-    public void setSearchItems(List<SearchItemDTO> searchItems) {
+    public void setSearchItems(List<PostTypeSearchResultItem> searchItems) {
         this.searchItems = searchItems;
     }
 
@@ -41,11 +44,19 @@ public class SearchResult {
         this.page = page;
     }
 
-    public int getTotalSize() {
-        return totalSize;
+    public int getTotalResultSize() {
+        return totalResultSize;
     }
 
-    public void setTotalSize(int totalSize) {
-        this.totalSize = totalSize;
+    public void setTotalResultSize(int totalResultSize) {
+        this.totalResultSize = totalResultSize;
+    }
+
+    public int getTotalPageSize() {
+        return totalPageSize;
+    }
+
+    public void setTotalPageSize(int totalPageSize) {
+        this.totalPageSize = totalPageSize;
     }
 }

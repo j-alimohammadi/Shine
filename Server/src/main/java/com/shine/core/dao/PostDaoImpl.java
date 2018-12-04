@@ -48,13 +48,13 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
         addPostTypeRestriction(postRoot, restrictions, postTypes);
         addSortBy(searchCriteria, postRoot, criteria);
 
-
         criteria.where(restrictions.toArray(new Predicate[0]));
 
-        TypedQuery<Post> typedQuery = entityManager.createQuery(criteria);
+        TypedQuery<Post> postTypedQuery = entityManager.createQuery(criteria);
+        final int firstIndex = searchCriteria.getPageSize() * (searchCriteria.getPage() - 1);
+        postTypedQuery.setFirstResult(firstIndex).setMaxResults(searchCriteria.getPage());
 
-
-        return typedQuery.getResultList();
+        return postTypedQuery.getResultList();
     }
 
     private void addSearchCriteria(SearchCriteria searchCriteria, Root<Post> postRoot, List<Predicate> restrictions) {
