@@ -26,8 +26,8 @@ public enum PostType {
     }
 
     public interface Constants {
-        String POST = "Post";
-        String QUESTION = "Question";
-        String ANSWER = "Answer";
+        String POST = "POST";
+        String QUESTION = "QUESTION";
+        String ANSWER = "ANSWER";
     }
 }

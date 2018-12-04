@@ -13,6 +13,6 @@ import java.util.List;
 
 public interface PostDao extends DAO<Post> {
 
-    <T extends Post> List<T> readFilteredPostsByCriteria(SearchCriteria searchCriteria, List<PostType> postType);
+     List<Post> readFilteredPostsByCriteria(SearchCriteria searchCriteria, List<PostType> postType);
 
 }

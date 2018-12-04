@@ -9,6 +9,7 @@ import com.shine.core.search.domain.SearchResult;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,9 @@ public class SearchResultWrapper extends BaseWrapper implements APIWrapper<Searc
     @JsonProperty("result")
     private List<SearchResult> searchResult = new ArrayList<>();
 
-    
 
+    @Override
+    public void wrap(SearchResult model, HttpServletRequest request) {
 
+    }
 }

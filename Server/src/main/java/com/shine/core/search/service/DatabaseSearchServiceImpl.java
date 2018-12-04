@@ -1,5 +1,6 @@
 package com.shine.core.search.service;
 
+import com.shine.core.domain.Post;
 import com.shine.core.domain.PostType;
 import com.shine.core.search.ShineSearchService;
 import com.shine.core.search.dao.SearchFieldDao;
@@ -32,7 +33,9 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
 
         setFilterCriteria(searchCriteria);
 
-        postService.findFilteredPostsByCriteria(searchCriteria, postTypes);
+        List<Post> foundPosts = postService.findFilteredPostsByCriteria(searchCriteria, postTypes);
+
+        return null;
     }
 
     private List<PostType> findPostType(SearchCriteria searchCriteria) {

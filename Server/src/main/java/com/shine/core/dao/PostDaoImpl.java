@@ -8,6 +8,7 @@ import com.shine.core.domain.Question;
 import com.shine.core.search.Order;
 import com.shine.core.search.OrderByParameter;
 import com.shine.core.search.domain.SearchCriteria;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
     private final static Logger log = LoggerFactory.getLogger(PostDaoImpl.class);
 
     @Override
-    public <T extends Post> List<T> readFilteredPostsByCriteria(SearchCriteria searchCriteria, List<PostType> postTypes) {
+    public List<Post> readFilteredPostsByCriteria(SearchCriteria searchCriteria, List<PostType> postTypes) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Post> criteria = criteriaBuilder.createQuery(Post.class);
 
@@ -45,9 +46,9 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
         }
 
         addSearchCriteria(searchCriteria, postRoot, restrictions);
-        addPostType(postRoot, restrictions, postTypes);
-
+        addPostTypeRestriction(postRoot, restrictions, postTypes);
         addSortBy(searchCriteria, postRoot);
+
 
         criteria.where(restrictions.toArray(new Predicate[0]));
 
@@ -58,29 +59,39 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
     }
 
     private void addSearchCriteria(SearchCriteria searchCriteria, Root<Post> postRoot, List<Predicate> restrictions) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         Path<? extends Post> path;
+        List<String> equalValues = new ArrayList<>();
+
         for (Map.Entry<String, String[]> entry : searchCriteria.getFilterCriteria().entrySet()) {
 
-            // find post type according to last separated by comma section
-            List<String> postTypes = Arrays.asList(entry.getKey().split("\\."));
-            final String postTypeString = postTypes.get(postTypes.size() - 2);
+            // find post type according to last separated by dot section
+            List<String> searchPath = Arrays.asList(entry.getKey().split("\\."));
+            final String postTypeString = searchPath.get(searchPath.size() - 2);
+            final String attributeName = searchPath.get(searchPath.size() - 1);
+
             PostType postType = PostType.getPostType(postTypeString);
 
             if (Objects.isNull(postType)) {
                 log.warn("Post type [{}] not found", postTypeString);
                 continue;
             }
-            path = convertPathByPostType(postRoot, postType);
 
-            final String searchPath = criteriaBuilder
-            criteriaBuilder.equal(path.get(""), )
-            criteriaBuilder.and()
+            path = changePathAccordingToPostType(postRoot, postType);
+
+            // todo: add other restrictions for example: range
+
+            // add restrictions based on equality with parameter value
+            equalValues.addAll(Arrays.asList(entry.getValue()));
+
+            if (CollectionUtils.isEmpty(equalValues)) {
+                restrictions.add(path.get(attributeName).in(equalValues));
+            }
+
 
         }
     }
 
-    private void addPostType(Root<Post> postRoot, List<Predicate> restrictions, List<PostType> postTypes) {
+    private void addPostTypeRestriction(Root<Post> postRoot, List<Predicate> restrictions, List<PostType> postTypes) {
         List<String> postTypeStringList = postTypes
                 .stream()
                 .map(postType1 -> postType1.type)
@@ -93,8 +104,9 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
     }
 
-    private void addSortBy(SearchCriteria searchCriteria, Path<? extends Post> post) {
+    private void addSortBy(SearchCriteria searchCriteria, Path<Post> postRoot) {
         final String sortBy = searchCriteria.getSortBy();
+        Path<? extends Post> path;
 
         if (StringUtils.isNotBlank(sortBy)) {
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -111,14 +123,23 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
                         isAscending = Order.isAscending(parameters[1]);
                     }
 
-                    String attributeName = parameters[0]
-                            .replaceFirst("post.", "")
-                            .replaceFirst("answer.", "");
+                    List<String> searchPath = Arrays.asList(parameters[0].split("\\."));
+                    final String postTypeString = searchPath.get(searchPath.size() - 2);
+                    final String attributeName = searchPath.get(searchPath.size() - 1);
+
+                    PostType postType = PostType.getPostType(postTypeString);
+
+                    if (Objects.isNull(postType)) {
+                        log.warn("Post type [{}] not found", postTypeString);
+                        continue;
+                    }
+
+                    path = changePathAccordingToPostType(postRoot, postType);
 
                     if (isAscending) {
-                        sorts.add(criteriaBuilder.asc(post.get(attributeName)));
+                        sorts.add(criteriaBuilder.asc(path.get(attributeName)));
                     } else {
-                        sorts.add(criteriaBuilder.desc(post.get(attributeName)));
+                        sorts.add(criteriaBuilder.desc(path.get(attributeName)));
                     }
                 }
             }
@@ -128,7 +149,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
     }
 
-    private Path<? extends Post> convertPathByPostType(Path<Post> postRoot, PostType postType) {
+    private Path<? extends Post> changePathAccordingToPostType(Path<Post> postRoot, PostType postType) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         switch (postType) {
             case ANSWER:

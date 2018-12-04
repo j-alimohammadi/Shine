@@ -31,7 +31,7 @@ public class PostEndPoint {
         SearchCriteria searchCriteria = searcServiceDTO.buildSearchCriteria(httpServletRequest);
         SearchResult searchResult = shineSearchService.searchPosts(searchCriteria);
 
-        
+        return null;
 
 
     }
