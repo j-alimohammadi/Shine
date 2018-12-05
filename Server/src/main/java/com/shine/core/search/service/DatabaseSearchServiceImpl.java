@@ -2,10 +2,8 @@ package com.shine.core.search.service;
 
 import com.shine.core.domain.Post;
 import com.shine.core.domain.PostType;
-import com.shine.core.domain.Question;
 import com.shine.core.search.ShineSearchService;
 import com.shine.core.search.dao.SearchFieldDao;
-import com.shine.core.search.domain.PostTypeSearchResultItem;
 import com.shine.core.search.domain.SearchCriteria;
 import com.shine.core.search.domain.SearchField;
 import com.shine.core.search.domain.SearchResult;
@@ -37,22 +35,9 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
 
         List<Post> foundPosts = postService.findFilteredPostsByCriteria(searchCriteria, postTypes);
 
+        searchResult.setPosts(foundPosts);
 
-        for (Post post : foundPosts) {
-            PostType postType = PostType.getPostType(post.getPostType());
-
-            PostTypeSearchResultItem postTypeSearchResultItem = PostTypeSearchResultItem.
-                    PostTypeSearchResultItemBuilder.aPostTypeSearchResultItem()
-                    .withPostId(post.getId())
-                    .withPostType(post instanceof Question ? PostType.QUESTION : PostType.ANSWER)
-                    .withBody(post.getBody())
-                    .withQuestionTitle(post)
-
-
-            searchResult.getSearchItems()
-        }
-
-        return null;
+        return searchResult;
     }
 
     private List<PostType> findPostType(SearchCriteria searchCriteria) {
