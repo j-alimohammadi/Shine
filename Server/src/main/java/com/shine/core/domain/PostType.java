@@ -7,12 +7,17 @@ import java.util.EnumSet;
  */
 
 public enum PostType {
-    POST(Constants.POST), QUESTION(Constants.QUESTION), ANSWER(Constants.ANSWER);
+    POST(Constants.POST, Post.class),
+    QUESTION(Constants.QUESTION, Question.class),
+    ANSWER(Constants.ANSWER, Answer.class);
 
     public String type;
 
-    PostType(String type) {
+    public Class postType;
+
+    PostType(String type, Class postType) {
         this.type = type;
+        this.postType = postType;
     }
 
     public static PostType getPostType(final String postType) {

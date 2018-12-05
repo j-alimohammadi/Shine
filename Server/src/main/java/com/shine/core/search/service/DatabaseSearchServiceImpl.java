@@ -38,16 +38,19 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
         List<Post> foundPosts = postService.findFilteredPostsByCriteria(searchCriteria, postTypes);
 
 
-        foundPosts.forEach(post -> {
+        for (Post post : foundPosts) {
+            PostType postType = PostType.getPostType(post.getPostType());
+
             PostTypeSearchResultItem postTypeSearchResultItem = PostTypeSearchResultItem.
                     PostTypeSearchResultItemBuilder.aPostTypeSearchResultItem()
                     .withPostId(post.getId())
                     .withPostType(post instanceof Question ? PostType.QUESTION : PostType.ANSWER)
                     .withBody(post.getBody())
+                    .withQuestionTitle(post)
 
 
             searchResult.getSearchItems()
-        });
+        }
 
         return null;
     }
