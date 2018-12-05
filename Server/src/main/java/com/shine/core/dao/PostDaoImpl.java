@@ -52,11 +52,12 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
         TypedQuery<Post> postTypedQuery = entityManager.createQuery(criteria);
         final int firstIndex = searchCriteria.getPageSize() * (searchCriteria.getPage() - 1);
-        postTypedQuery.setFirstResult(firstIndex).setMaxResults(searchCriteria.getPage());
+        postTypedQuery.setFirstResult(firstIndex).setMaxResults(searchCriteria.getPageSize());
 
         return postTypedQuery.getResultList();
     }
 
+    // todo: remove duplicated code
     private void addSearchCriteria(SearchCriteria searchCriteria, Root<Post> postRoot, List<Predicate> restrictions) {
         Path<? extends Post> path;
         List<String> equalValues = new ArrayList<>();
