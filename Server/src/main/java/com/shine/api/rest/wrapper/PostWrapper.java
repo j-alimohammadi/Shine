@@ -1,24 +1,25 @@
 package com.shine.api.rest.wrapper;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.shine.common.rest.api.wrapper.APIUnWrapper;
 import com.shine.common.rest.api.wrapper.APIWrapper;
 import com.shine.common.rest.api.wrapper.BaseWrapper;
 import com.shine.common.utils.JSONMapper;
-import com.shine.core.domain.Answer;
-import com.shine.core.domain.Post;
-import com.shine.core.domain.PostType;
-import com.shine.core.domain.Question;
+import com.shine.core.domain.*;
+import com.shine.core.service.TagService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -29,6 +30,10 @@ import java.util.Map;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class PostWrapper extends BaseWrapper implements APIUnWrapper<Post>, APIWrapper<Post> {
+    @JsonIgnore
+    @Resource
+    private TagService tagService;
+
 
     @JsonProperty("id")
     private Long id;
@@ -56,8 +61,8 @@ public class PostWrapper extends BaseWrapper implements APIUnWrapper<Post>, APIW
     ///////////////////////////////////////
     //       Question property
     ///////////////////////////////////////
-    @JsonProperty("title")
-    private String title;
+    @JsonProperty("question_title")
+    private String questionTitle;
 
     @JsonProperty(value = "answer_count")
     private Long answerCount;
@@ -82,13 +87,24 @@ public class PostWrapper extends BaseWrapper implements APIUnWrapper<Post>, APIW
         this.vote = model.getVote();
         this.postType = model.getPostType().typeName;
 
+
         if (model.getPostType() == PostType.ANSWER) {
             Answer answer = (Answer) model;
             this.isAnswerAccept = answer.getAccepted();
-        } else if (model.getPostType() == PostType.POST) {
+            this.questionTitle = answer.getQuestion().getTitle();
+        } else if (model.getPostType() == PostType.QUESTION) {
             Question question = (Question) model;
-            
+            List<Tag> tagList = tagService.findTagsForQuestion(question);
 
+            this.questionTitle = question.getTitle();
+            this.answerCount = question.getAnswerCount();
+            this.questionURL = question.getQuestionAddress();
+            this.tagNames = tagList
+                    .stream()
+                    .map(Tag::getName)
+                    .collect(Collectors.toList());
         }
+
+
     }
 }

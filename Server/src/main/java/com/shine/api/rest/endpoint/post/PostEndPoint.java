@@ -1,11 +1,11 @@
 package com.shine.api.rest.endpoint.post;
 
+import com.shine.api.rest.endpoint.BaseEndpoint;
 import com.shine.api.rest.wrapper.SearchResultWrapper;
 import com.shine.core.search.ShineSearchService;
 import com.shine.core.search.domain.SearchCriteria;
 import com.shine.core.search.domain.SearchResult;
 import com.shine.web.SearcServiceDTO;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @RequestMapping(value = "/post")
-public class PostEndPoint {
+public class PostEndPoint extends BaseEndpoint {
 
     @Resource
     private SearcServiceDTO searcServiceDTO;
@@ -30,10 +30,9 @@ public class PostEndPoint {
         SearchCriteria searchCriteria = searcServiceDTO.buildSearchCriteria(httpServletRequest);
         SearchResult searchResult = shineSearchService.searchPosts(searchCriteria);
 
+        SearchResultWrapper searchResultWrapper = applicationContext.getBean(SearchResultWrapper.class);
+        searchResultWrapper.wrap(searchResult, httpServletRequest);
 
-
-        return null;
-
-
+        return searchResultWrapper;
     }
 }

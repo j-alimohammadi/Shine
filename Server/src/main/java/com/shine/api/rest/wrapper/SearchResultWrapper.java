@@ -28,12 +28,12 @@ public class SearchResultWrapper extends BaseWrapper implements APIWrapper<Searc
     private Integer pageSize;
 
     @JsonProperty("total_page")
-    private Integer totalPage;
+    private Long totalPage;
 
     @JsonProperty("result_size")
-    private Integer resultSize;
+    private Long resultSize;
 
-    @JsonProperty("result")
+    @JsonProperty("posts")
     private List<PostWrapper> posts = new ArrayList<>();
 
 
@@ -46,6 +46,11 @@ public class SearchResultWrapper extends BaseWrapper implements APIWrapper<Searc
 
             posts.add(postWrapper);
         });
+
+        this.page = model.getPage();
+        this.pageSize = model.getPageSize();
+        this.totalPage = model.getTotalPage();
+        this.resultSize = model.getTotalResult();
 
 
     }
