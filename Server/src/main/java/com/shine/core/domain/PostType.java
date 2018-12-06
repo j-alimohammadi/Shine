@@ -11,18 +11,18 @@ public enum PostType {
     QUESTION(Constants.QUESTION, Question.class),
     ANSWER(Constants.ANSWER, Answer.class);
 
-    public String type;
+    public String typeName;
 
-    public Class postType;
+    public Class typeClass;
 
-    PostType(String type, Class postType) {
-        this.type = type;
-        this.postType = postType;
+    PostType(String typeName, Class typeClass) {
+        this.typeName = typeName;
+        this.typeClass = typeClass;
     }
 
     public static PostType getPostType(final String postType) {
         for (PostType post : EnumSet.allOf(PostType.class)) {
-            if (post.type.equalsIgnoreCase(postType)) {
+            if (post.typeName.equalsIgnoreCase(postType)) {
                 return post;
             }
         }

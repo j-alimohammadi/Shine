@@ -15,4 +15,6 @@ public interface PostDao extends DAO<Post> {
 
      List<Post> readFilteredPostsByCriteria(SearchCriteria searchCriteria, List<PostType> postType);
 
+     Long findFilteredPostCountByCriteria(SearchCriteria searchCriteria, List<PostType> postTypes);
+
 }

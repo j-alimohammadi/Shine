@@ -30,14 +30,23 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
     @Override
     public SearchResult searchPosts(SearchCriteria searchCriteria) {
         SearchResult searchResult = new SearchResult();
-        List<PostType> postTypes = findPostType(searchCriteria);
+
         changeFilterKeyToAttribute(searchCriteria);
-
-        List<Post> foundPosts = postService.findFilteredPostsByCriteria(searchCriteria, postTypes);
-
-        searchResult.setPosts(foundPosts);
+        searchPosts(searchResult, searchCriteria);
+        setPagingAttributes(searchResult, searchCriteria);
 
         return searchResult;
+    }
+
+    private void setPagingAttributes(SearchResult searchResult, SearchCriteria searchCriteria) {
+        List<PostType> postTypes = findPostType(searchCriteria);
+
+        final long totalResultCount = postService.findFilteredPostsCountByCriteria(searchCriteria, postTypes);
+        final long totalPageCount = (long) Math.ceil(totalResultCount / (double) searchCriteria.getPageSize());
+        searchResult.setPage(searchCriteria.getPage());
+        searchResult.setPageSize(searchCriteria.getPageSize());
+        searchResult.setTotalResult(totalResultCount);
+        searchResult.setTotalPage(totalPageCount);
     }
 
     private List<PostType> findPostType(SearchCriteria searchCriteria) {
@@ -103,6 +112,15 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
             }
             searchCriteria.setSortBy(sortedByUrl.toString());
         }
+
+    }
+
+    private void searchPosts(SearchResult searchResult, SearchCriteria searchCriteria) {
+        List<PostType> postTypes = findPostType(searchCriteria);
+
+        List<Post> foundPosts = postService.findFilteredPostsByCriteria(searchCriteria, postTypes);
+
+        searchResult.setPosts(foundPosts);
 
     }
 }

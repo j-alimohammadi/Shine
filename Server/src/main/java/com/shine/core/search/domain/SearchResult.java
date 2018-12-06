@@ -6,28 +6,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Holds the search result for posts
+ * Holds the search result
  *
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 
 public class SearchResult {
-    private List<Post> searchItems = new ArrayList<>();
+    private List<Post> posts = new ArrayList<>();
 
     private int pageSize;
 
     private int page;
 
-    private int totalResultSize;
+    private long totalResult;
 
-    private int totalPageSize;
+    private long totalPage;
 
-    public List<Post> getSearchItems() {
-        return searchItems;
+    public List<Post> getPosts() {
+        return posts;
     }
 
     public void setPosts(List<Post> posts) {
-        this.searchItems = posts;
+        this.posts = posts;
     }
 
     public int getPageSize() {
@@ -46,19 +46,19 @@ public class SearchResult {
         this.page = page;
     }
 
-    public int getTotalResultSize() {
-        return totalResultSize;
+    public long getTotalResult() {
+        return totalResult;
     }
 
-    public void setTotalResultSize(int totalResultSize) {
-        this.totalResultSize = totalResultSize;
+    public void setTotalResult(long totalResult) {
+        this.totalResult = totalResult;
     }
 
-    public int getTotalPageSize() {
-        return totalPageSize;
+    public long getTotalPage() {
+        return totalPage;
     }
 
-    public void setTotalPageSize(int totalPageSize) {
-        this.totalPageSize = totalPageSize;
+    public void setTotalPage(long totalPage) {
+        this.totalPage = totalPage;
     }
 }

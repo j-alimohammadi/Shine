@@ -34,16 +34,6 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
         List<Predicate> restrictions = new ArrayList<>();
 
-
-        // query parameter
-        final String query = searchCriteria.getQuery();
-        if (StringUtils.isNotBlank(query)) {
-            restrictions.add(
-                    criteriaBuilder.like(criteriaBuilder.lower(postRoot.get("body")), '%' + query + '%')
-            );
-
-        }
-
         addSearchCriteria(searchCriteria, postRoot, restrictions);
         addPostTypeRestriction(postRoot, restrictions, postTypes);
         addSortBy(searchCriteria, postRoot, criteria);
@@ -57,9 +47,44 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
         return postTypedQuery.getResultList();
     }
 
+    @Override
+    public Long findFilteredPostCountByCriteria(SearchCriteria searchCriteria, List<PostType> postTypes) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> criteria = criteriaBuilder.createQuery(Long.class);
+
+        Root<Post> postRoot = criteria.from(Post.class);
+
+        List<Predicate> restrictions = new ArrayList<>();
+
+        criteria.select(criteriaBuilder.count(postRoot));
+
+        addSearchCriteria(searchCriteria, postRoot, restrictions);
+        addPostTypeRestriction(postRoot, restrictions, postTypes);
+
+        criteria.where(restrictions.toArray(new Predicate[0]));
+
+        TypedQuery<Long> postTypedQuery = entityManager.createQuery(criteria);
+
+        return postTypedQuery.getSingleResult();
+
+
+    }
+
+
     // todo: remove duplicated code
     private void addSearchCriteria(SearchCriteria searchCriteria, Root<Post> postRoot, List<Predicate> restrictions) {
         Path<? extends Post> path;
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+        // search in post body
+        final String query = searchCriteria.getQuery();
+        if (StringUtils.isNotBlank(query)) {
+            restrictions.add(
+                    criteriaBuilder.like(criteriaBuilder.lower(postRoot.get("body")), '%' + query + '%')
+            );
+
+        }
+
         List<String> equalValues = new ArrayList<>();
 
         for (Map.Entry<String, String[]> entry : searchCriteria.getFilterCriteria().entrySet()) {
@@ -94,7 +119,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
     private void addPostTypeRestriction(Root<Post> postRoot, List<Predicate> restrictions, List<PostType> postTypes) {
         List<String> postTypeStringList = postTypes
                 .stream()
-                .map(postType1 -> postType1.type)
+                .map(postType1 -> postType1.typeName)
                 .collect(Collectors.toList());
 
 

@@ -52,4 +52,10 @@ public class PostServiceImpl implements PostService {
     public List<Post> findFilteredPostsByCriteria(SearchCriteria searchCriteria, List<PostType> postTypeList) {
         return postDao.readFilteredPostsByCriteria(searchCriteria, postTypeList);
     }
+
+    @Transactional
+    @Override
+    public Long findFilteredPostsCountByCriteria(SearchCriteria searchCriteria, List<PostType> postTypeList) {
+        return postDao.findFilteredPostCountByCriteria(searchCriteria, postTypeList);
+    }
 }

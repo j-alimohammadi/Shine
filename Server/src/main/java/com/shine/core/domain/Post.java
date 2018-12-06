@@ -75,11 +75,8 @@ public class Post {
         this.vote = vote;
     }
 
-    public String getPostType() {
-        return postType;
+    public PostType getPostType() {
+        return PostType.getPostType(postType);
     }
 
-    public void setPostType(String postType) {
-        this.postType = postType;
-    }
 }

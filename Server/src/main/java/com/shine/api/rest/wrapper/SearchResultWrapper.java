@@ -34,11 +34,19 @@ public class SearchResultWrapper extends BaseWrapper implements APIWrapper<Searc
     private Integer resultSize;
 
     @JsonProperty("result")
-    private List<SearchResult> searchResult = new ArrayList<>();
+    private List<PostWrapper> posts = new ArrayList<>();
 
 
     @Override
     public void wrap(SearchResult model, HttpServletRequest request) {
+        model.getPosts().forEach(post -> {
+            PostWrapper postWrapper = context.getBean(PostWrapper.class);
+            postWrapper.wrap(post, request);
+
+
+            posts.add(postWrapper);
+        });
+
 
     }
 }
