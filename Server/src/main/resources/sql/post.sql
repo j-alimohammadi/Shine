@@ -27,7 +27,7 @@ VALUES (-1, 'QUESTION', '{
     "data" : { }
   } ],
   "entityMap" : { }
-}', DATEADD('SECOND',0, CURRENT_TIMESTAMP()), 'Sample Title 1', 0, 0, 1,'sample-title-1');
+}', DATEADD('SECOND',0, CURRENT_TIMESTAMP()), 'Sample Title 1', 0, 1, 1,'sample-title-1');
 
 INSERT INTO SHINE_POST (ID, POST_TYPE, BODY, CREATED_TIMESTAMP, TITLE, VIEW_COUNT, VOTE, ANSWER_COUNT, URL_ADDRESS)
 VALUES (-2, 'QUESTION', '{
@@ -57,7 +57,7 @@ VALUES (-2, 'QUESTION', '{
     "data" : { }
   } ],
   "entityMap" : { }
-}', DATEADD('SECOND',1, CURRENT_TIMESTAMP()), 'Sample Title 2', 0, 0, 1, 'sample-title-2');
+}', DATEADD('SECOND',1, CURRENT_TIMESTAMP()), 'Sample Title 2', 0, 2, 1, 'sample-title-2');
 
 INSERT INTO SHINE_POST (ID, POST_TYPE, BODY, CREATED_TIMESTAMP, TITLE, VIEW_COUNT, VOTE, ANSWER_COUNT, URL_ADDRESS)
 VALUES (-3, 'QUESTION', '{
