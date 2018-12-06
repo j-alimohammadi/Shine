@@ -4,8 +4,12 @@ import com.shine.api.rest.endpoint.BaseEndpoint;
 import com.shine.api.rest.exception.ShineRestException;
 import com.shine.api.rest.wrapper.AnswerWrapper;
 import com.shine.api.rest.wrapper.QuestionWrapper;
+import com.shine.api.rest.wrapper.SearchResultWrapper;
 import com.shine.core.domain.Answer;
 import com.shine.core.domain.Question;
+import com.shine.core.search.ShineSearchService;
+import com.shine.core.search.domain.SearchCriteria;
+import com.shine.core.search.domain.SearchResult;
 import com.shine.core.service.AnswerService;
 import com.shine.core.service.QuestionService;
 import com.shine.web.SearcServiceDTO;
@@ -39,6 +43,8 @@ public class QuestionEndPoint extends BaseEndpoint {
     @Resource
     private SearcServiceDTO searcServiceDTO;
 
+    @Resource(name = "databaseSearchServiceImpl")
+    private ShineSearchService shineSearchService;
 
 
     @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -93,6 +99,9 @@ public class QuestionEndPoint extends BaseEndpoint {
 
         return response;
     }
+
+
+
 
     @DeleteMapping(path = "/{question-id}")
     public ResponseEntity deleteQuestionById(@PathVariable("question-id") Long questionId) {

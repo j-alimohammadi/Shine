@@ -108,7 +108,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
             // add restrictions based on equality with parameter value
             equalValues.addAll(Arrays.asList(entry.getValue()));
 
-            if (CollectionUtils.isEmpty(equalValues)) {
+            if (CollectionUtils.isNotEmpty(equalValues)) {
                 restrictions.add(path.get(attributeName).in(equalValues));
             }
 

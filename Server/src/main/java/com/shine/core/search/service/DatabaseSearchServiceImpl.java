@@ -10,6 +10,7 @@ import com.shine.core.search.domain.SearchResult;
 import com.shine.core.service.PostService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -26,7 +27,7 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
     @Resource
     private PostService postService;
 
-
+    @Transactional
     @Override
     public SearchResult searchPosts(SearchCriteria searchCriteria) {
         SearchResult searchResult = new SearchResult();
@@ -81,7 +82,8 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
     private void changeFilterKeyToAttribute(SearchCriteria searchCriteria) {
 
         // Convert search key to attribute
-        Map<String, String[]> filterCriteria = searchCriteria.getFilterCriteria();
+        Map<String, String[]> filterCriteria = new HashMap<>();
+
         for (Map.Entry<String, String[]> entry : searchCriteria.getFilterCriteria().entrySet()) {
             Optional<SearchField> searchField = searchFieldDao.readFieldByAbbreviation(entry.getKey());
 
@@ -91,9 +93,8 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
             } else {
                 filterCriteria.put(searchField.get().getFullQulificationName(), entry.getValue());
             }
-
-
         }
+
         searchCriteria.setFilterCriteria(filterCriteria);
 
         // Convert url key to attribute. For example: key1 asc, key2 desc  ==> entity1.field1 asc, entity1.field2 desc

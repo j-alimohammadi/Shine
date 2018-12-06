@@ -64,4 +64,8 @@ public class SearchCriteria {
     public void setFilterCriteria(Map<String, String[]> filterCriteria) {
         this.filterCriteria = filterCriteria;
     }
+
+    public void addFilterCriteria(String name, String value) {
+        filterCriteria.put(name, new String[]{value});
+    }
 }
