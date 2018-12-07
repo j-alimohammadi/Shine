@@ -5,7 +5,7 @@ import queryString from 'query-string'
 import Tag from './Tag/Tag'
 import Vote from './Vote/Vote'
 
-class Question extends Component {
+class Search extends Component {
   constructor (props) {
     super(props)
 
@@ -190,4 +190,4 @@ class Question extends Component {
 
 }
 
-export default Question
+export default Search

@@ -16,7 +16,7 @@ class ShineClient {
   // }
 
   /////////////////////////////////////////////
-  //            Question Management
+  //            Search Management
   /////////////////////////////////////////////
 
   static findQuestion (questionId) {
