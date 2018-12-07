@@ -7,6 +7,15 @@ const ANSWER_PATH = 'answer'
 class ShineClient {
 
   /////////////////////////////////////////////
+  //            Post Management
+  /////////////////////////////////////////////
+  // static getPosts (pageSize) {
+  //   const url = `${PATH_BASE}/${QUESTIONS_PATH}/${questionId}`
+  //
+  //   return ShineHttpClient.getData(url)
+  // }
+
+  /////////////////////////////////////////////
   //            Question Management
   /////////////////////////////////////////////
 
@@ -16,8 +25,8 @@ class ShineClient {
     return ShineHttpClient.getData(url)
   }
 
-  static findQuestions (offset, limit) {
-    const url = `${PATH_BASE}/${QUESTIONS_PATH}`
+  static findQuestions (page, sortBy, pageSize = 15) {
+    const url = `${PATH_BASE}/${QUESTIONS_PATH}?pageSize=${pageSize}&page=${page}&sortBy=${sortBy}`
 
     return ShineHttpClient.getData(url)
   }

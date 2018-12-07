@@ -23,7 +23,6 @@ class App extends Component {
           <AnswerTemplate path="/answer/:questionId/:title" component={Answer} />
           <DefaultLayout component={ERROR} titleOfPage='Error in response'/>
 
-
         </Switch>
 
       </div>

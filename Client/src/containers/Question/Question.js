@@ -9,7 +9,9 @@ class Question extends Component {
     super(props)
 
     this.state = {
-      questions: []
+      result: {
+        posts: []
+      }
     }
 
     // Event handler
@@ -21,7 +23,6 @@ class Question extends Component {
   // Event handling
 
   handleVote (questionId, isVotingUp, event) {
-    debugger
     ShineClient.voteQuestion(questionId, isVotingUp)
       .then((JSONResponse) => {
         if (ShineResponseParser.isResponseOk(JSONResponse)) {
@@ -49,13 +50,18 @@ class Question extends Component {
 
   updateQuestion (updatedQuestion) {
 
-    const questions = this.state.questions
+    const questions = this.state.result.posts
     const foundIndex = questions.findIndex(element => {
       return element.id === updatedQuestion.id
     })
+    debugger
 
     questions.splice(foundIndex, 1, updatedQuestion)
-    this.setState({questions: questions})
+    this.setState({
+      result: {
+        posts: questions
+      }
+    })
   }
 
   componentDidMount () {
@@ -63,7 +69,7 @@ class Question extends Component {
   }
 
   getAllQuestions () {
-    ShineClient.findQuestions(0, 1)
+    ShineClient.findQuestions(1, 'recent')
       .then((JSONResponse) => {
         if (ShineResponseParser.isResponseOk(JSONResponse)) {
           return JSONResponse.json()
@@ -72,7 +78,7 @@ class Question extends Component {
         }
       })
       .then((jsonData) => {
-        this.setState({questions: jsonData})
+        this.setState({result: jsonData})
       })
       .catch((error) => {
         this.setState({
@@ -88,7 +94,7 @@ class Question extends Component {
   }
 
   render () {
-    const questions = this.state.questions
+    let questions = this.state.result.posts
 
     return (
       <Fragment>
@@ -103,7 +109,7 @@ class Question extends Component {
           <div className="qa-nav-sub">
             <ul className="qa-nav-sub-list">
               <li className="qa-nav-sub-item qa-nav-sub-recent active">
-                <a href="/question/sort/recent"
+                <a href="/question?sortBy=recent"
                    className="qa-nav-sub-link qa-nav-sub-selected">Recent</a>
               </li>
               <li className="qa-nav-sub-item qa-nav-sub-votes">
@@ -141,7 +147,7 @@ class Question extends Component {
                       </div>
                       <div className="qa-q-item-main">
                         <div className="qa-q-item-title">
-                          <a href={`./answer/${item.id}/${item.question_url}`}>{item.title}</a>
+                          <a href={`./answer/${item.id}/${item.question_url}`}>{item.question_title}</a>
                         </div>
                         <span className="qa-q-item-avatar-meta">
                           <span className="qa-q-item-meta">
