@@ -52,7 +52,7 @@ public class QuestionEndPoint extends BaseEndpoint {
     public QuestionWrapper createNewQuestion(HttpServletRequest httpServletRequest,
                                              @RequestBody QuestionWrapper questionWrapper) {
 
-        if (StringUtils.isBlank(questionWrapper.getQuesionTitle())) {
+        if (StringUtils.isBlank(questionWrapper.getQuestionTitle())) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
                     .addMessage(ShineRestException.INVALID_TITLE);
         }
@@ -77,7 +77,7 @@ public class QuestionEndPoint extends BaseEndpoint {
     public QuestionWrapper updateQuestion(HttpServletRequest httpServletRequest,
                                           @RequestBody QuestionWrapper questionWrapper) {
 
-        if (StringUtils.isBlank(questionWrapper.getQuesionTitle())) {
+        if (StringUtils.isBlank(questionWrapper.getQuestionTitle())) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
                     .addMessage(ShineRestException.INVALID_TITLE);
         }

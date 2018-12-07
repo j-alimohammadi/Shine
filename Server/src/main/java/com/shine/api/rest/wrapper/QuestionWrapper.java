@@ -35,7 +35,7 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
     private Long id;
 
     @JsonProperty("question_title")
-    private String quesionTitle;
+    private String questionTitle;
 
     @JsonProperty("body")
     private Map<String, Object> body;
@@ -57,12 +57,12 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
     private TagService tagService;
 
 
-    public String getQuesionTitle() {
-        return quesionTitle;
+    public String getQuestionTitle() {
+        return questionTitle;
     }
 
-    public void setQuesionTitle(String quesionTitle) {
-        this.quesionTitle = quesionTitle;
+    public void setQuestionTitle(String questionTitle) {
+        this.questionTitle = questionTitle;
     }
 
     public Object getBody() {
@@ -115,7 +115,7 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
 
         Question question = questionService.createQuestionFromId(this.id);
         question.setBody(JSONMapper.createJSON(body));
-        question.setTitle(quesionTitle);
+        question.setTitle(questionTitle);
         question.setVote(ObjectUtils.defaultIfNull(vote, 0L));
         question.setTagList(tagList);
 
@@ -127,7 +127,7 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
         List<Tag> tagList = tagService.findTagsForQuestion(model);
 
         this.id = model.getId();
-        this.quesionTitle = model.getTitle();
+        this.questionTitle = model.getTitle();
         this.body = JSONMapper.createHashMapFromJSON(model.getBody());
         this.vote = model.getVote();
         this.questionURL = model.getQuestionAddress();
