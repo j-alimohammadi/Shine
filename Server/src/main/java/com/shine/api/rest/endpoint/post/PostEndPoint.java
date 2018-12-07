@@ -38,19 +38,6 @@ public class PostEndPoint extends BaseEndpoint {
         return searchResultWrapper;
     }
 
-    @GetMapping(path = "/{post-type}")
-    public SearchResultWrapper findQuestions(HttpServletRequest httpServletRequest,
-                                             @PathVariable("post-type") String postType) {
-        SearchCriteria searchCriteria = searcServiceDTO.buildSearchCriteria(httpServletRequest);
-        searchCriteria.addFilterCriteria("postType", postType.toUpperCase());
-
-        SearchResult searchResult = shineSearchService.searchPosts(searchCriteria);
-
-        SearchResultWrapper searchResultWrapper = applicationContext.getBean(SearchResultWrapper.class);
-        searchResultWrapper.wrap(searchResult, httpServletRequest);
-
-        return searchResultWrapper;
-    }
 
 
 }

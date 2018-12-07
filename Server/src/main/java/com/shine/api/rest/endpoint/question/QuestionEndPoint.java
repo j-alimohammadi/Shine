@@ -6,6 +6,7 @@ import com.shine.api.rest.wrapper.AnswerWrapper;
 import com.shine.api.rest.wrapper.QuestionWrapper;
 import com.shine.api.rest.wrapper.SearchResultWrapper;
 import com.shine.core.domain.Answer;
+import com.shine.core.domain.PostType;
 import com.shine.core.domain.Question;
 import com.shine.core.search.ShineSearchService;
 import com.shine.core.search.domain.SearchCriteria;
@@ -51,7 +52,7 @@ public class QuestionEndPoint extends BaseEndpoint {
     public QuestionWrapper createNewQuestion(HttpServletRequest httpServletRequest,
                                              @RequestBody QuestionWrapper questionWrapper) {
 
-        if (StringUtils.isBlank(questionWrapper.getTitle())) {
+        if (StringUtils.isBlank(questionWrapper.getQuesionTitle())) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
                     .addMessage(ShineRestException.INVALID_TITLE);
         }
@@ -76,7 +77,7 @@ public class QuestionEndPoint extends BaseEndpoint {
     public QuestionWrapper updateQuestion(HttpServletRequest httpServletRequest,
                                           @RequestBody QuestionWrapper questionWrapper) {
 
-        if (StringUtils.isBlank(questionWrapper.getTitle())) {
+        if (StringUtils.isBlank(questionWrapper.getQuesionTitle())) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
                     .addMessage(ShineRestException.INVALID_TITLE);
         }
@@ -99,8 +100,6 @@ public class QuestionEndPoint extends BaseEndpoint {
 
         return response;
     }
-
-
 
 
     @DeleteMapping(path = "/{question-id}")
@@ -197,5 +196,19 @@ public class QuestionEndPoint extends BaseEndpoint {
         return response;
 
     }
+
+    @GetMapping(path = "")
+    public SearchResultWrapper findQuestions(HttpServletRequest httpServletRequest) {
+        SearchCriteria searchCriteria = searcServiceDTO.buildSearchCriteria(httpServletRequest);
+        searchCriteria.addFilterCriteria("postType", PostType.QUESTION.typeName);
+
+        SearchResult searchResult = shineSearchService.searchPosts(searchCriteria);
+
+        SearchResultWrapper searchResultWrapper = applicationContext.getBean(SearchResultWrapper.class);
+        searchResultWrapper.wrap(searchResult, httpServletRequest);
+
+        return searchResultWrapper;
+    }
+
 
 }

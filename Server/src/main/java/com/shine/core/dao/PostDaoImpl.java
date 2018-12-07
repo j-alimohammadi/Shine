@@ -76,7 +76,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
         Path<? extends Post> path;
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
-        // search in post body
+        // search in the post body
         final String query = searchCriteria.getQuery();
         if (StringUtils.isNotBlank(query)) {
             restrictions.add(

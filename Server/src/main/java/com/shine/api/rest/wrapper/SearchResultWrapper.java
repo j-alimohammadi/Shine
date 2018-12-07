@@ -42,8 +42,6 @@ public class SearchResultWrapper extends BaseWrapper implements APIWrapper<Searc
         model.getPosts().forEach(post -> {
             PostWrapper postWrapper = context.getBean(PostWrapper.class);
             postWrapper.wrap(post, request);
-
-
             posts.add(postWrapper);
         });
 
