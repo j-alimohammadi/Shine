@@ -1,6 +1,7 @@
 package com.shine.api.rest.wrapper;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.shine.common.rest.api.wrapper.APIUnWrapper;
 import com.shine.common.rest.api.wrapper.APIWrapper;
@@ -30,6 +31,10 @@ import java.util.stream.Collectors;
 @Scope("prototype")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Question>, APIWrapper<Question> {
+    @JsonIgnore
+    @Resource
+    private TagService tagService;
+
 
     @JsonProperty("id")
     private Long id;
@@ -51,11 +56,6 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
 
     @JsonProperty(value = "tag_names")
     private List<String> tagNames = new ArrayList<>();
-
-
-    @Resource
-    private TagService tagService;
-
 
     public String getQuestionTitle() {
         return questionTitle;
