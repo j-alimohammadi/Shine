@@ -9,6 +9,7 @@ import Question from './containers/Question/Question'
 import Ask from './containers/Ask/Ask'
 import Answer from './containers/Question/Answer/Answer'
 import AnswerTemplate from './components/Layout/AnswerTemplate'
+import SearchResult from "./containers/Question/SearchResult/SearchResult";
 
 class App extends Component {
   render () {
@@ -17,7 +18,7 @@ class App extends Component {
       <div>
         <Switch>
           <DefaultLayout path="/" exact component={HOME} titleOfPage='Home'/>
-          <DefaultLayout path="/post/search" exact component={Question} titleOfPage='Search Result'/>
+          <DefaultLayout path="/post/search" exact component={SearchResult} titleOfPage='Search Result'/>
           <DefaultLayout path="/question" component={Question} titleOfPage='Recent questions'/>
           <DefaultLayout path="/ask" component={Ask} titleOfPage='Ask a question'/>
           <DefaultLayout path="/un-answered" component={UnAnswered} titleOfPage='Recent questions without answers'/>

@@ -12,8 +12,7 @@ class Question extends Component {
     this.state = {
       result: {
         posts: []
-      },
-      sortBy: ''
+      }
 
     }
 
