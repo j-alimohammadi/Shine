@@ -79,11 +79,14 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
         // search in the post body and title
         final String query = searchCriteria.getQuery();
         if (StringUtils.isNotBlank(query)) {
-//            Path<? extends Post> questionPath = changePathAccordingToPostType(postRoot, PostType.QUESTION);
+            Path<? extends Post> questionPath = changePathAccordingToPostType(postRoot, PostType.QUESTION);
             Predicate searchInBody = criteriaBuilder.like(criteriaBuilder.lower(postRoot.get("body")), '%' + query + '%');
-            Predicate searchInTitle = criteriaBuilder.like(criteriaBuilder.lower(criteriaBuilder.treat(postRoot, Question.class).get("title")), '%' + query + '%');
+            Predicate searchInTitle = criteriaBuilder.like(criteriaBuilder.lower(questionPath.get("title")), '%' + query + '%');
 
-            restrictions.add(criteriaBuilder.or(searchInBody, searchInTitle));
+            questionPath = changePathAccordingToPostType(postRoot, PostType.ANSWER);
+            Predicate isAccept = criteriaBuilder.equal(criteriaBuilder.lower(questionPath.get("accepted")), true);
+
+            restrictions.add(criteriaBuilder.or(searchInBody, searchInTitle,isAccept));
         }
 
         List<String> equalValues = new ArrayList<>();
