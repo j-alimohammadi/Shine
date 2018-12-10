@@ -101,7 +101,6 @@ class Question extends Component {
   render () {
     let questions = this.state.result.posts
     const sortBy = this.state.sortBy
-    debugger
     return (
       <Fragment>
         <div className="row">

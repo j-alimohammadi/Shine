@@ -300,7 +300,6 @@ class Answer extends Component {
       tags = <Tag tags={this.state.question.tag_names}/>
       body = EditorState.createWithContent(convertFromRaw(this.state.question.body))
       questionTitle = this.state.question.question_title
-      debugger
       if (this.state.question.answer_count > 0) {
         answerTag =
           <div className="qa-part-a-list">

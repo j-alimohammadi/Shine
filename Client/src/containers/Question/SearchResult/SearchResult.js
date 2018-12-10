@@ -5,6 +5,7 @@ import ShineClient from '../../../utils/ShineClient/ShineClient'
 import StringUtils from '../../../utils/StringUtils'
 import Vote from '../Vote/Vote'
 import Tag from '../Tag/Tag'
+import AnswerCount from '../AnswerCount/AnswerCount'
 
 class SearchResult extends Component {
   constructor (props) {
@@ -103,9 +104,7 @@ class SearchResult extends Component {
   }
 
   render () {
-    let questions = this.state.result.posts
-    const sortBy = this.state.sortBy
-    debugger
+    let questions = this.state.result.posts || []
     return (
       <Fragment>
         <div className="row">
@@ -126,10 +125,7 @@ class SearchResult extends Component {
                         <Vote onChangeVote={this.handleVote}
                               postId={item.id}
                               vote={item.vote}/>
-                        <span className="qa-a-count">
-                         <span className="qa-a-count-data">{item.answer_count}</span>
-                            <span className="qa-a-count-pad"> answer</span>
-                        </span>
+                        <AnswerCount postType={item.post_type} answer_count={item.answer_count}/>
                       </div>
                       <div className="qa-q-item-main">
                         <div className="qa-q-item-title">
