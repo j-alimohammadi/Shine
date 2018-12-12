@@ -66,8 +66,6 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
         TypedQuery<Long> postTypedQuery = entityManager.createQuery(criteria);
 
         return postTypedQuery.getSingleResult();
-
-
     }
 
 
@@ -79,14 +77,14 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
         // search in the post body and title
         final String query = searchCriteria.getQuery();
         if (StringUtils.isNotBlank(query)) {
-            Path<? extends Post> questionPath = changePathAccordingToPostType(postRoot, PostType.QUESTION);
-            Predicate searchInBody = criteriaBuilder.like(criteriaBuilder.lower(postRoot.get("body")), '%' + query + '%');
-            Predicate searchInTitle = criteriaBuilder.like(criteriaBuilder.lower(questionPath.get("title")), '%' + query + '%');
+            Predicate searchInBody = criteriaBuilder.like(criteriaBuilder.lower(
+                    postRoot.get("body")), '%' + query + '%');
+            Predicate searchInTitle = criteriaBuilder.and(
+                    criteriaBuilder.equal(postRoot.type(), Question.class),
+                    criteriaBuilder.like(((Root<Question>) ((Root<?>) postRoot)).get("title"),
+                            '%' + query + '%'));
 
-            questionPath = changePathAccordingToPostType(postRoot, PostType.ANSWER);
-            Predicate isAccept = criteriaBuilder.equal(criteriaBuilder.lower(questionPath.get("accepted")), true);
-
-            restrictions.add(criteriaBuilder.or(searchInBody, searchInTitle,isAccept));
+            restrictions.add(criteriaBuilder.or(searchInBody, searchInTitle));
         }
 
         List<String> equalValues = new ArrayList<>();

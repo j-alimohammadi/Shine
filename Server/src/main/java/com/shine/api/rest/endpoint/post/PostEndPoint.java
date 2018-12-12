@@ -6,8 +6,6 @@ import com.shine.core.search.ShineSearchService;
 import com.shine.core.search.domain.SearchCriteria;
 import com.shine.core.search.domain.SearchResult;
 import com.shine.web.SearcServiceDTO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,7 +35,6 @@ public class PostEndPoint extends BaseEndpoint {
 
         return searchResultWrapper;
     }
-
 
 
 }
