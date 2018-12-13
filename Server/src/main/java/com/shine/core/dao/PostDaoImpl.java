@@ -1,10 +1,7 @@
 package com.shine.core.dao;
 
 import com.shine.common.persistence.genericDao.AbstractDao;
-import com.shine.core.domain.Answer;
-import com.shine.core.domain.Post;
-import com.shine.core.domain.PostType;
-import com.shine.core.domain.Question;
+import com.shine.core.domain.*;
 import com.shine.core.search.domain.OrderBy;
 import com.shine.core.search.domain.SearchCriteria;
 import org.apache.commons.collections4.CollectionUtils;
@@ -60,7 +57,6 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
         addSearchCriteria(searchCriteria, postRoot, restrictions);
         addPostTypeRestriction(postRoot, restrictions, postTypes);
-
         criteria.where(restrictions.toArray(new Predicate[0]));
 
         TypedQuery<Long> postTypedQuery = entityManager.createQuery(criteria);
@@ -77,12 +73,12 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
         // search in the post body and title
         final String query = searchCriteria.getQuery();
         if (StringUtils.isNotBlank(query)) {
-            Predicate searchInBody = criteriaBuilder.like(criteriaBuilder.lower(
-                    postRoot.get("body")), '%' + query + '%');
+            Predicate searchInBody = criteriaBuilder.like(
+                    criteriaBuilder.lower(postRoot.get(Post_.body)), '%' + query + '%');
+
             Predicate searchInTitle = criteriaBuilder.and(
                     criteriaBuilder.equal(postRoot.type(), Question.class),
-                    criteriaBuilder.like(((Root<Question>) ((Root<?>) postRoot)).get("title"),
-                            '%' + query + '%'));
+                    criteriaBuilder.like(((Root<Question>) ((Root<?>) postRoot)).get(Question_.title), '%' + query + '%'));
 
             restrictions.add(criteriaBuilder.or(searchInBody, searchInTitle));
         }
@@ -119,14 +115,12 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
     }
 
     private void addPostTypeRestriction(Root<Post> postRoot, List<Predicate> restrictions, List<PostType> postTypes) {
-        List<String> postTypeStringList = postTypes
+        List<Class> postTypeStringList = postTypes
                 .stream()
-                .map(postType1 -> postType1.typeName)
+                .map(postType1 -> postType1.typeClass)
                 .collect(Collectors.toList());
 
-
-        Predicate postTypePredicate = postRoot.get("postType").in(postTypeStringList);
-
+        Predicate postTypePredicate = postRoot.type().in(postTypeStringList);
         restrictions.add(postTypePredicate);
 
     }
