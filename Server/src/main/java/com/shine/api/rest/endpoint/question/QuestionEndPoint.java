@@ -128,7 +128,7 @@ public class QuestionEndPoint extends BaseEndpoint {
                             .addMessage(ShineRestException.INVALID_QUESTION_ID);
                 });
 
-        questionService.addViewCountIfPossible(questionId);
+        questionService.addViewCountIfPossible(question);
 
         QuestionWrapper response = applicationContext.getBean(QuestionWrapper.class);
         response.wrap(question, httpServletRequest);

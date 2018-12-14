@@ -136,16 +136,15 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Transactional
     @Override
-    public Long addViewCountIfPossible(long postId) {
-        Question question = findQuestionById(postId)
-                .orElseThrow(() -> {
-                    return new RuntimeException(String.format("Post id [%s] not found", postId));
-                });
-
-
+    public Long addViewCountIfPossible(Question question) {
+        if (Objects.isNull(question.getId())) {
+            log.warn("Question should be saved before");
+            return -1L;
+        }
+        // todo: if user is logged in find views by login and post_id
         if (Objects.isNull(userContext.getCurrentLoginUser())) {
             String ipAddress = shineRequestContext.getShineRequestContext().getIpAddress();
-            Optional<PostView> postView = postViewService.findPostViewByPostIdAndIpAddress(postId, ipAddress);
+            Optional<PostView> postView = postViewService.findPostViewByPostIdAndIpAddress(question.getId(), ipAddress);
 
             if (!postView.isPresent()) {
                 PostView postViewTemp = new PostView();
@@ -154,14 +153,11 @@ public class QuestionServiceImpl implements QuestionService {
 
                 postViewService.createPostView(postViewTemp);
                 question.setViewCount(question.getViewCount() + 1);
-                log.info("Adding view count to post [{}] ", postId);
+                log.info("Adding view count to post [{}] ", question);
                 questionDao.createOrUpdate(question);
             }
 
         }
-        // find post by id
-        // if user is login-ed find views by login and post_id
-        // else if user is not logged then find view by ip and post_id
 
         return question.getViewCount();
 
