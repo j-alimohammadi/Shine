@@ -137,10 +137,11 @@ public class QuestionServiceImpl implements QuestionService {
     @Transactional
     @Override
     public Long addViewCountIfPossible(Question question) {
+
         if (Objects.isNull(question.getId())) {
-            log.warn("Question should be saved before");
-            return -1L;
+            throw new RuntimeException("Question should be saved before we can add view count");
         }
+
         // todo: if user is logged in find views by login and post_id
         if (Objects.isNull(userContext.getCurrentLoginUser())) {
             String ipAddress = shineRequestContext.getShineRequestContext().getIpAddress();
