@@ -1,4 +1,4 @@
-package com.shine.web;
+package com.shine.web.search;
 
 import com.shine.common.config.ShineConfigReader;
 import com.shine.core.search.domain.SearchCriteria;
@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 @Service("shineSearchServiceDTOImpl")
-public class SearchServiceDTOImpl implements SearcServiceDTO {
+public class SearchServiceDTOImpl implements SearchServiceDTO {
 
     @Override
     public SearchCriteria buildSearchCriteria(HttpServletRequest httpServletRequest) {

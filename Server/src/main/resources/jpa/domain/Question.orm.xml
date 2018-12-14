@@ -48,4 +48,18 @@
              ]]>
         </query>
     </named-query>
+
+    <named-query name="findPostViewByPostIdAndIpAddress">
+        <query>
+            <![CDATA[
+                 SELECT postView FROM PostView postView
+                 WHERE postView.ip= :ip
+                 AND postView.postId=:postId
+
+             ]]>
+        </query>
+    </named-query>
+
+
+
 </entity-mappings>

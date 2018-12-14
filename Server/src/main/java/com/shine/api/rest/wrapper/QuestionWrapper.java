@@ -54,6 +54,9 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
     @JsonProperty(value = "question_url")
     private String questionURL;
 
+    @JsonProperty(value = "view_count")
+    private Long viewCount;
+
     @JsonProperty(value = "tag_names")
     private List<String> tagNames = new ArrayList<>();
 
@@ -105,6 +108,7 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
         this.questionURL = questionURL;
     }
 
+
     @Override
     public Question unwrap(HttpServletRequest request, ApplicationContext context) {
         final TagService tagService = context.getBean(TagServiceImpl.class);
@@ -132,6 +136,7 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
         this.vote = model.getVote();
         this.questionURL = model.getQuestionAddress();
         this.answerCount = model.getAnswerCount();
+        this.viewCount = model.getViewCount();
         this.tagNames = tagList
                 .stream()
                 .map(Tag::getName)

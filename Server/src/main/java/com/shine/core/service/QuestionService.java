@@ -24,6 +24,8 @@ public interface QuestionService {
 
     Question voteDown(Question question);
 
+    Long addViewCountIfPossible(long postId);
+
     Answer acceptAnswer(Answer answer);
 
     Long addAnswerCount(Question question, Long count);

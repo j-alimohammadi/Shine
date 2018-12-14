@@ -20,7 +20,7 @@ public class Question extends Post {
     private String questionAddress;
 
     @Column(name = "VIEW_COUNT")
-    private Long viewCount;
+    private Long viewCount = 0L;
 
     @Column(name = "ANSWER_COUNT")
     private Long answerCount = 0L;

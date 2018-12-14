@@ -32,7 +32,7 @@ public class ThreadLocalManager {
         ThreadLocal<T> response = new ThreadLocal<T>() {
             @Override
             protected T initialValue() { // This method call for first time the thread local get method call
-                addThreadLocal(this);  // Add this thread local for example ThreadLocal<DenaRequestContext> to ThreadLocalManager
+                addThreadLocal(this);  // Add this thread local for example ThreadLocal<ShineRequestContext> to ThreadLocalManager
                 if (!createInitialValue) {
                     return null;
                 }

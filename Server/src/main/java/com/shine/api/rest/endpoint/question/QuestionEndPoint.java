@@ -13,7 +13,7 @@ import com.shine.core.search.domain.SearchCriteria;
 import com.shine.core.search.domain.SearchResult;
 import com.shine.core.service.AnswerService;
 import com.shine.core.service.QuestionService;
-import com.shine.web.SearcServiceDTO;
+import com.shine.web.search.SearchServiceDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +42,7 @@ public class QuestionEndPoint extends BaseEndpoint {
     private AnswerService answerService;
 
     @Resource
-    private SearcServiceDTO searcServiceDTO;
+    private SearchServiceDTO searchServiceDTO;
 
     @Resource(name = "databaseSearchServiceImpl")
     private ShineSearchService shineSearchService;
@@ -128,6 +128,8 @@ public class QuestionEndPoint extends BaseEndpoint {
                             .addMessage(ShineRestException.INVALID_QUESTION_ID);
                 });
 
+        questionService.addViewCountIfPossible(questionId);
+
         QuestionWrapper response = applicationContext.getBean(QuestionWrapper.class);
         response.wrap(question, httpServletRequest);
 
@@ -199,7 +201,7 @@ public class QuestionEndPoint extends BaseEndpoint {
 
     @GetMapping(path = "")
     public SearchResultWrapper findQuestions(HttpServletRequest httpServletRequest) {
-        SearchCriteria searchCriteria = searcServiceDTO.buildSearchCriteria(httpServletRequest);
+        SearchCriteria searchCriteria = searchServiceDTO.buildSearchCriteria(httpServletRequest);
         searchCriteria.addFilterCriteria("postType", PostType.QUESTION.typeName);
 
         SearchResult searchResult = shineSearchService.searchPosts(searchCriteria);
