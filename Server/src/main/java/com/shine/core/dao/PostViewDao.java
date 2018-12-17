@@ -2,7 +2,9 @@ package com.shine.core.dao;
 
 import com.shine.common.persistence.genericDao.DAO;
 import com.shine.core.domain.PostView;
+import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
 import java.util.Optional;
 
 /**

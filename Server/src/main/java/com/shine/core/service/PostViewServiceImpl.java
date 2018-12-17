@@ -14,7 +14,7 @@ import java.util.Optional;
 @Service("shinePostViewServiceImpl")
 public class PostViewServiceImpl implements PostViewService {
 
-    @Resource
+    @Resource(name = "shinePostViewDaoImpl")
     private PostViewDao postViewDao;
 
     @Override
