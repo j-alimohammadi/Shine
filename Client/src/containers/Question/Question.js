@@ -69,11 +69,11 @@ class Question extends Component {
     const values = queryString.parse(this.props.location.search)
     const sortBy = values.sortBy === undefined ? 'recent' : values.sortBy
     this.setState({sortBy: sortBy})
-    this.getAllQuestions(1, sortBy)
+    this.getQuestions(1, sortBy)
 
   }
 
-  getAllQuestions (page, sortBy) {
+  getQuestions (page, sortBy) {
     ShineClient.findQuestions(page, sortBy)
       .then((JSONResponse) => {
         if (ShineResponseParser.isResponseOk(JSONResponse)) {
@@ -97,6 +97,8 @@ class Question extends Component {
       })
 
   }
+
+
 
   render () {
     let questions = this.state.result.posts
@@ -174,9 +176,28 @@ class Question extends Component {
 
                 })
               }
-
             </div>
           </form>
+          
+        </div>
+        <div className="qa-page-links">
+          <span className="qa-page-links-label">Page:</span>
+          <ul className="qa-page-links-list">
+            <li className="qa-page-links-item active">
+              <span className="qa-page-selected">1</span>
+            </li>
+            <li className="qa-page-links-item">
+              <a onClick={this.handleVoteDown.bind()} href="./index.php?qa=questions&amp;start=3" className="qa-page-link">2</a>
+            </li>
+            <li className="qa-page-links-item">
+              <a href="./index.php?qa=questions&amp;start=6" className="qa-page-link">3</a>
+            </li>
+            <li className="qa-page-links-item">
+              <a href="./index.php?qa=questions&amp;start=3" className="qa-page-next">next »</a>
+            </li>
+          </ul>
+          <div className="qa-page-links-clear clearfix">
+          </div>
         </div>
         <div className="qa-suggest-next col-xs-12 text-center clearfix alert">
           Help get things started by <a href="./index.php?qa=ask">asking a question</a>.
