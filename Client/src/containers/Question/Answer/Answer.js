@@ -318,7 +318,7 @@ class Answer extends Component {
                       <div className="qa-a-item-main">
                         <form method="post" action="/">
                           <div className="qa-a-selection">
-                            <button title="Click to select as best answer" name="a8_doselect" type="submit"
+                            <button title="Click to select as best answer"  type="submit"
                                     className={item.isAnswerAccept ? 'qa-a-unselect-button' : 'qa-a-select-button'}
                                     onClick={this.handleAcceptAnswer.bind(this, this.state.question.id, item.id)}>
                               <span className="fa fa-check"/>
