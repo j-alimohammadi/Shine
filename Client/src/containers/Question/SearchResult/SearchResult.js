@@ -8,7 +8,7 @@ import Tag from '../Tag/Tag'
 import AnswerCount from '../AnswerCount/AnswerCount'
 import Pagination from '../../Pagination/Pagination'
 
-const pageSize = 3
+const pageSize = 1
 
 class SearchResult extends Component {
   constructor (props) {
