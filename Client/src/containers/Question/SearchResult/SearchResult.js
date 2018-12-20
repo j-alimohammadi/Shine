@@ -78,16 +78,18 @@ class SearchResult extends Component {
     const q = values.q
 
     if (StringUtils.isNotBlank(q)) {
+      this.setState({'query': q})
       this.searchPosts(q, page)
     }
 
   }
 
   handleClickOnPagination (page, event) {
-    const sortBy = this.state.sortBy
-    const oldCurrentPage = this.state.result.page
-    if (oldCurrentPage !== page) {
-      this.getQuestions(page, sortBy)
+    const query = this.state.query
+    const oldPage = this.state.page
+
+    if (oldPage !== page) {
+      this.searchPosts(query, page)
     }
 
   }

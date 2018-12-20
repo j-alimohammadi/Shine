@@ -18,7 +18,7 @@ class App extends Component {
       <div>
         <Switch>
           <DefaultLayout path="/" exact component={HOME} titleOfPage='Home'/>
-          <DefaultLayout path="/post/search" exact component={SearchResult} titleOfPage='Search Result'/>
+          <DefaultLayout path="/post/search" component={SearchResult} titleOfPage='Search Result'/>
           <DefaultLayout path="/question" component={Question} titleOfPage='Recent questions'/>
           <DefaultLayout path="/ask" component={Ask} titleOfPage='Ask a question'/>
           <DefaultLayout path="/un-answered" component={UnAnswered} titleOfPage='Recent questions without answers'/>
