@@ -115,6 +115,7 @@ class Answer extends Component {
   handleAcceptAnswer (questionId, answerId, event) {
     event.preventDefault()
 
+    // todo: correct this section. should we return a value
     const isAnswerFound = this.state.answers
       .filter(answer => {
 
@@ -136,16 +137,8 @@ class Answer extends Component {
         }
       })
       .then((acceptedAnswer) => {
-        const answers = this.state.answers
-        for (let answer of answers) {
-          if (answer.id === acceptedAnswer.id) {
-            answer.isAnswerAccept = true
-          } else {
-            answer.isAnswerAccept = false
-          }
-        }
-
-        this.setState({answers: answers})
+        this.getQuestionDetail()
+        this.getAnswerForQuestion()
 
       })
       .catch((error) => {
@@ -237,7 +230,7 @@ class Answer extends Component {
   }
 
   validateForm () {
-    const answerBody = this.state.editorState.getCurrentContent().getPlainText();
+    const answerBody = this.state.editorState.getCurrentContent().getPlainText()
 
     const validationResult = validate({answerBodyValidation: answerBody}, constraints)
     const errors = new Map()
@@ -307,7 +300,7 @@ class Answer extends Component {
         <Vote onChangeVote={this.handleQuestionVote} vote={this.state.questionVote} postId={this.state.question.id}/>
       tags = <Tag tags={this.state.question.tag_names}/>
       body = EditorState.createWithContent(convertFromRaw(this.state.question.body))
-      questionTitle = this.state.question.title
+      questionTitle = this.state.question.question_title
       if (this.state.question.answer_count > 0) {
         answerTag =
           <div className="qa-part-a-list">
@@ -326,7 +319,7 @@ class Answer extends Component {
                       <div className="qa-a-item-main">
                         <form method="post" action="/">
                           <div className="qa-a-selection">
-                            <button title="Click to select as best answer" name="a8_doselect" type="submit"
+                            <button title="Click to select as best answer"  type="submit"
                                     className={item.isAnswerAccept ? 'qa-a-unselect-button' : 'qa-a-select-button'}
                                     onClick={this.handleAcceptAnswer.bind(this, this.state.question.id, item.id)}>
                               <span className="fa fa-check"/>

@@ -8,6 +8,7 @@
     "font-awesome": "^4.7.0",
     "immutable": "^4.0.0-rc.12",
     "prop-types": "^15.6.2",
+    "query-string": "^5.1.1",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-draft-wysiwyg": "^1.12.13",

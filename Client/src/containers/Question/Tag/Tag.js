@@ -1,7 +1,7 @@
 import React from 'react'
 
 const tag = (props) => {
-  const tags = props.tags
+  const tags = props.tags || []
   let out = []
 
   if (tags.length > 0) {

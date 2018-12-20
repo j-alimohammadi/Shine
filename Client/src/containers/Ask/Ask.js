@@ -13,7 +13,7 @@ import { ShineResponseParser } from '../../utils/ShineClient/Response'
 const constraints = {
   questionTitleValidation: {
     presence: {
-      message: '^Question Title is required',
+      message: '^SearchResult Title is required',
       allowEmpty: false
     },
     length: {

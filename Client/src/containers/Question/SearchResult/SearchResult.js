@@ -1,22 +1,24 @@
 import React, { Component, Fragment } from 'react'
-import ShineClient from '../../utils/ShineClient/ShineClient'
-import { ShineResponseParser } from '../../utils/ShineClient/Response'
 import queryString from 'query-string'
-import Tag from './Tag/Tag'
-import Vote from './Vote/Vote'
-import Pagination from '../Pagination/Pagination'
+import { ShineResponseParser } from '../../../utils/ShineClient/Response'
+import ShineClient from '../../../utils/ShineClient/ShineClient'
+import StringUtils from '../../../utils/StringUtils'
+import Vote from '../Vote/Vote'
+import Tag from '../Tag/Tag'
+import AnswerCount from '../AnswerCount/AnswerCount'
+import Pagination from '../../Pagination/Pagination'
 
-//todo read page size from server
-const pageSize = 3
+const pageSize = 1
 
-class Question extends Component {
+class SearchResult extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
       result: {
         posts: []
-      }
+      },
+      sortBy: ''
 
     }
 
@@ -72,15 +74,28 @@ class Question extends Component {
 
   componentDidMount () {
     const values = queryString.parse(this.props.location.search)
-    const sortBy = values.sortBy === undefined ? 'recent' : values.sortBy
     const page = values.page === undefined ? 1 : values.page
-    this.setState({sortBy: sortBy})
-    this.getQuestions(page, sortBy)
+    const q = values.q
+
+    if (StringUtils.isNotBlank(q)) {
+      this.setState({'query': q})
+      this.searchPosts(q, page)
+    }
 
   }
 
-  getQuestions (page, sortBy) {
-    ShineClient.findQuestions(page, sortBy, pageSize)
+  handleClickOnPagination (page, event) {
+    const query = this.state.query
+    const oldPage = this.state.page
+
+    if (oldPage !== page) {
+      this.searchPosts(query, page)
+    }
+
+  }
+
+  searchPosts (query, page) {
+    ShineClient.findPosts(query, page, pageSize)
       .then((JSONResponse) => {
         if (ShineResponseParser.isResponseOk(JSONResponse)) {
           return JSONResponse.json()
@@ -104,20 +119,10 @@ class Question extends Component {
 
   }
 
-  handleClickOnPagination (page, event) {
-    const sortBy = this.state.sortBy
-    const oldCurrentPage = this.state.result.page
-    if (oldCurrentPage !== page) {
-      this.getQuestions(page, sortBy)
-    }
-
-  }
-
   render () {
-    let questions = this.state.result.posts
+    let questions = this.state.result.posts || []
     const currentPage = this.state.result.page
     const totalPage = this.state.result.total_page
-    const sortBy = this.state.sortBy
 
     return (
       <Fragment>
@@ -126,28 +131,6 @@ class Question extends Component {
             <button type="button" className="btn btn-primary btn-xs" data-toggle="offcanvas">
               <i className="fa fa-chevron-right toggle-icon"/>
             </button>
-          </div>
-        </div>
-        <div className="hidden-xs subnav-row clearfix">
-          <div className="qa-nav-sub">
-            <ul className="qa-nav-sub-list">
-              <li className={sortBy === 'recent' ? ' active ' : ''}>
-                <a href="/question?sortBy=recent"
-                   className='qa-nav-sub-link'>Recent</a>
-              </li>
-              <li className={sortBy === 'vote' ? ' active ' : ''}>
-                <a href="/question?sortBy=vote"
-                   className="qa-nav-sub-link">Most votes</a>
-              </li>
-              <li className={sortBy === 'answerCount' ? ' active ' : ''}>
-                <a href="/question?sortBy=answerCount" className="qa-nav-sub-link">Most answers</a>
-              </li>
-              <li className={sortBy === 'view' ? ' active ' : ''}>
-                <a href="/question?sortBy=view" className="qa-nav-sub-link">Most views</a>
-              </li>
-            </ul>
-            <div className="qa-nav-sub-clear clearfix">
-            </div>
           </div>
         </div>
         <div className="qa-part-q-list">
@@ -161,13 +144,11 @@ class Question extends Component {
                         <Vote onChangeVote={this.handleVote}
                               postId={item.id}
                               vote={item.vote}/>
-                        <span className="qa-a-count">
-                         <span className="qa-a-count-data">{item.answer_count}</span>
-                            <span className="qa-a-count-pad"> answer</span>
-                        </span>
+                        <AnswerCount postType={item.post_type} answer_count={item.answer_count}/>
                       </div>
                       <div className="qa-q-item-main">
                         <div className="qa-q-item-title">
+                          {item.post_type === 'QUESTION' ? 'Q' : 'A'}:
                           <a
                             href={`./answer/${item.id}/${item.question_url}`}>{item.question_title}</a>
                         </div>
@@ -193,11 +174,11 @@ class Question extends Component {
 
                 })
               }
+
             </div>
           </form>
-
         </div>
-        <Pagination currentPage={currentPage} totalPage={totalPage} linkPage={'/question'} onClickPageHandler={this.handleClickOnPagination}/>
+        <Pagination currentPage={currentPage} totalPage={totalPage} onClickPageHandler={this.handleClickOnPagination}/>
         <div className="qa-suggest-next col-xs-12 text-center clearfix alert">
           Help get things started by <a href="./index.php?qa=ask">asking a question</a>.
         </div>
@@ -208,4 +189,4 @@ class Question extends Component {
 
 }
 
-export default Question
+export default SearchResult
