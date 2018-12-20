@@ -74,10 +74,11 @@ class SearchResult extends Component {
 
   componentDidMount () {
     const values = queryString.parse(this.props.location.search)
+    const page = values.page === undefined ? 1 : values.page
     const q = values.q
 
     if (StringUtils.isNotBlank(q)) {
-      this.searchPosts(q, 1)
+      this.searchPosts(q, page)
     }
 
   }
