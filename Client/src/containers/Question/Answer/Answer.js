@@ -115,6 +115,7 @@ class Answer extends Component {
   handleAcceptAnswer (questionId, answerId, event) {
     event.preventDefault()
 
+    // todo: correct this section. should we return a value
     const isAnswerFound = this.state.answers
       .filter(answer => {
 

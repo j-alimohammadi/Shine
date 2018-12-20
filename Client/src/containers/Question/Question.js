@@ -73,8 +73,9 @@ class Question extends Component {
   componentDidMount () {
     const values = queryString.parse(this.props.location.search)
     const sortBy = values.sortBy === undefined ? 'recent' : values.sortBy
+    const page = values.page === undefined ? 1 : values.page
     this.setState({sortBy: sortBy})
-    this.getQuestions(1, sortBy)
+    this.getQuestions(page, sortBy)
 
   }
 
@@ -104,9 +105,10 @@ class Question extends Component {
   }
 
   handleClickOnPagination (page, event) {
-    event.preventDefault()
     const sortBy = this.state.sortBy
+
     this.getQuestions(page, sortBy)
+
   }
 
   render () {

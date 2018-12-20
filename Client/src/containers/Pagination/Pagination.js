@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { Link } from 'react-router-dom'
 
 const Pagination = (props) => {
   const currentPage = props.currentPage
@@ -21,7 +22,10 @@ const Pagination = (props) => {
   if (hasPrevious) {
     outPut.push(
       <li className="qa-page-links-item" key={-1}>
-        <a href="" className="qa-page-next" onClick={onClickPageHandler.bind(this, currentPage - 1)}>« prev</a>
+        <Link to={'/question?page=' + (currentPage - 1)}
+              className="qa-page-next"
+              onClick={onClickPageHandler.bind(this, currentPage - 1)}>« prev
+        </Link>
       </li>)
   }
 
@@ -29,14 +33,21 @@ const Pagination = (props) => {
     const active = page === currentPage ? 'active' : ''
     outPut.push(
       <li className={'qa-page-links-item ' + active} key={page}>
-        <a href="" className="qa-page-link" onClick={onClickPageHandler.bind(this, page)}>{page}</a>
+        <Link to={'/question?page=' + page}
+              className="qa-page-next"
+              onClick={onClickPageHandler.bind(this, page)}>{page}
+        </Link>
       </li>)
   }
 
   if (hasNext) {
     outPut.push(
       <li className="qa-page-links-item" key={-2}>
-        <a href="" className="qa-page-next" onClick={onClickPageHandler.bind(this, currentPage + 1)}>next »</a>
+        <Link to={'/question?page=' + (currentPage - 1)}
+              className="qa-page-next"
+              onClick={onClickPageHandler.bind(this, currentPage + 1)}>next »
+        </Link>
+
       </li>)
   }
 
