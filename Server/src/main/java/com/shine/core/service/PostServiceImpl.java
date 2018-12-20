@@ -15,6 +15,7 @@ import java.util.List;
  */
 @Service
 public class PostServiceImpl implements PostService {
+
     @Resource
     private PostDao postDao;
 

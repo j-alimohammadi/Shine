@@ -1,5 +1,5 @@
 -- QUESTION POST
-INSERT INTO SHINE_POST (ID, POST_TYPE, BODY, CREATED_TIMESTAMP, TITLE, VIEW_COUNT, VOTE, ANSWER_COUNT,URL_ADDRESS)
+INSERT INTO SHINE_POST (ID, POST_TYPE, BODY, CREATED_TIMESTAMP, EDITED_TIMESTAMP, TITLE, VIEW_COUNT, VOTE, ANSWER_COUNT,URL_ADDRESS)
 VALUES (-1, 'QUESTION', '{
   "blocks" : [ {
     "key" : "98upg",
@@ -27,9 +27,9 @@ VALUES (-1, 'QUESTION', '{
     "data" : { }
   } ],
   "entityMap" : { }
-}', DATEADD('SECOND',0, CURRENT_TIMESTAMP()), 'Sample Title 1', 0, 1, 1,'sample-title-1');
+}', DATEADD('SECOND',0, CURRENT_TIMESTAMP()),DATEADD('SECOND',0, CURRENT_TIMESTAMP()), 'Sample Title 1', 0, 1, 1,'sample-title-1');
 
-INSERT INTO SHINE_POST (ID, POST_TYPE, BODY, CREATED_TIMESTAMP, TITLE, VIEW_COUNT, VOTE, ANSWER_COUNT, URL_ADDRESS)
+INSERT INTO SHINE_POST (ID, POST_TYPE, BODY, CREATED_TIMESTAMP, EDITED_TIMESTAMP, TITLE, VIEW_COUNT, VOTE, ANSWER_COUNT, URL_ADDRESS)
 VALUES (-2, 'QUESTION', '{
   "blocks" : [ {
     "key" : "98upg",
@@ -57,9 +57,9 @@ VALUES (-2, 'QUESTION', '{
     "data" : { }
   } ],
   "entityMap" : { }
-}', DATEADD('SECOND',1, CURRENT_TIMESTAMP()), 'Sample Title 2', 0, 2, 1, 'sample-title-2');
+}', DATEADD('SECOND',1, CURRENT_TIMESTAMP()), DATEADD('SECOND',1, CURRENT_TIMESTAMP()), 'Sample Title 2', 0, 2, 1, 'sample-title-2');
 
-INSERT INTO SHINE_POST (ID, POST_TYPE, BODY, CREATED_TIMESTAMP, TITLE, VIEW_COUNT, VOTE, ANSWER_COUNT, URL_ADDRESS)
+INSERT INTO SHINE_POST (ID, POST_TYPE, BODY, CREATED_TIMESTAMP, EDITED_TIMESTAMP, TITLE, VIEW_COUNT, VOTE, ANSWER_COUNT, URL_ADDRESS)
 VALUES (-3, 'QUESTION', '{
   "blocks" : [ {
     "key" : "98upg",
@@ -87,7 +87,100 @@ VALUES (-3, 'QUESTION', '{
     "data" : { }
   } ],
   "entityMap" : { }
-}', DATEADD('SECOND',2, CURRENT_TIMESTAMP()), 'Sample Title 3', 0, 0, 3, 'sample-title-3');
+}', DATEADD('SECOND', 2, CURRENT_TIMESTAMP()),DATEADD('SECOND', 2, CURRENT_TIMESTAMP()), 'Sample Title 3', 0, 0, 3, 'sample-title-3');
+
+INSERT INTO SHINE_POST (ID, POST_TYPE, BODY, CREATED_TIMESTAMP, EDITED_TIMESTAMP, TITLE, VIEW_COUNT, VOTE, ANSWER_COUNT, URL_ADDRESS)
+VALUES (-4, 'QUESTION', '{
+  "blocks" : [ {
+    "key" : "98upg",
+    "text" : "Sample question body 4",
+    "type" : "unstyled",
+    "depth" : 0,
+    "inlineStyleRanges" : [ {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "color-rgb(0,0,0)"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "bgcolor-rgb(255,255,255)"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "fontsize-12"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "fontfamily-Arial, sans-serif"
+    } ],
+    "entityRanges" : [ ],
+    "data" : { }
+  } ],
+  "entityMap" : { }
+}', DATEADD('SECOND',3, CURRENT_TIMESTAMP()),DATEADD('SECOND',3, CURRENT_TIMESTAMP()), 'Sample Title 4', 0, 0, 0, 'sample-title-4');
+
+INSERT INTO SHINE_POST (ID, POST_TYPE, BODY, CREATED_TIMESTAMP, EDITED_TIMESTAMP ,  TITLE, VIEW_COUNT, VOTE, ANSWER_COUNT, URL_ADDRESS)
+VALUES (-5, 'QUESTION', '{
+  "blocks" : [ {
+    "key" : "98upg",
+    "text" : "Sample question body 5",
+    "type" : "unstyled",
+    "depth" : 0,
+    "inlineStyleRanges" : [ {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "color-rgb(0,0,0)"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "bgcolor-rgb(255,255,255)"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "fontsize-12"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "fontfamily-Arial, sans-serif"
+    } ],
+    "entityRanges" : [ ],
+    "data" : { }
+  } ],
+  "entityMap" : { }
+}', DATEADD('SECOND',4, CURRENT_TIMESTAMP()),DATEADD('SECOND',4, CURRENT_TIMESTAMP()), 'Sample Title 5', 0, 0, 0, 'sample-title-5');
+
+INSERT INTO SHINE_POST (ID, POST_TYPE, BODY, CREATED_TIMESTAMP, EDITED_TIMESTAMP, TITLE, VIEW_COUNT, VOTE, ANSWER_COUNT, URL_ADDRESS)
+VALUES (-6, 'QUESTION', '{
+  "blocks" : [ {
+    "key" : "98upg",
+    "text" : "Sample question body 6",
+    "type" : "unstyled",
+    "depth" : 0,
+    "inlineStyleRanges" : [ {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "color-rgb(0,0,0)"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "bgcolor-rgb(255,255,255)"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "fontsize-12"
+    }, {
+      "offset" : 0,
+      "length" : 22,
+      "style" : "fontfamily-Arial, sans-serif"
+    } ],
+    "entityRanges" : [ ],
+    "data" : { }
+  } ],
+  "entityMap" : { }
+}', DATEADD('SECOND',5, CURRENT_TIMESTAMP()), DATEADD('SECOND',5, CURRENT_TIMESTAMP()), 'Sample Title 6', 0, 0, 0, 'sample-title-6');
+
+
+
 
 
 -- ANSWER POST
