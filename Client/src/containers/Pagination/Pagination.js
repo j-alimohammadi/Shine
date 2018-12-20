@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 const Pagination = (props) => {
   const currentPage = props.currentPage
   const totalPage = props.totalPage
+  const linkPage = props.linkPage
   const onClickPageHandler = props.onClickPageHandler
 
   const beginPageNumber = currentPage - 2 <= 1 ? 1 : (currentPage - 2)
@@ -22,7 +23,7 @@ const Pagination = (props) => {
   if (hasPrevious) {
     outPut.push(
       <li className="qa-page-links-item" key={-1}>
-        <Link to={'/question?page=' + (currentPage - 1)}
+        <Link to={linkPage + '?page=' + (currentPage - 1)}
               className="qa-page-next"
               onClick={onClickPageHandler.bind(this, currentPage - 1)}>« prev
         </Link>
@@ -33,7 +34,7 @@ const Pagination = (props) => {
     const active = page === currentPage ? 'active' : ''
     outPut.push(
       <li className={'qa-page-links-item ' + active} key={page}>
-        <Link to={'/question?page=' + page}
+        <Link to={linkPage + '?page=' + page}
               className="qa-page-next"
               onClick={onClickPageHandler.bind(this, page)}>{page}
         </Link>
@@ -43,7 +44,7 @@ const Pagination = (props) => {
   if (hasNext) {
     outPut.push(
       <li className="qa-page-links-item" key={-2}>
-        <Link to={'/question?page=' + (currentPage + 1)}
+        <Link to={linkPage + '?page=' + (currentPage + 1)}
               className="qa-page-next"
               onClick={onClickPageHandler.bind(this, currentPage + 1)}>next »
         </Link>

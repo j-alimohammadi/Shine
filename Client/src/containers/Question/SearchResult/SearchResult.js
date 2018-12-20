@@ -6,6 +6,9 @@ import StringUtils from '../../../utils/StringUtils'
 import Vote from '../Vote/Vote'
 import Tag from '../Tag/Tag'
 import AnswerCount from '../AnswerCount/AnswerCount'
+import Pagination from '../../Pagination/Pagination'
+
+const pageSize = 3
 
 class SearchResult extends Component {
   constructor (props) {
@@ -22,6 +25,7 @@ class SearchResult extends Component {
     // Event handler
     this.handleVote = this.handleVote.bind(this)
     this.updateQuestion = this.updateQuestion.bind(this)
+    this.handleClickOnPagination = this.handleClickOnPagination.bind(this)
 
   }
 
@@ -78,8 +82,17 @@ class SearchResult extends Component {
 
   }
 
+  handleClickOnPagination (page, event) {
+    const sortBy = this.state.sortBy
+    const oldCurrentPage = this.state.result.page
+    if (oldCurrentPage !== page) {
+      this.getQuestions(page, sortBy)
+    }
+
+  }
+
   searchPosts (query, page) {
-    ShineClient.findPosts(query, page)
+    ShineClient.findPosts(query, page, pageSize)
       .then((JSONResponse) => {
         if (ShineResponseParser.isResponseOk(JSONResponse)) {
           return JSONResponse.json()
@@ -105,6 +118,9 @@ class SearchResult extends Component {
 
   render () {
     let questions = this.state.result.posts || []
+    const currentPage = this.state.result.page
+    const totalPage = this.state.result.total_page
+
     return (
       <Fragment>
         <div className="row">
@@ -129,6 +145,7 @@ class SearchResult extends Component {
                       </div>
                       <div className="qa-q-item-main">
                         <div className="qa-q-item-title">
+                          {item.post_type === 'QUESTION' ? 'Q' : 'A'}:
                           <a
                             href={`./answer/${item.id}/${item.question_url}`}>{item.question_title}</a>
                         </div>
@@ -158,6 +175,8 @@ class SearchResult extends Component {
             </div>
           </form>
         </div>
+        <Pagination currentPage={currentPage} totalPage={totalPage} linkPage={'/post/search'}
+                    onClickPageHandler={this.handleClickOnPagination}/>
         <div className="qa-suggest-next col-xs-12 text-center clearfix alert">
           Help get things started by <a href="./index.php?qa=ask">asking a question</a>.
         </div>

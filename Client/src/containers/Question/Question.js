@@ -197,7 +197,7 @@ class Question extends Component {
           </form>
 
         </div>
-        <Pagination currentPage={currentPage} totalPage={totalPage} onClickPageHandler={this.handleClickOnPagination}/>
+        <Pagination currentPage={currentPage} totalPage={totalPage} linkPage={'/question'} onClickPageHandler={this.handleClickOnPagination}/>
         <div className="qa-suggest-next col-xs-12 text-center clearfix alert">
           Help get things started by <a href="./index.php?qa=ask">asking a question</a>.
         </div>
