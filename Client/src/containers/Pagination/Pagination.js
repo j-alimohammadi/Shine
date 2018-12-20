@@ -43,7 +43,7 @@ const Pagination = (props) => {
   if (hasNext) {
     outPut.push(
       <li className="qa-page-links-item" key={-2}>
-        <Link to={'/question?page=' + (currentPage - 1)}
+        <Link to={'/question?page=' + (currentPage + 1)}
               className="qa-page-next"
               onClick={onClickPageHandler.bind(this, currentPage + 1)}>next »
         </Link>

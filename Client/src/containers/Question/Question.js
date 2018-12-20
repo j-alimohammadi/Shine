@@ -106,8 +106,10 @@ class Question extends Component {
 
   handleClickOnPagination (page, event) {
     const sortBy = this.state.sortBy
-
-    this.getQuestions(page, sortBy)
+    const oldCurrentPage = this.state.result.page
+    if (oldCurrentPage !== page) {
+      this.getQuestions(page, sortBy)
+    }
 
   }
 
