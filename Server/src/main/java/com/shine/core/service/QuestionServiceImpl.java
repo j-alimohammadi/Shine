@@ -142,7 +142,7 @@ public class QuestionServiceImpl implements QuestionService {
             throw new RuntimeException("Question should be saved before we can add view count");
         }
 
-        // todo: if user is logged in find views by login and post_id
+        // todo: if user is logged in, find views by login and post_id
         if (Objects.isNull(userContext.getCurrentLoginUser())) {
             String ipAddress = shineRequestContext.getShineRequestContext().getIpAddress();
             Optional<PostView> postView = postViewService.findPostViewByPostIdAndIpAddress(question.getId(), ipAddress);
