@@ -1,4 +1,4 @@
-import ShineHttpClient from '../ShineHttpClient'
+import ShineHttpClient from './ShineHttpClient'
 
 const BASE_PATH = 'http://localhost:8090'
 const QUESTIONS_PATH = 'question'
@@ -7,84 +7,84 @@ const POST = 'post'
 
 class ShineClient {
 
-    /////////////////////////////////////////////
-    //            Post Management
-    /////////////////////////////////////////////
-    static findPosts(query, page, pageSize = 15) {
-        const url = `${BASE_PATH}/${POST}/search?pageSize=${pageSize}&page=${page}&q=${query}`
+  /////////////////////////////////////////////
+  //            Post Management
+  /////////////////////////////////////////////
+  static findPosts (query, page, pageSize = 15) {
+    const url = `${BASE_PATH}/${POST}/search?pageSize=${pageSize}&page=${page}&q=${query}`
 
-        return ShineHttpClient.getData(url)
+    return ShineHttpClient.getData(url)
+  }
+
+  /////////////////////////////////////////////
+  //            SearchResult Management
+  /////////////////////////////////////////////
+
+  static findQuestion (questionId) {
+    const url = `${BASE_PATH}/${QUESTIONS_PATH}/${questionId}`
+
+    return ShineHttpClient.getData(url)
+  }
+
+  static findQuestions (page, sortBy, pageSize = 3) {
+    const url = `${BASE_PATH}/${QUESTIONS_PATH}?pageSize=${pageSize}&page=${page}&sortBy=${sortBy}`
+
+    return ShineHttpClient.getData(url)
+  }
+
+  static createQuestion (questionObject) {
+    const url = `${BASE_PATH}/${QUESTIONS_PATH}`
+    return ShineHttpClient.postData(url, questionObject)
+
+  }
+
+  static acceptAnswer (questionId, answerId) {
+    const url = `${BASE_PATH}/${QUESTIONS_PATH}/${questionId}/accept/answer/${answerId}`
+    return ShineHttpClient.putData(url)
+  }
+
+  static voteQuestion (questionId, isVotingUp) {
+    let url
+
+    if (isVotingUp) {
+      url = `${BASE_PATH}/${QUESTIONS_PATH}/${questionId}/vote/increment`
+    } else {
+      url = `${BASE_PATH}/${QUESTIONS_PATH}/${questionId}/vote/decrement`
     }
 
-    /////////////////////////////////////////////
-    //            SearchResult Management
-    /////////////////////////////////////////////
+    return ShineHttpClient.putData(url, '')
 
-    static findQuestion(questionId) {
-        const url = `${BASE_PATH}/${QUESTIONS_PATH}/${questionId}`
+  }
 
-        return ShineHttpClient.getData(url)
+  /////////////////////////////////////////////
+  //            Answer Management
+  /////////////////////////////////////////////
+
+  static findAnswersForQuestion (questionId) {
+    const url = `${BASE_PATH}/${ANSWER_PATH}/question/${questionId}`
+    let answers = ShineHttpClient.getData(url)
+
+    return answers
+  }
+
+  static createAnswer (answerObject) {
+    const url = `${BASE_PATH}/${ANSWER_PATH}`
+    return ShineHttpClient.postData(url, answerObject)
+
+  }
+
+  static voteAnswer (answerId, isVotingUp) {
+    let url
+
+    if (isVotingUp) {
+      url = `${BASE_PATH}/${ANSWER_PATH}/${answerId}/vote/increment`
+    } else {
+      url = `${BASE_PATH}/${ANSWER_PATH}/${answerId}/vote/decrement`
     }
 
-    static findQuestions(page, sortBy, pageSize = 3) {
-        const url = `${BASE_PATH}/${QUESTIONS_PATH}?pageSize=${pageSize}&page=${page}&sortBy=${sortBy}`
+    return ShineHttpClient.putData(url, '')
 
-        return ShineHttpClient.getData(url)
-    }
-
-    static createQuestion(questionObject) {
-        const url = `${BASE_PATH}/${QUESTIONS_PATH}`
-        return ShineHttpClient.postData(url, questionObject)
-
-    }
-
-    static acceptAnswer(questionId, answerId) {
-        const url = `${BASE_PATH}/${QUESTIONS_PATH}/${questionId}/accept/answer/${answerId}`
-        return ShineHttpClient.putData(url)
-    }
-
-    static voteQuestion(questionId, isVotingUp) {
-        let url
-
-        if (isVotingUp) {
-            url = `${BASE_PATH}/${QUESTIONS_PATH}/${questionId}/vote/increment`
-        } else {
-            url = `${BASE_PATH}/${QUESTIONS_PATH}/${questionId}/vote/decrement`
-        }
-
-        return ShineHttpClient.putData(url, '')
-
-    }
-
-    /////////////////////////////////////////////
-    //            Answer Management
-    /////////////////////////////////////////////
-
-    static findAnswersForQuestion(questionId) {
-        const url = `${BASE_PATH}/${ANSWER_PATH}/question/${questionId}`
-        let answers = ShineHttpClient.getData(url)
-
-        return answers
-    }
-
-    static createAnswer(answerObject) {
-        const url = `${BASE_PATH}/${ANSWER_PATH}`
-        return ShineHttpClient.postData(url, answerObject)
-
-    }
-
-    static voteAnswer(answerId, isVotingUp) {
-        let url
-
-        if (isVotingUp) {
-            url = `${BASE_PATH}/${ANSWER_PATH}/${answerId}/vote/increment`
-        } else {
-            url = `${BASE_PATH}/${ANSWER_PATH}/${answerId}/vote/decrement`
-        }
-
-        return ShineHttpClient.putData(url, '')
-
-    }
+  }
 
 }
 
