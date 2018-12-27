@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import queryString from 'query-string'
+import uuid1 from 'uuid/v1'
 
 const pageNumberBoundary = 3
 
@@ -31,7 +32,7 @@ const Pagination = (props) => {
     const query = queryString.stringify(params)
 
     outPut.push(
-      <li className="qa-page-links-item" key={-1}>
+      <li className="qa-page-links-item" key={uuid1()}>
         <Link to={location + '?' + query}
               className="qa-page-next"
               onClick={onClickPageHandler.bind(this, currentPage - 1)}>« prev
@@ -44,7 +45,7 @@ const Pagination = (props) => {
     const query = queryString.stringify(params)
 
     outPut.push(
-      <li className="qa-page-links-item">
+      <li className="qa-page-links-item" key={params.page}>
         <Link to={location + '?' + query}
               className="qa-page-next"
               onClick={onClickPageHandler.bind(this, params.page)}>{params.page}
@@ -52,7 +53,7 @@ const Pagination = (props) => {
       </li>
     )
     outPut.push(
-      <li className="qa-page-links-item disabled">
+      <li className="qa-page-links-item disabled" key={uuid1()}>
         <span className="qa-page-ellipsis">...</span>
       </li>
     )
@@ -78,12 +79,12 @@ const Pagination = (props) => {
     const query = queryString.stringify(params)
 
     outPut.push(
-      <li className="qa-page-links-item disabled">
+      <li className="qa-page-links-item disabled" key={uuid1()}>
         <span className="qa-page-ellipsis">...</span>
       </li>
     )
     outPut.push(
-      <li className="qa-page-links-item">
+      <li className="qa-page-links-item" key={uuid1()}>
         <Link to={location + '?' + query}
               className="qa-page-next"
               onClick={onClickPageHandler.bind(this, params.page)}>{params.page}
