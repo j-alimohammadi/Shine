@@ -9,7 +9,7 @@ import java.util.Date;
 public class ShineUser {
     private Long id;
 
-    private Integer repudation;
+    private Integer repudiation;
 
     private Date registerTime;
 
