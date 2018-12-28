@@ -9,7 +9,9 @@ import Question from './containers/Question/Question'
 import Ask from './containers/Ask/Ask'
 import Answer from './containers/Question/Answer/Answer'
 import AnswerTemplate from './components/Layout/AnswerTemplate'
-import SearchResult from "./containers/Question/SearchResult/SearchResult";
+import SearchResult from './containers/Question/SearchResult/SearchResult'
+import Login from './containers/User/Login/Login'
+import LoginTemplate from './components/Layout/LoginTemplate'
 
 class App extends Component {
   render () {
@@ -22,6 +24,7 @@ class App extends Component {
           <DefaultLayout path="/question" component={Question} titleOfPage='Recent questions'/>
           <DefaultLayout path="/ask" component={Ask} titleOfPage='Ask a question'/>
           <DefaultLayout path="/un-answered" component={UnAnswered} titleOfPage='Recent questions without answers'/>
+          <LoginTemplate path="/login" component={Login} titleOfPage=''/>
           <AnswerTemplate path="/answer/:questionId/:title" component={Answer}/>
           <DefaultLayout component={ERROR} titleOfPage='Error in response'/>
 
