@@ -60,7 +60,7 @@ class Login extends Component {
         <div className="vl col-md-1">
         </div>
 
-        logo for login other thired party app for example google
+        logo for login other third party app for example google
       </div>
     )
   }
