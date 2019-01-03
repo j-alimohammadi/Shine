@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 @Service("shineUserContext")
-public class UserContextImpl implements UserContext {
+public class UserContextImpl implements ShineUserContext {
     @Override
     public ShineUser getCurrentLoginUser() {
         return null;

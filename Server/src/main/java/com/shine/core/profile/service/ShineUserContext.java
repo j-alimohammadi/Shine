@@ -8,7 +8,7 @@ import com.shine.core.profile.domain.ShineUser;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 
-public interface UserContext {
+public interface ShineUserContext {
     ShineUser getCurrentLoginUser();
 
     void setCurrentLoginUser(ShineUser shineUser);
