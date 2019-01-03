@@ -9,7 +9,9 @@ import java.util.Date;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 @Entity
-@Table(name = "SHINE_USER")
+@Table(name = "SHINE_USER", indexes = {
+        @Index(name = "INDEX_LOGIN", columnList = "LOGIN", unique = true)
+})
 public class ShineUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -107,8 +109,8 @@ public class ShineUser {
             return this;
         }
 
-        public ShineUserBuilder withUserName(String userName) {
-            shineUser.setLogin(userName);
+        public ShineUserBuilder withLogin(String login) {
+            shineUser.setLogin(login);
             return this;
         }
 

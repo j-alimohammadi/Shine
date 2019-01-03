@@ -25,7 +25,7 @@ public class ShineUserServiceImpl implements ShineUserService {
     @Transactional
     @Override
     public ShineUser createNewUser(ShineUser shineUser) {
-        final String password = shineUser.getPassword();
+        final String password = shineUser.getUnEncodedPassword();
         shineUser.setPassword(passwordEncoder.encode(password));
 
         ShineUser savedUser = shineUserDAO.createOrUpdate(shineUser);

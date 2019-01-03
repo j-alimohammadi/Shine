@@ -28,7 +28,7 @@ public class UserInHttpRequestImpl implements UserInHttpRequest {
         //todo: validation user details
 
         ShineUser shineUser = ShineUser.ShineUserBuilder.aShineUser()
-                .withUserName(shineUserDTO.getLogin())
+                .withLogin(shineUserDTO.getLogin())
                 .withRegisterTime(new Date())
                 .withRepudiation(0)
                 .withUnEncodedPassword(shineUserDTO.getPassword())

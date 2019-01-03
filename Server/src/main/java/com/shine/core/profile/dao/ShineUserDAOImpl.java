@@ -14,10 +14,10 @@ import java.util.Optional;
 public class ShineUserDAOImpl extends AbstractDao<ShineUser> implements ShineUserDAO {
 
     @Override
-    public Optional<ShineUser> readUserByUserName(final String userName) {
+    public Optional<ShineUser> readUserByUserName(final String login) {
         Session hibernateSession = entityManager.unwrap(Session.class);
         Optional<ShineUser> userOptional = hibernateSession.byNaturalId(ShineUser.class)
-                .using("userName", userName)
+                .using("login", login)
                 .loadOptional();
 
         return userOptional;

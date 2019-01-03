@@ -61,25 +61,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.csrf().disable();
 
         // URL that needs authentication
-        http.authorizeRequests()
+        httpSecurity.authorizeRequests()
                 .antMatchers("/question/**/vote/increment")
                 .authenticated();
 
         // permit all other URL
-        http.authorizeRequests().anyRequest().permitAll();
+        httpSecurity.authorizeRequests().anyRequest().permitAll();
 
-        http.addFilterBefore(new AuthenticationFilter("/**", authenticationManager()), UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(new RegistrationFilter("/api/user/register", userInHttpRequest, authenticationManager()), AuthenticationFilter.class);
+        httpSecurity.addFilterBefore(new AuthenticationFilter("/**", authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(new RegistrationFilter("/api/user/register", userInHttpRequest, authenticationManager()), AuthenticationFilter.class);
 
 
 //        http.requiresChannel().anyRequest().requiresSecure();
 
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        httpSecurity.headers().frameOptions().disable();
 
 
     }
