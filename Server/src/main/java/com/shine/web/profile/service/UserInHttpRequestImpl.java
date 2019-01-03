@@ -26,14 +26,15 @@ public class UserInHttpRequestImpl implements UserInHttpRequest {
     @Override
     public ShineUser registerNewUser(ShineUserDTO shineUserDTO) {
         //todo: validation user details
-        
+
         ShineUser shineUser = ShineUser.ShineUserBuilder.aShineUser()
-                .withUserName(shineUserDTO.getUserName())
+                .withUserName(shineUserDTO.getLogin())
                 .withRegisterTime(new Date())
                 .withRepudiation(0)
+                .withUnEncodedPassword(shineUserDTO.getPassword())
                 .build();
 
-        return shineUserService.createNewUser(shineUser, shineUserDTO.getPassword());
+        return shineUserService.createNewUser(shineUser);
     }
 
 }

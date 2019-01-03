@@ -39,7 +39,7 @@ public class ShineUserDetailServiceImpl implements UserDetailsService {
 
         ShineUser shineUser = shineUserService
                 .findUserByUsername(username).orElseThrow(() -> {
-                    throw new UsernameNotFoundException(String.format("Username [%s] not found", username));
+                    return new UsernameNotFoundException(String.format("Username [%s] not found", username));
                 });
 
 

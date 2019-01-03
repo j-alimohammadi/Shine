@@ -9,7 +9,7 @@ import java.util.Optional;
  */
 
 public interface ShineUserService {
-    ShineUser createNewUser(ShineUser shineUser, String password);
+    ShineUser createNewUser(ShineUser shineUser);
 
     Optional<ShineUser> findUserByUsername(String userName);
 }

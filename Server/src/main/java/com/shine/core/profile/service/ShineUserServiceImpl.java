@@ -2,6 +2,7 @@ package com.shine.core.profile.service;
 
 import com.shine.core.profile.dao.ShineUserDAO;
 import com.shine.core.profile.domain.ShineUser;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,10 +18,19 @@ public class ShineUserServiceImpl implements ShineUserService {
     @Resource(name = "shineUserDAOImpl")
     protected ShineUserDAO shineUserDAO;
 
+
+    @Resource(name = "BCryptPasswordEncoder")
+    protected PasswordEncoder passwordEncoder;
+
     @Transactional
     @Override
-    public ShineUser createNewUser(ShineUser shineUser, String password) {
-        return null;
+    public ShineUser createNewUser(ShineUser shineUser) {
+        final String password = shineUser.getPassword();
+        shineUser.setPassword(passwordEncoder.encode(password));
+
+        ShineUser savedUser = shineUserDAO.createOrUpdate(shineUser);
+
+        return savedUser;
     }
 
     @Transactional

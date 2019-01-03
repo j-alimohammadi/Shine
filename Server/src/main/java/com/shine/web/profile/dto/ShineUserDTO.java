@@ -9,7 +9,7 @@ public class ShineUserDTO {
 
     private String family;
 
-    private String userName;
+    private String login;
 
     private String password;
 
@@ -32,12 +32,12 @@ public class ShineUserDTO {
         this.family = family;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getLogin() {
+        return login;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {
@@ -79,7 +79,7 @@ public class ShineUserDTO {
         }
 
         public ShineUserDTOBuilder withUserName(String userName) {
-            shineUserDTO.setUserName(userName);
+            shineUserDTO.setLogin(userName);
             return this;
         }
 

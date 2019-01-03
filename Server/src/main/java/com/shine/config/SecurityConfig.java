@@ -1,6 +1,8 @@
 package com.shine.config;
 
+import com.shine.web.profile.service.UserInHttpRequest;
 import com.shine.web.security.authentication.AuthenticationFilter;
+import com.shine.web.security.authentication.RegistrationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -32,12 +34,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Resource(name = "shineUserDetailService")
-    private UserDetailsService userDetailsService;
+    protected UserDetailsService userDetailsService;
+
+    @Resource(name = "shineUserInHttpRequestImpl")
+    protected UserInHttpRequest userInHttpRequest;
+
+
+    @Bean("BCryptPasswordEncoder")
+    public PasswordEncoder getPasswordEncoder() {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder;
+    }
 
     @Bean
     public AuthenticationProvider blAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(getPasswordEncoder());
+
         return provider;
     }
 
@@ -58,7 +72,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // permit all other URL
         http.authorizeRequests().anyRequest().permitAll();
 
-        http.addFilterAfter(new AuthenticationFilter("/**", authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new AuthenticationFilter("/**", authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new RegistrationFilter("/api/user/register", userInHttpRequest, authenticationManager()), AuthenticationFilter.class);
 
 
 //        http.requiresChannel().anyRequest().requiresSecure();

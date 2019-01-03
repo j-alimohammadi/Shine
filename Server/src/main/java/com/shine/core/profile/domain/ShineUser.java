@@ -20,6 +20,9 @@ public class ShineUser {
     @Column(name = "LOGIN")
     private String login;
 
+    @Transient
+    private String unEncodedPassword;
+
     @Column(name = "PASSWORD")
     private String password;
 
@@ -80,6 +83,14 @@ public class ShineUser {
         this.flagStatus = flagStatus;
     }
 
+    public String getUnEncodedPassword() {
+        return unEncodedPassword;
+    }
+
+    public void setUnEncodedPassword(String unEncodedPassword) {
+        this.unEncodedPassword = unEncodedPassword;
+    }
+
     public static final class ShineUserBuilder {
         private ShineUser shineUser;
 
@@ -101,8 +112,8 @@ public class ShineUser {
             return this;
         }
 
-        public ShineUserBuilder withPassword(String password) {
-            shineUser.setPassword(password);
+        public ShineUserBuilder withUnEncodedPassword(String password) {
+            shineUser.setUnEncodedPassword(password);
             return this;
         }
 

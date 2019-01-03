@@ -20,14 +20,14 @@ import java.util.Collections;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 
-public class RegisterationFilter extends AbstractAuthenticationProcessingFilter {
+public class RegistrationFilter extends AbstractAuthenticationProcessingFilter {
 
     protected UserInHttpRequest userInHttpRequest;
 
-    public RegisterationFilter(String defaultFilterProcessesUrl,
-                               UserInHttpRequest userInHttpRequest,
-                               AuthenticationManager authenticationManager) {
-        super(defaultFilterProcessesUrl);
+    public RegistrationFilter(String processingURL,
+                              UserInHttpRequest userInHttpRequest,
+                              AuthenticationManager authenticationManager) {
+        super(processingURL);
         setAuthenticationManager(authenticationManager);
 
         this.userInHttpRequest = userInHttpRequest;
@@ -42,7 +42,7 @@ public class RegisterationFilter extends AbstractAuthenticationProcessingFilter 
         userInHttpRequest.registerNewUser(shineUserDTO);
 
         UsernamePasswordAuthenticationToken userPassAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(shineUserDTO.getUserName(), shineUserDTO.getPassword(), Collections.emptyList());
+                new UsernamePasswordAuthenticationToken(shineUserDTO.getLogin(), shineUserDTO.getPassword(), Collections.emptyList());
 
         return getAuthenticationManager().authenticate(userPassAuthenticationToken);
     }
