@@ -114,6 +114,11 @@ public class ShineUser {
             return this;
         }
 
+        public ShineUserBuilder withActiveStatusFlag(Boolean flag) {
+            shineUser.setFlagStatus(flag);
+            return this;
+        }
+
         public ShineUserBuilder withUnEncodedPassword(String password) {
             shineUser.setUnEncodedPassword(password);
             return this;
