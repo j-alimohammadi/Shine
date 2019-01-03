@@ -44,6 +44,7 @@ public class RegistrationFilter extends AbstractAuthenticationProcessingFilter {
         UsernamePasswordAuthenticationToken userPassAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(shineUserDTO.getLogin(), shineUserDTO.getPassword(), Collections.emptyList());
 
+        //todo : redirect after successfully login
         return getAuthenticationManager().authenticate(userPassAuthenticationToken);
     }
 

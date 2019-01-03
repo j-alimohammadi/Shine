@@ -25,6 +25,8 @@ public class ShineUserServiceImpl implements ShineUserService {
     @Transactional
     @Override
     public ShineUser createNewUser(ShineUser shineUser) {
+        // todo: change default enable status flag with a configuration
+
         final String password = shineUser.getUnEncodedPassword();
         shineUser.setPassword(passwordEncoder.encode(password));
 

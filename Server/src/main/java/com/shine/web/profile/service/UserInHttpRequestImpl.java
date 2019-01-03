@@ -26,7 +26,7 @@ public class UserInHttpRequestImpl implements UserInHttpRequest {
     @Override
     public ShineUser registerNewUser(ShineUserDTO shineUserDTO) {
         //todo: validation user details
-        // todo: change default enable status flag with a configuration
+
 
         ShineUser shineUser = ShineUser.ShineUserBuilder.aShineUser()
                 .withLogin(shineUserDTO.getLogin())
