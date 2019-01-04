@@ -48,7 +48,6 @@ public class RegistrationFilter extends AbstractAuthenticationProcessingFilter {
         UsernamePasswordAuthenticationToken userPassAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(shineUserDTO.getLogin(), shineUserDTO.getPassword(), Collections.emptyList());
 
-        //todo : redirect after successfully login
         return getAuthenticationManager().authenticate(userPassAuthenticationToken);
     }
 
@@ -56,5 +55,10 @@ public class RegistrationFilter extends AbstractAuthenticationProcessingFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         authenticationSuccessHandler.onAuthenticationSuccess(request, response, authResult);
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        super.unsuccessfulAuthentication(request, response, failed);
     }
 }

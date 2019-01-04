@@ -1,4 +1,4 @@
-package com.shine.web.security.authentication;
+package com.shine.web.security.service;
 
 import java.util.List;
 

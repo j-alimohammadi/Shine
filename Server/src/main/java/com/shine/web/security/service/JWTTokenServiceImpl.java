@@ -1,4 +1,4 @@
-package com.shine.web.security.authentication;
+package com.shine.web.security.service;
 
 import com.shine.common.config.ShineConfigReader;
 import io.jsonwebtoken.Claims;

@@ -1,6 +1,6 @@
 package com.shine.api.rest.exception;
 
-import com.shine.api.rest.dto.ErrorResponse;
+import com.shine.common.web.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;

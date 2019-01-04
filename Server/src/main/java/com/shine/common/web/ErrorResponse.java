@@ -1,4 +1,4 @@
-package com.shine.api.rest.dto;
+package com.shine.common.web;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
