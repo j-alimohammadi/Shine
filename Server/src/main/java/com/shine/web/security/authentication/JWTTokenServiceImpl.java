@@ -3,6 +3,7 @@ package com.shine.web.security.authentication;
 import com.shine.common.config.ShineConfigReader;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -27,8 +28,9 @@ public class JWTTokenServiceImpl implements JWTTokenService {
 
         claims.put("roles", commaSeparatedRoles);
 
-        return commaSeparatedRoles;
-
+        return Jwts.builder().setClaims(claims)
+                .signWith(SignatureAlgorithm.HS256, getSecretKey())
+                .compact();
 
     }
 
@@ -38,5 +40,10 @@ public class JWTTokenServiceImpl implements JWTTokenService {
         final long now = new Date().getTime();
 
         return new Date(now + Duration.ofMinutes(jwtValidationPeriodMinute).toMillis());
+    }
+
+
+    protected String getSecretKey() {
+       return ShineConfigReader.readProperty("jwt.token.secret.key");
     }
 }

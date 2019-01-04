@@ -25,6 +25,7 @@ import java.util.Collections;
 public class RegistrationFilter extends AbstractAuthenticationProcessingFilter {
 
     protected UserInHttpRequest userInHttpRequest;
+    protected AuthenticationSuccessHandler authenticationSuccessHandler;
 
     public RegistrationFilter(String processingURL,
                               UserInHttpRequest userInHttpRequest,
@@ -32,7 +33,7 @@ public class RegistrationFilter extends AbstractAuthenticationProcessingFilter {
                               AuthenticationManager authenticationManager) {
         super(processingURL);
         setAuthenticationManager(authenticationManager);
-
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
         this.userInHttpRequest = userInHttpRequest;
     }
 
@@ -54,6 +55,6 @@ public class RegistrationFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        super.successfulAuthentication(request, response, chain, authResult);
+        authenticationSuccessHandler.onAuthenticationSuccess(request, response, authResult);
     }
 }

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
-@Service("TokenAuthenticationSuccessHandlerImpl")
+@Service("tokenAuthenticationSuccessHandlerImpl")
 public class TokenAuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
     @Resource(name = "JWTTokenServiceImpl")

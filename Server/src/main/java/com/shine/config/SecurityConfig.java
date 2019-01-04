@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource(name = "shineUserInHttpRequestImpl")
     protected UserInHttpRequest userInHttpRequest;
 
-    @Resource(name = "TokenAuthenticationSuccessHandlerImpl")
+    @Resource(name = "tokenAuthenticationSuccessHandlerImpl")
     protected AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Bean("BCryptPasswordEncoder")
