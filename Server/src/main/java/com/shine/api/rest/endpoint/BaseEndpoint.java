@@ -11,9 +11,12 @@ import org.springframework.context.ApplicationContextAware;
 public abstract class BaseEndpoint implements ApplicationContextAware {
     protected ApplicationContext applicationContext;
 
+    public static final String API_VERSION = "v1";
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
+
+
 }
