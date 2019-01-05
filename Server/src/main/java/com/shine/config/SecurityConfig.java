@@ -2,7 +2,6 @@ package com.shine.config;
 
 import com.shine.web.profile.service.UserInHttpRequest;
 import com.shine.web.security.authentication.AuthenticationFilter;
-import com.shine.web.security.authentication.RegistrationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -80,12 +79,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.authorizeRequests().anyRequest().permitAll();
 
         httpSecurity.addFilterBefore(new AuthenticationFilter("/**", authenticationManager()), UsernamePasswordAuthenticationFilter.class);
-//        httpSecurity.addFilterBefore(new RegistrationFilter("/api/user/register",
-//                        userInHttpRequest,
-//                        authenticationSuccessHandler,
-//                        authenticationFailureHandler,
-//                        authenticationManager()),
-//                AuthenticationFilter.class);
 
 
 //        http.requiresChannel().anyRequest().requiresSecure();

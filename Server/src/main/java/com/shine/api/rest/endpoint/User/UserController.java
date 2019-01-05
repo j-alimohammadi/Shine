@@ -5,7 +5,6 @@ import com.shine.api.rest.exception.ShineRestException;
 import com.shine.core.profile.domain.ShineUser;
 import com.shine.core.profile.service.ShineUserService;
 import com.shine.web.profile.dto.ShineUserDTO;
-import com.shine.web.security.service.JWTTokenService;
 import com.shine.web.security.service.LoginService;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,19 +12,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -41,12 +41,15 @@ public class UserController extends BaseEndpoint {
     @Resource(name = "shineLoginServiceImpl")
     protected LoginService loginService;
 
-    @Resource(name = "JWTTokenServiceImpl")
-    protected JWTTokenService jwtTokenService;
+
+    @Resource(name = "tokenAuthenticationSuccessHandlerImpl")
+    protected AuthenticationSuccessHandler authenticationSuccessHandler;
 
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity registerNewUser(@RequestBody ShineUserDTO shineUserDTO) {
+    public ResponseEntity registerNewUser(@RequestBody ShineUserDTO shineUserDTO,
+                                          HttpServletRequest request,
+                                          HttpServletResponse response) throws IOException, ServletException {
         ShineRestException shineRestException;
 
         Map<String, Object> errorMessage = new LinkedHashMap<>();
@@ -79,14 +82,9 @@ public class UserController extends BaseEndpoint {
         Authentication authenticate = loginService.authenticate(shineUserDTO.getLogin(),
                 shineUserDTO.getClearTextPassword());
 
-        User user = (User) authenticate.getPrincipal();
-        List<String> roles = user.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+        authenticationSuccessHandler.onAuthenticationSuccess(request, response, authenticate);
 
-        String JWTToken = jwtTokenService.generateAuthenticationToken(user.getUsername(), roles);
-
-        return ResponseEntity.ok().header("Authorization", "Bearer " + JWTToken).build();
+        return ResponseEntity.ok().build();
     }
 
 }
