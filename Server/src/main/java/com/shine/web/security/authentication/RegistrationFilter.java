@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.servlet.FilterChain;
@@ -26,15 +27,18 @@ public class RegistrationFilter extends AbstractAuthenticationProcessingFilter {
 
     protected UserInHttpRequest userInHttpRequest;
     protected AuthenticationSuccessHandler authenticationSuccessHandler;
+    protected AuthenticationFailureHandler authenticationFailureHandler;
 
     public RegistrationFilter(String processingURL,
                               UserInHttpRequest userInHttpRequest,
                               AuthenticationSuccessHandler authenticationSuccessHandler,
+                              AuthenticationFailureHandler authenticationFailureHandler,
                               AuthenticationManager authenticationManager) {
         super(processingURL);
         setAuthenticationManager(authenticationManager);
         this.authenticationSuccessHandler = authenticationSuccessHandler;
         this.userInHttpRequest = userInHttpRequest;
+        this.authenticationFailureHandler = authenticationFailureHandler;
     }
 
 
@@ -59,6 +63,6 @@ public class RegistrationFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        super.unsuccessfulAuthentication(request, response, failed);
+        authenticationFailureHandler.onAuthenticationFailure(request, response, failed);
     }
 }

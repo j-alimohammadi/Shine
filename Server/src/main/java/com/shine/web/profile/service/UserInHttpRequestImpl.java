@@ -3,6 +3,7 @@ package com.shine.web.profile.service;
 import com.shine.core.profile.domain.ShineUser;
 import com.shine.core.profile.service.ShineUserService;
 import com.shine.web.profile.dto.ShineUserDTO;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,6 +27,10 @@ public class UserInHttpRequestImpl implements UserInHttpRequest {
     @Override
     public ShineUser registerNewUser(ShineUserDTO shineUserDTO) {
         //todo: validation user details
+
+        if (StringUtils.isBlank(shineUserDTO.getLogin())) {
+            throw new RuntimeException("login name is invalid");
+        }
 
         ShineUser shineUser = ShineUser.ShineUserBuilder.aShineUser()
                 .withLogin(shineUserDTO.getLogin())

@@ -5,9 +5,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -27,7 +24,8 @@ public class ApplicationConfig {
     @Bean("shineMessageSource")
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("classpath:messages/ErrorCodeMessages");
+        messageSource.addBasenames("classpath:messages/ErrorCodeMessages");
+        messageSource.addBasenames("classpath:messages/Validation");
         messageSource.setCacheSeconds(messageCacheSeconds);
         messageSource.setUseCodeAsDefaultMessage(useCodeAsDefaultMessage);
         return messageSource;

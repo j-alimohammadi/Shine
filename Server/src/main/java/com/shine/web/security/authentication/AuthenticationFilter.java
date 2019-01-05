@@ -31,7 +31,7 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
 
     @Override
     protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
-        String header = request.getHeader("Authorization");
+        final String header = request.getHeader("Authorization");
         return StringUtils.isNotBlank(header) && header.contains("Bearer ");
 
     }
@@ -49,7 +49,6 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authResult);
-
 
         // we do not wand to redirect after login because this is a stateless request
         chain.doFilter(request, response);

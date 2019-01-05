@@ -19,6 +19,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -42,6 +43,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource(name = "tokenAuthenticationSuccessHandlerImpl")
     protected AuthenticationSuccessHandler authenticationSuccessHandler;
+
+    @Resource(name = "tokenAuthenticationFailHandlerImpl")
+    protected AuthenticationFailureHandler authenticationFailureHandler;
 
     @Bean("BCryptPasswordEncoder")
     public PasswordEncoder getPasswordEncoder() {
@@ -77,7 +81,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         httpSecurity.addFilterBefore(new AuthenticationFilter("/**", authenticationManager()), UsernamePasswordAuthenticationFilter.class);
         httpSecurity.addFilterBefore(new RegistrationFilter("/api/user/register",
-                        userInHttpRequest, authenticationSuccessHandler,
+                        userInHttpRequest,
+                        authenticationSuccessHandler,
+                        authenticationFailureHandler,
                         authenticationManager()),
                 AuthenticationFilter.class);
 
