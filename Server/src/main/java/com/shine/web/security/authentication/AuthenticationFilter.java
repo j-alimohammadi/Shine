@@ -50,7 +50,7 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authResult);
 
-        // we do not wand to redirect after login because this is a stateless request
+        // we do not wand to redirect after authenticate because this is a stateless request
         chain.doFilter(request, response);
     }
 }

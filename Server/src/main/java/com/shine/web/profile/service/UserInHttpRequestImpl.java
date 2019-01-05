@@ -29,7 +29,7 @@ public class UserInHttpRequestImpl implements UserInHttpRequest {
         //todo: validation user details
 
         if (StringUtils.isBlank(shineUserDTO.getLogin())) {
-            throw new RuntimeException("login name is invalid");
+            throw new RuntimeException("authenticate name is invalid");
         }
 
         ShineUser shineUser = ShineUser.ShineUserBuilder.aShineUser()
@@ -37,7 +37,7 @@ public class UserInHttpRequestImpl implements UserInHttpRequest {
                 .withRegisterTime(new Date())
                 .withRepudiation(0)
                 .withActiveStatusFlag(true)
-                .withUnEncodedPassword(shineUserDTO.getPassword())
+                .withUnEncodedPassword(shineUserDTO.getClearTextPassword())
                 .build();
 
         return shineUserService.createNewUser(shineUser);

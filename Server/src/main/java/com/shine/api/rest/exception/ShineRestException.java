@@ -72,12 +72,13 @@ public class ShineRestException extends RuntimeException {
     }
 
     public static ShineRestException build(int httpStatusCode, Locale locale, Throwable cause) {
-        return build(httpStatusCode, null, null, cause);
+        return build(httpStatusCode, locale, null, null, cause);
     }
 
 
-    public static ShineRestException build(int httpStatusCode, Locale locale, Map<String, Object[]> messages, Throwable cause) {
-        return new ShineRestException(httpStatusCode, locale, messages, , cause, );
+    public static ShineRestException build(int httpStatusCode, Locale locale, Map<String, Object[]> messages,
+                                           Map<String, Object> additionalData, Throwable cause) {
+        return new ShineRestException(httpStatusCode, locale, messages, additionalData, cause);
     }
 
     public ShineRestException addMessage(String key, Object params[]) {
@@ -88,6 +89,17 @@ public class ShineRestException extends RuntimeException {
     public ShineRestException addMessage(String key) {
         return addMessage(key, null);
     }
+
+    public ShineRestException addAdditionalData(String key, Object value) {
+        additionalData.put(key, value);
+        return this;
+    }
+
+    public ShineRestException addAdditionalData(Map<String, Object> additionalData) {
+        this.additionalData.putAll(additionalData);
+        return this;
+    }
+
 
     public int getHttpStatusCode() {
         return httpStatusCode;

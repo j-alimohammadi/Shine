@@ -50,7 +50,7 @@ public class RegistrationFilter extends AbstractAuthenticationProcessingFilter {
         userInHttpRequest.registerNewUser(shineUserDTO);
 
         UsernamePasswordAuthenticationToken userPassAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(shineUserDTO.getLogin(), shineUserDTO.getPassword(), Collections.emptyList());
+                new UsernamePasswordAuthenticationToken(shineUserDTO.getLogin(), shineUserDTO.getClearTextPassword(), Collections.emptyList());
 
         return getAuthenticationManager().authenticate(userPassAuthenticationToken);
     }

@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return passwordEncoder;
     }
 
-    @Bean
+    @Bean("shineAuthenticationProvider")
     public AuthenticationProvider blAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
@@ -80,12 +80,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.authorizeRequests().anyRequest().permitAll();
 
         httpSecurity.addFilterBefore(new AuthenticationFilter("/**", authenticationManager()), UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.addFilterBefore(new RegistrationFilter("/api/user/register",
-                        userInHttpRequest,
-                        authenticationSuccessHandler,
-                        authenticationFailureHandler,
-                        authenticationManager()),
-                AuthenticationFilter.class);
+//        httpSecurity.addFilterBefore(new RegistrationFilter("/api/user/register",
+//                        userInHttpRequest,
+//                        authenticationSuccessHandler,
+//                        authenticationFailureHandler,
+//                        authenticationManager()),
+//                AuthenticationFilter.class);
 
 
 //        http.requiresChannel().anyRequest().requiresSecure();

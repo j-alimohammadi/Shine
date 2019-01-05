@@ -11,7 +11,7 @@ public class ShineUserDTO {
 
     private String login;
 
-    private String password;
+    private String clearTextPassword;
 
     private String confirmPassword;
 
@@ -40,12 +40,12 @@ public class ShineUserDTO {
         this.login = login;
     }
 
-    public String getPassword() {
-        return password;
+    public String getClearTextPassword() {
+        return clearTextPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setClearTextPassword(String clearTextPassword) {
+        this.clearTextPassword = clearTextPassword;
     }
 
     public String getConfirmPassword() {
@@ -84,7 +84,7 @@ public class ShineUserDTO {
         }
 
         public ShineUserDTOBuilder withPassword(String password) {
-            shineUserDTO.setPassword(password);
+            shineUserDTO.setClearTextPassword(password);
             return this;
         }
 
