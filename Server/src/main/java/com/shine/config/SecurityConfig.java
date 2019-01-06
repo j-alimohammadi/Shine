@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return passwordEncoder;
     }
 
-    @Bean("shineAuthenticationProvider")
+    @Bean
     public AuthenticationProvider blAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
@@ -60,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         return provider;
     }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
