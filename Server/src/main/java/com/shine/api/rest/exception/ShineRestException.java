@@ -1,5 +1,7 @@
 package com.shine.api.rest.exception;
 
+import org.apache.commons.collections4.MapUtils;
+
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -14,7 +16,9 @@ public class ShineRestException extends RuntimeException {
 
     private Locale locale;
 
-    private Map<String, Object[]> messages;
+    private Map<String, Object[]> messages = new LinkedHashMap<>();
+
+    private Map<String, Object> additionalData = new LinkedHashMap<>();
 
 
     /////////////////////////////////////////////
@@ -32,33 +36,30 @@ public class ShineRestException extends RuntimeException {
     public final static String INVALID_QUESTION_ID = "shine.platform.restapi.exception.question.questionIdInvalid";
 
 
-
     /////////////////////////////////////////////
     //            Answer Error Code
     /////////////////////////////////////////////
     public final static String INVALID_ANSWER_ID = "shine.platform.restapi.exception.answer.answerIdInvalid";
 
 
+    /////////////////////////////////////////////
+    //            Register User Error Code
+    /////////////////////////////////////////////
+    public final static String INVALID_USER_REGISTRATION_INFO = "shine.platform.restapi.exception.user.registrations";
 
-    public ShineRestException(int httpStatusCode, Locale locale, Map<String, Object[]> messages, Throwable cause) {
+
+    public ShineRestException(int httpStatusCode, Locale locale, Map<String, Object[]> messages,
+                              Map<String, Object> additionalData, Throwable cause) {
         super(cause);
         this.httpStatusCode = httpStatusCode;
         this.locale = locale;
-        if (messages == null) {
-            this.messages = new LinkedHashMap<>();
-        } else {
+        if (MapUtils.isNotEmpty(messages)) {
             this.messages = messages;
         }
-    }
 
-
-    public ShineRestException addMessage(String key, Object params[]) {
-        messages.put(key, params);
-        return this;
-    }
-
-    public ShineRestException addMessage(String key) {
-        return addMessage(key, null);
+        if (MapUtils.isNotEmpty(additionalData)) {
+            this.additionalData = additionalData;
+        }
     }
 
 
@@ -71,13 +72,34 @@ public class ShineRestException extends RuntimeException {
     }
 
     public static ShineRestException build(int httpStatusCode, Locale locale, Throwable cause) {
-        return build(httpStatusCode, null, null, cause);
+        return build(httpStatusCode, locale, null, null, cause);
     }
 
 
-    public static ShineRestException build(int httpStatusCode, Locale locale, Map<String, Object[]> messages, Throwable cause) {
-        return new ShineRestException(httpStatusCode, locale, messages, cause);
+    public static ShineRestException build(int httpStatusCode, Locale locale, Map<String, Object[]> messages,
+                                           Map<String, Object> additionalData, Throwable cause) {
+        return new ShineRestException(httpStatusCode, locale, messages, additionalData, cause);
     }
+
+    public ShineRestException addMessage(String key, Object params[]) {
+        messages.put(key, params);
+        return this;
+    }
+
+    public ShineRestException addMessage(String key) {
+        return addMessage(key, null);
+    }
+
+    public ShineRestException addAdditionalData(String key, Object value) {
+        additionalData.put(key, value);
+        return this;
+    }
+
+    public ShineRestException addAdditionalData(Map<String, Object> additionalData) {
+        this.additionalData.putAll(additionalData);
+        return this;
+    }
+
 
     public int getHttpStatusCode() {
         return httpStatusCode;
