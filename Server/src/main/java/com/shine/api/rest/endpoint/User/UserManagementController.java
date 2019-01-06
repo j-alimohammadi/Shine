@@ -33,7 +33,7 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/api/user",
         produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UserController extends BaseEndpoint {
+public class UserManagementController extends BaseEndpoint {
 
     @Resource(name = "shineUserServiceImpl")
     protected ShineUserService shineUserService;
