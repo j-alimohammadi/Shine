@@ -1,6 +1,5 @@
 package com.shine.config;
 
-import com.shine.web.profile.service.UserInHttpRequest;
 import com.shine.web.security.authentication.AuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +17,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
@@ -37,14 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource(name = "shineUserDetailService")
     protected UserDetailsService userDetailsService;
 
-    @Resource(name = "shineUserInHttpRequestImpl")
-    protected UserInHttpRequest userInHttpRequest;
-
-    @Resource(name = "tokenAuthenticationSuccessHandlerImpl")
-    protected AuthenticationSuccessHandler authenticationSuccessHandler;
-
-    @Resource(name = "tokenAuthenticationFailHandlerImpl")
-    protected AuthenticationFailureHandler authenticationFailureHandler;
 
     @Bean("BCryptPasswordEncoder")
     public PasswordEncoder getPasswordEncoder() {
@@ -84,9 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //        http.requiresChannel().anyRequest().requiresSecure();
 
-
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
         httpSecurity.headers().frameOptions().disable();
 
 
