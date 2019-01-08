@@ -68,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // permit all other URL
         httpSecurity.authorizeRequests().anyRequest().permitAll();
         httpSecurity.addFilterBefore(new AuthenticationFilter("/**", authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(new AuthenticationFilter("/api/user/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class);
 
 
         // http.requiresChannel().anyRequest().requiresSecure();
