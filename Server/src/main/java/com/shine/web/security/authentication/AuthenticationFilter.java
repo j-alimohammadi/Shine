@@ -22,8 +22,8 @@ import java.io.IOException;
 public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
 
-    public AuthenticationFilter(String defaultFilterProcessesUrl, AuthenticationManager authenticationManager) {
-        super(defaultFilterProcessesUrl);
+    public AuthenticationFilter(String filterProcessesUrl, AuthenticationManager authenticationManager) {
+        super(filterProcessesUrl);
 
         setAuthenticationManager(authenticationManager);
     }
@@ -37,7 +37,8 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws AuthenticationException, IOException, ServletException {
         String authToken = request.getHeader("Authorization").substring(7);
         AccessTokenAuthentication authRequest = new AccessTokenAuthentication(authToken);
 
@@ -46,7 +47,9 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                            FilterChain chain, Authentication authResult) throws IOException, ServletException {
+
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authResult);
 
