@@ -1,6 +1,7 @@
 package com.shine.config;
 
 import com.shine.web.security.authentication.AuthenticationFilter;
+import com.shine.web.security.authentication.LoginFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
@@ -34,6 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource(name = "shineUserDetailService")
     protected UserDetailsService userDetailsService;
 
+
+    @Resource(name = "tokenAuthenticationSuccessHandlerImpl")
+    protected AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Bean("BCryptPasswordEncoder")
     public PasswordEncoder getPasswordEncoder() {
@@ -68,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // permit all other URL
         httpSecurity.authorizeRequests().anyRequest().permitAll();
         httpSecurity.addFilterBefore(new AuthenticationFilter("/**", authenticationManager()), UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.addFilterBefore(new AuthenticationFilter("/api/user/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(new LoginFilter("/api/user/login", authenticationManager(), authenticationSuccessHandler), AuthenticationFilter.class);
 
 
         // http.requiresChannel().anyRequest().requiresSecure();
