@@ -14,4 +14,8 @@ public class AccessTokenAuthentication extends UsernamePasswordAuthenticationTok
         this.token = token;
     }
 
+    public String getToken() {
+        return token;
+    }
+
 }
