@@ -1,6 +1,6 @@
 package com.shine.web.security.authentication;
 
-import com.shine.web.security.domian.AccessTokenAuthentication;
+import com.shine.web.security.domian.JWTAccessTokenAuthentication;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -40,7 +40,7 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
         String authToken = request.getHeader("Authorization").substring(7);
-        AccessTokenAuthentication authRequest = new AccessTokenAuthentication(authToken);
+        JWTAccessTokenAuthentication authRequest = new JWTAccessTokenAuthentication(authToken);
 
         return getAuthenticationManager().authenticate(authRequest);
 

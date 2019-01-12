@@ -1,6 +1,6 @@
 package com.shine.web.security.authentication;
 
-import com.shine.web.security.domian.AccessTokenAuthentication;
+import com.shine.web.security.domian.JWTAccessTokenAuthentication;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;
@@ -26,8 +26,9 @@ public class JWTAuthenticationProviderDAO extends AbstractUserDetailsAuthenticat
 
     @Override
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
-        AccessTokenAuthentication accessTokenAuthentication = (AccessTokenAuthentication) authentication;
-        final String jwtToken = accessTokenAuthentication.getToken();
+        JWTAccessTokenAuthentication JWTAccessTokenAuthentication = (JWTAccessTokenAuthentication) authentication;
+        final String jwtToken = JWTAccessTokenAuthentication.getToken();
+
 
         userDetailsService.loadUserByUsername()
 
@@ -37,6 +38,6 @@ public class JWTAuthenticationProviderDAO extends AbstractUserDetailsAuthenticat
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return (AccessTokenAuthentication.class.isAssignableFrom(authentication));
+        return (JWTAccessTokenAuthentication.class.isAssignableFrom(authentication));
     }
 }

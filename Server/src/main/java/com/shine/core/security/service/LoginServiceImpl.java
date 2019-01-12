@@ -1,4 +1,4 @@
-package com.shine.web.security.service;
+package com.shine.core.security.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

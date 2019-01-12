@@ -1,4 +1,4 @@
-package com.shine.core.security;
+package com.shine.core.security.service;
 
 import com.shine.core.profile.domain.ShineUser;
 import com.shine.core.profile.service.ShineUserService;

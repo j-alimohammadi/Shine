@@ -1,9 +1,8 @@
 package com.shine.web.security.service;
 
 import com.shine.common.config.ShineConfigReader;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.shine.web.security.domian.WebUser;
+import io.jsonwebtoken.*;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -34,6 +33,26 @@ public class JWTTokenServiceImpl implements JWTTokenService {
 
     }
 
+    @Override
+    public WebUser parseToken(String jwsToken) {
+
+        try {
+            Claims claims = Jwts.parser().
+                    setSigningKey(getSecretKey())
+                    .parseClaimsJws(jwsToken)
+                    .getBody();
+
+            WebUser webUser =
+
+
+        } catch (ExpiredJwtException | UnsupportedJwtException
+                | MalformedJwtException | SignatureException |
+                IllegalArgumentException ex) {
+
+        }
+
+        return null;
+    }
 
     protected Date getExpirationDate() {
         final long jwtValidationPeriodMinute = ShineConfigReader.readLongProperty("jwt.token.validation.period.minute", 30);
@@ -44,6 +63,6 @@ public class JWTTokenServiceImpl implements JWTTokenService {
 
 
     protected String getSecretKey() {
-       return ShineConfigReader.readProperty("jwt.token.secret.key");
+        return ShineConfigReader.readProperty("jwt.token.secret.key");
     }
 }

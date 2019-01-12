@@ -6,10 +6,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 
-public class AccessTokenAuthentication extends UsernamePasswordAuthenticationToken {
+public class JWTAccessTokenAuthentication extends UsernamePasswordAuthenticationToken {
     private String token;
 
-    public AccessTokenAuthentication(String token) {
+    public JWTAccessTokenAuthentication(String token) {
         super(null, null);
         this.token = token;
     }
