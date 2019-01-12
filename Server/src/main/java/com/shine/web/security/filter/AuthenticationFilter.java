@@ -1,6 +1,6 @@
-package com.shine.web.security.authentication;
+package com.shine.web.security.filter;
 
-import com.shine.web.security.domian.JWTAccessTokenAuthentication;
+import com.shine.core.security.domain.JWTAccessTokenAuthentication;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;

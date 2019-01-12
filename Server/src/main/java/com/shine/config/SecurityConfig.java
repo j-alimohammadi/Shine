@@ -1,7 +1,10 @@
 package com.shine.config;
 
-import com.shine.web.security.authentication.AuthenticationFilter;
-import com.shine.web.security.authentication.LoginFilter;
+import com.shine.core.security.service.authentication.JWTAuthenticationProvider;
+import com.shine.core.security.service.jwt.JWTTokenService;
+import com.shine.core.security.service.jwt.JWTTokenServiceImpl;
+import com.shine.web.security.filter.AuthenticationFilter;
+import com.shine.web.security.filter.LoginFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -46,8 +49,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return passwordEncoder;
     }
 
+    @Bean("JWTTokenServiceImpl")
+    public JWTTokenService getJwtTokenService() {
+        return new JWTTokenServiceImpl();
+    }
+
+
     @Bean
-    public AuthenticationProvider blAuthenticationProvider() {
+    public AuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(getPasswordEncoder());
@@ -55,10 +64,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return provider;
     }
 
+    @Bean
+    public AuthenticationProvider jwtAuthenticationProvider() {
+        JWTAuthenticationProvider jwtAuthenticationProvider =
+                new JWTAuthenticationProvider(userDetailsService, getJwtTokenService());
+
+        return jwtAuthenticationProvider;
+    }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(blAuthenticationProvider());
+        auth.authenticationProvider(daoAuthenticationProvider());
+        auth.authenticationProvider(jwtAuthenticationProvider());
     }
 
     @Override
@@ -90,3 +108,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManager();
     }
 }
+

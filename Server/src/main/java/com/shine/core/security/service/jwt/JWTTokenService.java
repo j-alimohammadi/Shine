@@ -1,8 +1,9 @@
-package com.shine.web.security.service;
+package com.shine.core.security.service.jwt;
 
-import com.shine.web.security.domian.WebUser;
+import com.shine.core.security.domain.RegisteredUser;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -11,5 +12,5 @@ import java.util.List;
 public interface JWTTokenService {
     String generateAuthenticationToken(String userName, List<String> roles);
 
-    WebUser parseToken(String jwtToken);
+    Optional<RegisteredUser> parseToken(String jwtToken);
 }

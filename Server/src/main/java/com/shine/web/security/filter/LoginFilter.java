@@ -1,4 +1,4 @@
-package com.shine.web.security.authentication;
+package com.shine.web.security.filter;
 
 import com.shine.common.utils.JSONMapper;
 import com.shine.web.security.domian.UserCredential;

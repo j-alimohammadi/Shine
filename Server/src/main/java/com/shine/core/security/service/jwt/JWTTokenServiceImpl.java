@@ -1,19 +1,25 @@
-package com.shine.web.security.service;
+package com.shine.core.security.service.jwt;
 
 import com.shine.common.config.ShineConfigReader;
-import com.shine.web.security.domian.WebUser;
-import io.jsonwebtoken.*;
-import org.springframework.stereotype.Service;
+import com.shine.core.security.domain.RegisteredUser;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
-@Service("JWTTokenServiceImpl")
+
 public class JWTTokenServiceImpl implements JWTTokenService {
+    private final static Logger log = LoggerFactory.getLogger(JWTTokenServiceImpl.class);
 
 
     @Override
@@ -35,7 +41,7 @@ public class JWTTokenServiceImpl implements JWTTokenService {
     }
 
     @Override
-    public WebUser parseToken(String jwsToken) {
+    public Optional<RegisteredUser> parseToken(String jwsToken) {
 
         try {
             Claims claims = Jwts.parser().
@@ -44,17 +50,16 @@ public class JWTTokenServiceImpl implements JWTTokenService {
                     .getBody();
 
             String userName = claims.get("userName", String.class);
+            List<String> roles = Arrays.asList(claims.get("roles", String.class).split(","));
 
-            WebUser webUser =
+            RegisteredUser registeredUser = new RegisteredUser(userName, roles);
+            return Optional.of(registeredUser);
 
-
-        } catch (ExpiredJwtException | UnsupportedJwtException
-                | MalformedJwtException | SignatureException |
-                IllegalArgumentException ex) {
-
+        } catch (Exception ex) {
+            log.error("Error on creating claim", ex);
+            return Optional.empty();
         }
 
-        return null;
     }
 
     protected Date getExpirationDate() {

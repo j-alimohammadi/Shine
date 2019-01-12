@@ -1,4 +1,4 @@
-package com.shine.web.security.domian;
+package com.shine.core.security.domain;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
