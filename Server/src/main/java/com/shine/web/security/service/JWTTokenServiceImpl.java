@@ -25,6 +25,7 @@ public class JWTTokenServiceImpl implements JWTTokenService {
                 .setIssuer("Shine")
                 .setExpiration(getExpirationDate());
 
+        claims.put("userName", userName);
         claims.put("roles", commaSeparatedRoles);
 
         return Jwts.builder().setClaims(claims)
@@ -41,6 +42,8 @@ public class JWTTokenServiceImpl implements JWTTokenService {
                     setSigningKey(getSecretKey())
                     .parseClaimsJws(jwsToken)
                     .getBody();
+
+            String userName = claims.get("userName", String.class);
 
             WebUser webUser =
 
