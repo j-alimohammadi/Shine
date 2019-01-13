@@ -10,6 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.servlet.FilterChain;
@@ -26,9 +27,10 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
     private final AuthenticationSuccessHandler successHandler;
 
     public LoginFilter(String filterProcessesUrl, AuthenticationManager authenticationManager,
-                       AuthenticationSuccessHandler successHandler) {
+                       AuthenticationSuccessHandler successHandler, AuthenticationFailureHandler failureHandler) {
         super(filterProcessesUrl);
         setAuthenticationManager(authenticationManager);
+        setAuthenticationFailureHandler(failureHandler);
         this.successHandler = successHandler;
     }
 
@@ -54,4 +56,5 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
         successHandler.onAuthenticationSuccess(request, response, authResult);
     }
 
-}                                                               
+
+}
