@@ -1,6 +1,6 @@
 package com.shine.core.search.domain;
 
-import com.shine.core.domain.Post;
+import com.shine.core.qa.domain.Post;
 
 import java.util.ArrayList;
 import java.util.List;

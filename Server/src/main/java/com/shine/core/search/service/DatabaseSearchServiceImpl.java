@@ -1,13 +1,13 @@
 package com.shine.core.search.service;
 
-import com.shine.core.domain.Post;
-import com.shine.core.domain.PostType;
+import com.shine.core.qa.domain.Post;
+import com.shine.core.qa.domain.PostType;
 import com.shine.core.search.ShineSearchService;
 import com.shine.core.search.dao.SearchFieldDao;
 import com.shine.core.search.domain.SearchCriteria;
 import com.shine.core.search.domain.SearchField;
 import com.shine.core.search.domain.SearchResult;
-import com.shine.core.service.PostService;
+import com.shine.core.qa.service.PostService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

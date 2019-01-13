@@ -15,5 +15,4 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface APIUnWrapper<T> {
     T unwrap(HttpServletRequest request, ApplicationContext context);
-
 }
