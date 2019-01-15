@@ -22,6 +22,9 @@ public class ShineUser {
     @Column(name = "LOGIN")
     private String login;
 
+    @Column(name = "EMAIL", nullable = false)
+    private String email;
+
     @Transient
     private String unEncodedPassword;
 
@@ -36,6 +39,7 @@ public class ShineUser {
 
     @Column(name = "FLAG_STATUS")
     private Boolean flagStatus;
+
 
     public Long getId() {
         return id;
@@ -93,6 +97,14 @@ public class ShineUser {
         this.unEncodedPassword = unEncodedPassword;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public static final class ShineUserBuilder {
         private ShineUser shineUser;
 
@@ -106,6 +118,11 @@ public class ShineUser {
 
         public ShineUserBuilder withId(Long id) {
             shineUser.setId(id);
+            return this;
+        }
+
+        public ShineUserBuilder withEmail(String email) {
+            shineUser.setEmail(email);
             return this;
         }
 

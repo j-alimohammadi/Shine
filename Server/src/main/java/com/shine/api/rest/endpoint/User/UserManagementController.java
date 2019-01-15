@@ -4,10 +4,11 @@ import com.shine.api.rest.endpoint.BaseEndpoint;
 import com.shine.api.rest.exception.ShineRestException;
 import com.shine.core.profile.domain.ShineUser;
 import com.shine.core.profile.service.ShineUserService;
-import com.shine.web.profile.dto.ShineUserDTO;
 import com.shine.core.security.service.LoginService;
+import com.shine.web.profile.dto.ShineUserDTO;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.validator.GenericValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +56,11 @@ public class UserManagementController extends BaseEndpoint {
         Map<String, Object> errorMessage = new LinkedHashMap<>();
 
         if (StringUtils.isBlank(shineUserDTO.getLogin())) {
-            errorMessage.put("login", "Field authenticate should not be empty");
+            errorMessage.put("login", "'login' field should not be empty");
+        }
+
+        if (!GenericValidator.isEmail(shineUserDTO.getLogin())) {
+            errorMessage.put("email", "'email' field is invalid");
         }
 
 
@@ -70,6 +75,7 @@ public class UserManagementController extends BaseEndpoint {
 
         ShineUser shineUser = ShineUser.ShineUserBuilder.aShineUser()
                 .withLogin(shineUserDTO.getLogin())
+                .withEmail(shineUserDTO.getEmail())
                 .withRegisterTime(new Date())
                 .withRepudiation(0)
                 .withActiveStatusFlag(true)

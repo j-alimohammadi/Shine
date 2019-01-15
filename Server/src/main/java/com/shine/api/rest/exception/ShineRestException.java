@@ -113,4 +113,8 @@ public class ShineRestException extends RuntimeException {
     public Map<String, Object[]> getMessages() {
         return Collections.unmodifiableMap(messages);
     }
+
+    public Map<String, Object> getAdditionalData() {
+        return additionalData;
+    }
 }

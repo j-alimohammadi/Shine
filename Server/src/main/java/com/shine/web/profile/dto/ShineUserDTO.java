@@ -11,6 +11,8 @@ public class ShineUserDTO {
 
     private String login;
 
+    private String email;
+
     private String clearTextPassword;
 
     private String confirmPassword;
@@ -56,6 +58,13 @@ public class ShineUserDTO {
         this.confirmPassword = confirmPassword;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public static final class ShineUserDTOBuilder {
         private ShineUserDTO shineUserDTO;
@@ -90,6 +99,11 @@ public class ShineUserDTO {
 
         public ShineUserDTOBuilder withConfirmPassword(String confirmPassword) {
             shineUserDTO.setConfirmPassword(confirmPassword);
+            return this;
+        }
+
+        public ShineUserDTOBuilder withEmail(String email) {
+            shineUserDTO.setEmail(email);
             return this;
         }
 
