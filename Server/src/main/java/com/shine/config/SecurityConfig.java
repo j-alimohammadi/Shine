@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Resource(name = "tokenAuthenticationSuccessHandlerImpl")
-    protected AuthenticationSuccessHandler authenticationSuccessHandler;
+    protected AuthenticationSuccessHandler successHandler;
 
     @Resource(name = "tokenAuthenticationFailHandlerImpl")
     protected AuthenticationFailureHandler failureHandler;
@@ -94,8 +94,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // permit all other URL
         httpSecurity.authorizeRequests().anyRequest().permitAll();
-        httpSecurity.addFilterBefore(new AuthenticationFilter("/**", authenticationManager()), UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.addFilterBefore(new LoginFilter("/api/user/login", authenticationManager(), authenticationSuccessHandler, failureHandler), AuthenticationFilter.class);
+        httpSecurity.addFilterBefore(new AuthenticationFilter("/**", authenticationManager(), failureHandler), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(new LoginFilter("/api/user/login", authenticationManager(), successHandler, failureHandler), AuthenticationFilter.class);
 
 
         // http.requiresChannel().anyRequest().requiresSecure();

@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
  */
 @Service
 public class TagServiceImpl implements TagService {
-    private final int ONE_HUNDRED_THOUSAND = 100;
 
     @Resource
     private TagDao tagDao;

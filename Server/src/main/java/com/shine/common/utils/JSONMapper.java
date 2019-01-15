@@ -31,9 +31,6 @@ public class JSONMapper {
     private JSONMapper() {
     }
 
-    public static ObjectMapper getJsonMapper() {
-        return JSON_MAPPER;
-    }
 
     public static String createJSON(final Object object) throws InvalidJSONException {
         try {
