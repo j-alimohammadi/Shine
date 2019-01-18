@@ -13,7 +13,7 @@ class Login extends Component {
     }
 
     // Event handler
-    this.login = this.login.bind(this)
+    this.handleFormSubmitLogin = this.handleFormSubmitLogin.bind(this)
     this.handleUserNameChange = this.handleUserNameChange.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this)
 
@@ -22,7 +22,8 @@ class Login extends Component {
 
   }
 
-  login (userName, password) {
+  handleFormSubmitLogin (event) {
+    event.preventDefault()
     this.authenticationService.login(userName, password)
   }
 
@@ -40,7 +41,7 @@ class Login extends Component {
       <div className="qa-part-form">
         <h1 className="text-center">Login</h1>
         <div className="col-md-5">
-          <form method="post" className="col-mod-10" onSubmit={this.login}>
+          <form method="post" className="col-mod-10" onSubmit={this.handleFormSubmitLogin}>
             <table className="qa-form-tall-table">
               <tbody>
               <tr>

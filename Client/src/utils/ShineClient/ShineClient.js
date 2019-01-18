@@ -4,7 +4,7 @@ const BASE_PATH = 'http://localhost:8090'
 const QUESTIONS_PATH = 'question'
 const ANSWER_PATH = 'answer'
 const POST_PATH = 'post'
-const LOGIN_PATH = '/api/user/login'
+const LOGIN_PATH = '/api/user/handleFormSubmitLogin'
 
 class ShineClient {
 
