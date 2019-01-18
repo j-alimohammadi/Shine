@@ -1,13 +1,46 @@
 import React, { Component } from 'react'
+import AuthService from '../../../components/authentication/AuthenticationService'
 
 class Login extends Component {
+
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      userName: '',
+      password: ''
+
+    }
+
+    // Event handler
+    this.login = this.login.bind(this)
+    this.handleUserNameChange = this.handleUserNameChange.bind(this)
+    this.handlePasswordChange = this.handlePasswordChange.bind(this)
+
+    // property
+    this.authenticationService = new AuthService()
+
+  }
+
+  login (userName, password) {
+    this.authenticationService.login(userName, password)
+  }
+
+  handleUserNameChange (event) {
+    this.setState({userName: event.target.value})
+  }
+
+  handlePasswordChange (event) {
+    this.setState({password: event.target.value})
+  }
+
   render () {
 
     return (
       <div className="qa-part-form">
         <h1 className="text-center">Login</h1>
         <div className="col-md-5">
-          <form method="post" className="col-mod-10">
+          <form method="post" className="col-mod-10" onSubmit={this.login}>
             <table className="qa-form-tall-table">
               <tbody>
               <tr>
@@ -17,7 +50,8 @@ class Login extends Component {
               </tr>
               <tr>
                 <td className="qa-form-tall-data">
-                  <input name="handle" id="handle" dir="auto" type="text"
+                  <input name="handle" id="handle" dir="auto" type="text" value={this.state.userName}
+                         onChange={this.handleUserNameChange.bind(this)}
                          className="qa-form-tall-text form-control"/>
                 </td>
               </tr>
@@ -28,7 +62,8 @@ class Login extends Component {
               </tr>
               <tr>
                 <td className="qa-form-tall-data">
-                  <input name="password" id="password" dir="auto" type="password"
+                  <input name="password" id="password" dir="auto" type="password" value={this.state.password}
+                         onChange={this.handlePasswordChange.bind(this)}
                          className="qa-form-tall-text form-control"/>
                 </td>
               </tr>

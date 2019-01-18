@@ -3,7 +3,8 @@ import ShineHttpClient from './ShineHttpClient'
 const BASE_PATH = 'http://localhost:8090'
 const QUESTIONS_PATH = 'question'
 const ANSWER_PATH = 'answer'
-const POST = 'post'
+const POST_PATH = 'post'
+const LOGIN_PATH = '/api/user/login'
 
 class ShineClient {
 
@@ -11,7 +12,7 @@ class ShineClient {
   //            Post Management
   /////////////////////////////////////////////
   static findPosts (query, page, pageSize = 15) {
-    const url = `${BASE_PATH}/${POST}/search?pageSize=${pageSize}&page=${page}&q=${query}`
+    const url = `${BASE_PATH}/${POST_PATH}/search?pageSize=${pageSize}&page=${page}&q=${query}`
 
     return ShineHttpClient.getData(url)
   }
@@ -84,6 +85,19 @@ class ShineClient {
 
     return ShineHttpClient.putData(url, '')
 
+  }
+
+  /////////////////////////////////////////////
+  //            User Management
+  /////////////////////////////////////////////
+  static login (userName, password) {
+    const url = `${BASE_PATH}/${LOGIN_PATH}`
+    let userCredential = {
+      'userName': userName,
+      'password': password
+    }
+
+    return ShineHttpClient.postData(url, JSON.stringify(userCredential))
   }
 
 }
