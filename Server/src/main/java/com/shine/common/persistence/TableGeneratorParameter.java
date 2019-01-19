@@ -1,8 +1,7 @@
 package com.shine.common.persistence;
 
 /**
- * Author: Javad Alimohammadi Email:bc_alimohammadi@yahoo.com
- * DateTime: 4/7/13 11:23 AM
+ * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 public interface TableGeneratorParameter {
     String GENERATOR_NAME = "ID_GENERATOR";

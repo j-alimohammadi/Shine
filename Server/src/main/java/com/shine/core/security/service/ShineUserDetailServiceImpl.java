@@ -45,7 +45,7 @@ public class ShineUserDetailServiceImpl implements UserDetailsService {
 
         if (BooleanUtils.isFalse(shineUser.getFlagStatus())) {
             log.warn("User [{}] is disabled", username);
-            throw new DisabledException(String.format("Username [%s] not found", username));
+            throw new DisabledException(String.format("User [%s] is disabled", username));
         }
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();

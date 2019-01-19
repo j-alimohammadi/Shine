@@ -59,7 +59,7 @@ public class UserManagementController extends BaseEndpoint {
             errorMessage.put("login", "'login' field should not be empty");
         }
 
-        if (!GenericValidator.isEmail(shineUserDTO.getLogin())) {
+        if (!GenericValidator.isEmail(shineUserDTO.getEmail())) {
             errorMessage.put("email", "'email' field is invalid");
         }
 
