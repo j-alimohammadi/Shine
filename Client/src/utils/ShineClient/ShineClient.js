@@ -4,7 +4,7 @@ const BASE_PATH = 'http://localhost:8090'
 const QUESTIONS_PATH = 'question'
 const ANSWER_PATH = 'answer'
 const POST_PATH = 'post'
-const LOGIN_PATH = '/api/user/handleFormSubmitLogin'
+const LOGIN_PATH = 'api/user/login'
 
 class ShineClient {
 
@@ -92,12 +92,13 @@ class ShineClient {
   /////////////////////////////////////////////
   static login (userName, password) {
     const url = `${BASE_PATH}/${LOGIN_PATH}`
-    let userCredential = {
-      'userName': userName,
-      'password': password
-    }
 
-    return ShineHttpClient.postData(url, JSON.stringify(userCredential))
+      const userCredential = {}
+      userCredential['userName'] = userName
+      userCredential['password'] = password
+
+
+    return ShineHttpClient.postData(url, userCredential)
   }
 
 }

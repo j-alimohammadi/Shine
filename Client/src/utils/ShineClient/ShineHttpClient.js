@@ -1,11 +1,11 @@
 class ShineHttpClient {
-  static postData (url, data) {
+  static postData (url, dataObject) {
 
-    if (!data) {
-      data = []
+    if (!dataObject) {
+      dataObject = []
     }
     return fetch(url, {
-      body: JSON.stringify(data),
+      body: JSON.stringify(dataObject),
       cache: 'no-cache',
       headers: {
         'content-type': 'application/json'
@@ -17,12 +17,12 @@ class ShineHttpClient {
     })
   }
 
-  static putData (url, data) {
-    if (!data) {
-      data = []
+  static putData (url, dataObject) {
+    if (!dataObject) {
+      dataObject = []
     }
     return fetch(url, {
-      body: JSON.stringify(data),
+      body: JSON.stringify(dataObject),
       cache: 'no-cache',
       headers: {
         'content-type': 'application/json'
