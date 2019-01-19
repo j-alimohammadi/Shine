@@ -24,6 +24,9 @@ class Login extends Component {
 
   handleFormSubmitLogin (event) {
     event.preventDefault()
+
+    const {userName,password} =this.state
+
     this.authenticationService.login(userName, password)
   }
 
