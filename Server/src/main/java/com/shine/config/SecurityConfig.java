@@ -86,6 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable();
+        httpSecurity.cors();
 
         // URL that needs authentication
         httpSecurity.authorizeRequests()
