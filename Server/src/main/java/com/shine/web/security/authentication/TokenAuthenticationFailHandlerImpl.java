@@ -6,6 +6,7 @@ import com.shine.common.web.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Service;
@@ -44,5 +45,7 @@ public class TokenAuthenticationFailHandlerImpl implements AuthenticationFailure
         final String responseJSON = JSONMapper.createJSON(errorResponse);
         response.getWriter().print(responseJSON);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+
     }
 }
