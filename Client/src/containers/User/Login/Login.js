@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import AuthService from '../../../components/authentication/AuthenticationService'
 
 class Login extends Component {
@@ -27,7 +27,12 @@ class Login extends Component {
 
     const {userName,password} =this.state
 
-    this.authenticationService.login(userName, password)
+    let isLoginSuccess = this.authenticationService.login(userName, password);
+    if (isLoginSuccess) {
+                    
+    } else {
+
+    }
   }
 
   handleUserNameChange (event) {
