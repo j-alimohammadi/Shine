@@ -21,6 +21,16 @@ export default class AuthService {
 
     }
 
+
+    logout() {
+        localStorage.removeItem('token');
+    }
+
+    isUserLoggined() {
+
+    }
+
+
     storeToken(token) {
         localStorage.setItem('token', token);
     }
@@ -29,8 +39,8 @@ export default class AuthService {
         return localStorage.getItem('token');
     }
 
-    logout() {
-        localStorage.removeItem('token');
-    }
+    isTokenExoired() {
+        const token = this.getToken();
 
+    }
 }
