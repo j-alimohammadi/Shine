@@ -5,7 +5,7 @@ import decode from 'jwt-decode'
 export default class AuthService {
 
   login (userName, password) {
-    ShineClient.login(userName, password)
+    return ShineClient.login(userName, password)
       .then((response) => {
         if (ShineResponseParser.isResponseOk(response)) {
           const token = response.headers.get('Authorization')
@@ -14,11 +14,7 @@ export default class AuthService {
         } else {
           return false
         }
-
-      }).catch((error) => {
-      console.log(error)
-
-    })
+      })
 
   }
 
@@ -27,7 +23,12 @@ export default class AuthService {
   }
 
   isUserLoggined () {
+    const token = this.getToken()
+    if (token && !this.isTokenExpired(token)) {
+      return true
+    }
 
+    return false
   }
 
   storeToken (token) {
@@ -38,9 +39,8 @@ export default class AuthService {
     return localStorage.getItem('token')
   }
 
-  isTokenExoired (token) {
+  isTokenExpired (token) {
     const decodeToken = decode(token)
-    
-    
+
   }
 }

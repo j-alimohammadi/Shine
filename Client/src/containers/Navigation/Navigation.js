@@ -1,8 +1,22 @@
 import React, { Component, Fragment } from 'react'
 import { Link } from 'react-router-dom'
+import AuthService from '../../components/authentication/AuthenticationService'
 
 class Navigation extends Component {
+  constructor (props) {
+    super(props)
+
+    // property
+    this.authenticationService = new AuthService()
+  }
+
   render () {
+    let loginLogoutElement = <a href="/login">Login</a>
+
+    if (this.authenticationService.isUserLoggined()) {
+      loginLogoutElement = <a href="/logout">Logout</a>
+    }
+
     return (
       <Fragment>
         <header id="top-header">
@@ -45,7 +59,9 @@ class Navigation extends Component {
                   <li className="active"><a href="./tags">Tags</a></li>
                   <li><a href="/users">Users</a></li>
                   <li><a href="/ask">Ask a Question</a></li>
-                  <li><Link to="/login">Login</Link></li>
+                  <li>
+                    {loginLogoutElement}
+                  </li>
                 </ul>
               </div>
             </div>
