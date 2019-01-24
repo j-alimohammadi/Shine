@@ -1,46 +1,46 @@
 import ShineClient from '../../utils/ShineClient/ShineClient'
-import {ShineResponseParser} from "../../utils/ShineClient/Response";
+import { ShineResponseParser } from '../../utils/ShineClient/Response'
+import decode from 'jwt-decode'
 
 export default class AuthService {
 
-    login(userName, password) {
-        ShineClient.login(userName, password)
-          .then((response) => {
-              if (ShineResponseParser.isResponseOk(response)) {
-                  const token = response.headers.get("Authorization");
-                  this.storeToken(token);
-                  return true;
-              } else {
-                  return false;
-              }
+  login (userName, password) {
+    ShineClient.login(userName, password)
+      .then((response) => {
+        if (ShineResponseParser.isResponseOk(response)) {
+          const token = response.headers.get('Authorization')
+          this.storeToken(token)
+          return true
+        } else {
+          return false
+        }
 
-          }).catch((error) => {
-            console.log(error)
+      }).catch((error) => {
+      console.log(error)
 
-        });
+    })
 
-    }
+  }
 
+  logout () {
+    localStorage.removeItem('token')
+  }
 
-    logout() {
-        localStorage.removeItem('token');
-    }
+  isUserLoggined () {
 
-    isUserLoggined() {
+  }
 
-    }
+  storeToken (token) {
+    localStorage.setItem('token', token)
+  }
 
+  getToken () {
+    return localStorage.getItem('token')
+  }
 
-    storeToken(token) {
-        localStorage.setItem('token', token);
-    }
-
-    getToken() {
-        return localStorage.getItem('token');
-    }
-
-    isTokenExoired() {
-        const token = this.getToken();
-
-    }
+  isTokenExoired (token) {
+    const decodeToken = decode(token)
+    
+    
+  }
 }
