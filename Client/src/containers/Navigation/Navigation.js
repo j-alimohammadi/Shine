@@ -11,10 +11,10 @@ class Navigation extends Component {
   }
 
   render () {
-    let loginLogoutElement = <a href="/login">Login</a>
+    let loginLogoutElement = <Link to="/login">Login</Link>
 
     if (this.authenticationService.isUserLoggined()) {
-      loginLogoutElement = <a href="/logout">Logout</a>
+      loginLogoutElement = <Link to="/logout">Logout</Link>
     }
 
     return (
