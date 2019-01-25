@@ -1,4 +1,4 @@
-package com.shine.api.rest.endpoint.User;
+package com.shine.api.rest.endpoint.user;
 
 import com.shine.api.rest.endpoint.BaseEndpoint;
 import com.shine.api.rest.exception.ShineRestException;

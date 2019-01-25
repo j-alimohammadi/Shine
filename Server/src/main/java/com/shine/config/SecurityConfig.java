@@ -88,13 +88,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable();
         httpSecurity.cors();
 
-        // URL that needs authentication
+        // URLs that don`t need authentication
         httpSecurity.authorizeRequests()
-                .antMatchers("/question/**/vote/increment")
-                .authenticated();
+                .antMatchers("/api/user/login")
+                .permitAll();
 
-        // permit all other URL
-        httpSecurity.authorizeRequests().anyRequest().permitAll();
+        httpSecurity.authorizeRequests()
+                .antMatchers("/api/**")
+                .permitAll();
+
+
         httpSecurity.addFilterBefore(new AuthenticationFilter("/**", authenticationManager(), failureHandler), UsernamePasswordAuthenticationFilter.class);
         httpSecurity.addFilterBefore(new LoginFilter("/api/user/login", authenticationManager(), successHandler, failureHandler), AuthenticationFilter.class);
 
