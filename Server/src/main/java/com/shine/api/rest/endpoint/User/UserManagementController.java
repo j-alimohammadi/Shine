@@ -4,7 +4,7 @@ import com.shine.api.rest.endpoint.BaseEndpoint;
 import com.shine.api.rest.exception.ShineRestException;
 import com.shine.core.profile.domain.ShineUser;
 import com.shine.core.profile.service.ShineUserService;
-import com.shine.core.security.service.LoginService;
+import com.shine.core.security.service.login.LoginService;
 import com.shine.web.profile.dto.ShineUserDTO;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
