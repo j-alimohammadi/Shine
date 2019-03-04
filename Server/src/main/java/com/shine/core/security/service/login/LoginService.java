@@ -1,4 +1,4 @@
-package com.shine.core.security.service;
+package com.shine.core.security.service.login;
 
 import org.springframework.security.core.Authentication;
 
