@@ -95,8 +95,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // permit all other URL
         httpSecurity.authorizeRequests().anyRequest().permitAll();
-        httpSecurity.addFilterBefore(new AuthenticationFilter("/**", authenticationManager(), failureHandler), UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.addFilterBefore(new LoginFilter("/api/user/login", authenticationManager(), successHandler, failureHandler), AuthenticationFilter.class);
+
+
+        httpSecurity.addFilterBefore(
+                new AuthenticationFilter("/**", authenticationManager(), failureHandler),
+                UsernamePasswordAuthenticationFilter.class
+        );
+
+        httpSecurity.addFilterBefore(
+                new LoginFilter("/api/user/login", authenticationManager(), successHandler, failureHandler),
+                AuthenticationFilter.class
+        );
 
 
         // http.requiresChannel().anyRequest().requiresSecure();

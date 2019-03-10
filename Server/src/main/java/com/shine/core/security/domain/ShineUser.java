@@ -1,9 +1,10 @@
-package com.shine.core.profile.domain;
+package com.shine.core.security.domain;
 
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -39,6 +40,10 @@ public class ShineUser {
 
     @Column(name = "FLAG_STATUS")
     private Boolean flagStatus;
+
+
+    @OneToMany
+    private Set<Role> roles;
 
 
     public Long getId() {

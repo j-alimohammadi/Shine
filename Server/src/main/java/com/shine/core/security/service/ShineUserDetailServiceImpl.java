@@ -1,6 +1,6 @@
 package com.shine.core.security.service;
 
-import com.shine.core.profile.domain.ShineUser;
+import com.shine.core.security.domain.ShineUser;
 import com.shine.core.profile.service.ShineUserService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;

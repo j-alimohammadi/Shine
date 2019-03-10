@@ -1,7 +1,7 @@
 package com.shine.web.profile.filter;
 
 import com.shine.common.web.FilterOrder;
-import com.shine.core.profile.domain.ShineUser;
+import com.shine.core.security.domain.ShineUser;
 import com.shine.core.profile.service.ShineUserContext;
 import com.shine.web.profile.service.UserInHttpRequest;
 import org.springframework.core.Ordered;

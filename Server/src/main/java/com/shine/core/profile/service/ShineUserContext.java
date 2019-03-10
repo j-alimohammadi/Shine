@@ -1,6 +1,6 @@
 package com.shine.core.profile.service;
 
-import com.shine.core.profile.domain.ShineUser;
+import com.shine.core.security.domain.ShineUser;
 
 /**
  * An holder class that maintain current logged in user.

@@ -1,7 +1,7 @@
 package com.shine.core.profile.service;
 
 import com.shine.core.profile.dao.ShineUserDAO;
-import com.shine.core.profile.domain.ShineUser;
+import com.shine.core.security.domain.ShineUser;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

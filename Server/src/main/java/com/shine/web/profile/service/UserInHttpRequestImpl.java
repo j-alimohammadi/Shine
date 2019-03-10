@@ -1,10 +1,8 @@
 package com.shine.web.profile.service;
 
-import com.shine.core.profile.domain.ShineUser;
-import com.shine.core.profile.service.ShineUserService;
+import com.shine.core.security.domain.ShineUser;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
