@@ -6,7 +6,7 @@ import javax.persistence.*;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 @Entity
-@Table(name = "ROLE")
+@Table(name = "SHINE_ROLE")
 public class Role {
 
     @Id

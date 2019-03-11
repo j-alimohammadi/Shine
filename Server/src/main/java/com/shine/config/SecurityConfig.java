@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Bean
+
     public AuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return provider;
     }
 
-    @Bean
+
     public AuthenticationProvider jwtAuthenticationProvider() {
         JWTAuthenticationProvider jwtAuthenticationProvider =
                 new JWTAuthenticationProvider(userDetailsService, getJwtTokenService());
