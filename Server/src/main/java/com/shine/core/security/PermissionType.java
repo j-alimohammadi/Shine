@@ -1,10 +1,16 @@
 package com.shine.core.security;
 
+import com.shine.common.persistence.EnumType;
+
+import java.util.Objects;
+
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 
-public enum PermissionType {
+public enum PermissionType implements EnumType<Integer> {
+
+
     /**
      * Application-specific permission
      */
@@ -16,7 +22,15 @@ public enum PermissionType {
         this.type = permissionType;
     }
 
-    public int getType() {
+    public Integer getType() {
         return type;
+    }
+
+    public PermissionType fromType(int type) {
+        for (PermissionType permissionType : PermissionType.values()) {
+            if (Objects.equals(type, permissionType.getType()))
+                return permissionType;
+        }
+        return null;
     }
 }
