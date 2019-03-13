@@ -1,6 +1,6 @@
 package com.shine.core.profile.service;
 
-import com.shine.core.security.domain.ShineUser;
+import com.shine.core.security.domain.User;
 
 import java.util.Optional;
 
@@ -9,7 +9,7 @@ import java.util.Optional;
  */
 
 public interface ShineUserService {
-    ShineUser createNewUser(ShineUser shineUser);
+    User createNewUser(User user);
 
-    Optional<ShineUser> findUserByUsername(String userName);
+    Optional<User> findUserByUsername(String userName);
 }

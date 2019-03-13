@@ -1,7 +1,7 @@
 package com.shine.core.profile.service;
 
 import com.shine.core.profile.dao.ShineUserDAO;
-import com.shine.core.security.domain.ShineUser;
+import com.shine.core.security.domain.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,20 +24,20 @@ public class ShineUserServiceImpl implements ShineUserService {
 
     @Transactional
     @Override
-    public ShineUser createNewUser(ShineUser shineUser) {
+    public User createNewUser(User user) {
         // todo: change default enable status flag with a configuration
 
-        final String password = shineUser.getUnEncodedPassword();
-        shineUser.setPassword(passwordEncoder.encode(password));
+        final String password = user.getUnEncodedPassword();
+        user.setPassword(passwordEncoder.encode(password));
 
-        ShineUser savedUser = shineUserDAO.createOrUpdate(shineUser);
+        User savedUser = shineUserDAO.createOrUpdate(user);
 
         return savedUser;
     }
 
     @Transactional
     @Override
-    public Optional<ShineUser> findUserByUsername(String userName) {
+    public Optional<User> findUserByUsername(String userName) {
         return shineUserDAO.readUserByUserName(userName);
     }
 }

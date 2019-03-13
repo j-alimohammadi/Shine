@@ -1,7 +1,7 @@
 package com.shine.core.security.service.authentication;
 
-import com.shine.core.security.domain.JWTAccessTokenAuthentication;
-import com.shine.core.security.domain.RegisteredUser;
+import com.shine.core.security.dto.JWTAccessTokenAuthentication;
+import com.shine.core.security.dto.RegisteredUser;
 import com.shine.core.security.service.jwt.JWTTokenService;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

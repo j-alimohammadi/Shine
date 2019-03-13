@@ -1,4 +1,4 @@
-package com.shine.core.security.domain;
+package com.shine.core.security.dto;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.shine.web.profile.service;
 
-import com.shine.core.security.domain.ShineUser;
+import com.shine.core.security.domain.User;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +9,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 public interface UserInHttpRequest {
-    ShineUser getUserFromRequest(HttpServletRequest httpServlet);
+    User getUserFromRequest(HttpServletRequest httpServlet);
 
 }

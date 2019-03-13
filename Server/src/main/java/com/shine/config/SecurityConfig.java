@@ -59,8 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-
-    public AuthenticationProvider daoAuthenticationProvider() {
+    private AuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(getPasswordEncoder());
@@ -69,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    public AuthenticationProvider jwtAuthenticationProvider() {
+    private AuthenticationProvider jwtAuthenticationProvider() {
         JWTAuthenticationProvider jwtAuthenticationProvider =
                 new JWTAuthenticationProvider(userDetailsService, getJwtTokenService());
 

@@ -1,6 +1,6 @@
 package com.shine.core.security.service.jwt;
 
-import com.shine.core.security.domain.RegisteredUser;
+import com.shine.core.security.dto.RegisteredUser;
 
 import java.util.List;
 import java.util.Optional;

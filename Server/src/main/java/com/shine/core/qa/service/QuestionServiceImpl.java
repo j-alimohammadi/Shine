@@ -7,7 +7,7 @@ import com.shine.core.qa.domain.Answer;
 import com.shine.core.qa.domain.PostView;
 import com.shine.core.qa.domain.Question;
 import com.shine.core.qa.domain.Tag;
-import com.shine.core.profile.service.ShineUserContext;
+import com.shine.core.profile.service.UserSessionSource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.slf4j.Logger;
@@ -42,7 +42,7 @@ public class QuestionServiceImpl implements QuestionService {
     private TagService tagService;
 
     @Resource
-    private ShineUserContext shineUserContext;
+    private UserSessionSource userContext;
 
     @Resource
     private PostViewService postViewService;
@@ -143,7 +143,7 @@ public class QuestionServiceImpl implements QuestionService {
         }
 
         // todo: if user is logged in, find views by authenticate and post_id
-        if (Objects.isNull(shineUserContext.getCurrentLoginUser())) {
+        if (Objects.isNull(userContext.getCurrentLoginUser())) {
             String ipAddress = shineRequestContext.getShineRequestContext().getIpAddress();
             Optional<PostView> postView = postViewService.findPostViewByPostIdAndIpAddress(question.getId(), ipAddress);
 

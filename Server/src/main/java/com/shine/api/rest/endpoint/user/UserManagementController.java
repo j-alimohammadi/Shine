@@ -1,8 +1,8 @@
-package com.shine.api.rest.endpoint.User;
+package com.shine.api.rest.endpoint.user;
 
 import com.shine.api.rest.endpoint.BaseEndpoint;
 import com.shine.api.rest.exception.ShineRestException;
-import com.shine.core.security.domain.ShineUser;
+import com.shine.core.security.domain.User;
 import com.shine.core.profile.service.ShineUserService;
 import com.shine.core.security.service.login.LoginService;
 import com.shine.web.profile.dto.ShineUserDTO;
@@ -73,7 +73,7 @@ public class UserManagementController extends BaseEndpoint {
         }
 
 
-        ShineUser shineUser = ShineUser.ShineUserBuilder.aShineUser()
+        User user = User.ShineUserBuilder.aShineUser()
                 .withLogin(shineUserDTO.getLogin())
                 .withEmail(shineUserDTO.getEmail())
                 .withRegisterTime(new Date())
@@ -83,7 +83,7 @@ public class UserManagementController extends BaseEndpoint {
                 .build();
 
 
-        shineUserService.createNewUser(shineUser);
+        shineUserService.createNewUser(user);
 
         Authentication authenticate = loginService.authenticate(shineUserDTO.getLogin(),
                 shineUserDTO.getClearTextPassword());

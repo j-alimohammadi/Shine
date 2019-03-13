@@ -1,7 +1,7 @@
 package com.shine.core.security.service.jwt;
 
 import com.shine.common.config.ShineConfigReader;
-import com.shine.core.security.domain.RegisteredUser;
+import com.shine.core.security.dto.RegisteredUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

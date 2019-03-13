@@ -13,7 +13,7 @@ import java.util.Set;
 @Table(name = "SHINE_USER", indexes = {
         @Index(name = "INDEX_LOGIN", columnList = "LOGIN", unique = true)
 })
-public class ShineUser {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
@@ -111,10 +111,10 @@ public class ShineUser {
     }
 
     public static final class ShineUserBuilder {
-        private ShineUser shineUser;
+        private User user;
 
         private ShineUserBuilder() {
-            shineUser = new ShineUser();
+            user = new User();
         }
 
         public static ShineUserBuilder aShineUser() {
@@ -122,42 +122,42 @@ public class ShineUser {
         }
 
         public ShineUserBuilder withId(Long id) {
-            shineUser.setId(id);
+            user.setId(id);
             return this;
         }
 
         public ShineUserBuilder withEmail(String email) {
-            shineUser.setEmail(email);
+            user.setEmail(email);
             return this;
         }
 
         public ShineUserBuilder withLogin(String login) {
-            shineUser.setLogin(login);
+            user.setLogin(login);
             return this;
         }
 
         public ShineUserBuilder withActiveStatusFlag(Boolean flag) {
-            shineUser.setFlagStatus(flag);
+            user.setFlagStatus(flag);
             return this;
         }
 
         public ShineUserBuilder withUnEncodedPassword(String password) {
-            shineUser.setUnEncodedPassword(password);
+            user.setUnEncodedPassword(password);
             return this;
         }
 
         public ShineUserBuilder withRepudiation(Integer repudiation) {
-            shineUser.setRepudiation(repudiation);
+            user.setRepudiation(repudiation);
             return this;
         }
 
         public ShineUserBuilder withRegisterTime(Date registerTime) {
-            shineUser.setRegisterTime(registerTime);
+            user.setRegisterTime(registerTime);
             return this;
         }
 
-        public ShineUser build() {
-            return shineUser;
+        public User build() {
+            return user;
         }
     }
 }
