@@ -2,7 +2,6 @@ package com.shine.core.security.service.jwt;
 
 import com.shine.core.security.dto.RegisteredUser;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -10,7 +9,7 @@ import java.util.Optional;
  */
 
 public interface JWTTokenService {
-    String generateAuthenticationToken(String userName, List<String> roles);
+    JWTInfo generateAuthenticationToken(String userName, String sessionId);
 
     Optional<RegisteredUser> parseToken(String jwtToken);
 }

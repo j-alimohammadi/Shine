@@ -1,7 +1,7 @@
 package com.shine.core.profile.service;
 
 import com.shine.common.utils.ThreadLocalManager;
-import com.shine.core.security.domain.User;
+import com.shine.core.security.domain.ShineUser;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,12 +14,12 @@ public class UserSessionSourceImpl implements UserSessionSource {
 
 
     @Override
-    public User getCurrentLoginUser() {
+    public ShineUser getCurrentLoginUser() {
         return null;
     }
 
     @Override
-    public void setCurrentLoginUser(User user) {
+    public void setCurrentLoginUser(ShineUser shineUser) {
 
     }
 }

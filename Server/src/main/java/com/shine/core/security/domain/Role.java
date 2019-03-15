@@ -24,7 +24,7 @@ public class Role {
     private boolean defaultRole;
 
     @ManyToOne
-    private User user;
+    private ShineUser shineUser;
 
 
     public Long getId() {

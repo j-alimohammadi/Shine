@@ -1,7 +1,8 @@
 package com.shine.core.profile.service;
 
 import com.shine.core.profile.dao.ShineUserDAO;
-import com.shine.core.security.domain.User;
+import com.shine.core.security.domain.ShineUser;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,20 +25,27 @@ public class ShineUserServiceImpl implements ShineUserService {
 
     @Transactional
     @Override
-    public User createNewUser(User user) {
+    public ShineUser createNewUser(ShineUser shineUser) {
         // todo: change default enable status flag with a configuration
 
-        final String password = user.getUnEncodedPassword();
-        user.setPassword(passwordEncoder.encode(password));
+        final String password = shineUser.getUnEncodedPassword();
+        shineUser.setPassword(passwordEncoder.encode(password));
 
-        User savedUser = shineUserDAO.createOrUpdate(user);
+        ShineUser savedShineUser = shineUserDAO.createOrUpdate(shineUser);
 
-        return savedUser;
+        return savedShineUser;
     }
 
     @Transactional
     @Override
-    public Optional<User> findUserByUsername(String userName) {
+    public Optional<ShineUser> findUserByUserName(String userName) {
         return shineUserDAO.readUserByUserName(userName);
+    }
+
+    @Override
+    public ShineUser findUserByUserNameNN(String userName) throws UsernameNotFoundException {
+        return findUserByUserName(userName).orElseThrow(() -> {
+            return new UsernameNotFoundException(String.format("Username [%s] not found", userName));
+        });
     }
 }

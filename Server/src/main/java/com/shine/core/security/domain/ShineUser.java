@@ -4,6 +4,7 @@ import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Set;
 @Table(name = "SHINE_USER", indexes = {
         @Index(name = "INDEX_LOGIN", columnList = "LOGIN", unique = true)
 })
-public class User {
+public class ShineUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
@@ -43,7 +44,7 @@ public class User {
 
 
     @OneToMany
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
 
     public Long getId() {
@@ -110,11 +111,19 @@ public class User {
         this.email = email;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     public static final class ShineUserBuilder {
-        private User user;
+        private ShineUser shineUser;
 
         private ShineUserBuilder() {
-            user = new User();
+            shineUser = new ShineUser();
         }
 
         public static ShineUserBuilder aShineUser() {
@@ -122,42 +131,42 @@ public class User {
         }
 
         public ShineUserBuilder withId(Long id) {
-            user.setId(id);
+            shineUser.setId(id);
             return this;
         }
 
         public ShineUserBuilder withEmail(String email) {
-            user.setEmail(email);
+            shineUser.setEmail(email);
             return this;
         }
 
         public ShineUserBuilder withLogin(String login) {
-            user.setLogin(login);
+            shineUser.setLogin(login);
             return this;
         }
 
         public ShineUserBuilder withActiveStatusFlag(Boolean flag) {
-            user.setFlagStatus(flag);
+            shineUser.setFlagStatus(flag);
             return this;
         }
 
         public ShineUserBuilder withUnEncodedPassword(String password) {
-            user.setUnEncodedPassword(password);
+            shineUser.setUnEncodedPassword(password);
             return this;
         }
 
         public ShineUserBuilder withRepudiation(Integer repudiation) {
-            user.setRepudiation(repudiation);
+            shineUser.setRepudiation(repudiation);
             return this;
         }
 
         public ShineUserBuilder withRegisterTime(Date registerTime) {
-            user.setRegisterTime(registerTime);
+            shineUser.setRegisterTime(registerTime);
             return this;
         }
 
-        public User build() {
-            return user;
+        public ShineUser build() {
+            return shineUser;
         }
     }
 }

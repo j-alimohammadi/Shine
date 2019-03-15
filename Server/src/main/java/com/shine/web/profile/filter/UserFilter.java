@@ -1,7 +1,7 @@
 package com.shine.web.profile.filter;
 
 import com.shine.common.web.FilterOrder;
-import com.shine.core.security.domain.User;
+import com.shine.core.security.domain.ShineUser;
 import com.shine.core.profile.service.UserSessionSource;
 import com.shine.web.profile.service.UserInHttpRequest;
 import org.springframework.core.Ordered;
@@ -28,8 +28,8 @@ public class UserFilter extends OncePerRequestFilter implements Ordered {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        User user = userInHttpRequest.getUserFromRequest(request);
-        userContext.setCurrentLoginUser(user);
+        ShineUser shineUser = userInHttpRequest.getUserFromRequest(request);
+        userContext.setCurrentLoginUser(shineUser);
 
         filterChain.doFilter(request, response);
     }

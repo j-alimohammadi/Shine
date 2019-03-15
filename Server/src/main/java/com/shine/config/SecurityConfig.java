@@ -86,11 +86,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable();
         httpSecurity.cors();
+        httpSecurity.anonymous();
+        
 
         // URL that needs authentication
-        httpSecurity.authorizeRequests()
-                .antMatchers("/question/**/vote/increment")
-                .authenticated();
+//        httpSecurity.authorizeRequests()
+//                .antMatchers("/question/**/vote/increment")
+//                .authenticated();
 
         // permit all other URL
         httpSecurity.authorizeRequests().anyRequest().permitAll();

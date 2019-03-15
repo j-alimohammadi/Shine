@@ -1,5 +1,6 @@
 package com.shine.core.security.service.token;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -9,7 +10,7 @@ import java.util.UUID;
 public interface TokenStore {
     UUID getSessionId(String token);
 
-    void storeToken(String token, UUID sessionId);
+    void storeToken(String token, UUID sessionId, Date expirationDate);
 
     void removeToken(String token);
 

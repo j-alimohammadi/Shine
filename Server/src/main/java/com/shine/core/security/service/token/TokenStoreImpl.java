@@ -1,10 +1,13 @@
 package com.shine.core.security.service.token;
 
+import com.shine.core.security.service.UserSessionService;
 import com.shine.core.security.utils.TokenMasker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,27 +22,30 @@ import java.util.concurrent.TimeUnit;
 public class TokenStoreImpl implements TokenStore {
     private final static Logger log = LoggerFactory.getLogger(TokenStoreImpl.class);
 
+    @Resource
+    private UserSessionService userSessionService;
+
     private ConcurrentHashMap<String, UUID> tokensToSessionId = new ConcurrentHashMap<>();
     private DelayQueue<TokenExpiry> expireToken = new DelayQueue<>();
 
     private class TokenExpiry implements Delayed {
-        private final long expireTimeNano;
+        private final long expireTime;
         private final String tokenValue;
 
-        public TokenExpiry(String tokenValue, long expireTimeNano) {
-            this.expireTimeNano = expireTimeNano;
+        public TokenExpiry(String tokenValue, Date expireTimeDate) {
+            this.expireTime = expireTimeDate.getTime();
             this.tokenValue = tokenValue;
         }
 
         @Override
         public long getDelay(TimeUnit unit) {
-            final long diff = expireTimeNano - System.nanoTime();
-            return unit.convert(diff, TimeUnit.NANOSECONDS);
+            final long diff = expireTime - System.currentTimeMillis();
+            return unit.convert(diff, TimeUnit.MILLISECONDS);
         }
 
         @Override
         public int compareTo(Delayed other) {
-            long diff = getDelay(TimeUnit.NANOSECONDS) - other.getDelay(TimeUnit.NANOSECONDS);
+            long diff = getDelay(TimeUnit.MILLISECONDS) - other.getDelay(TimeUnit.MILLISECONDS);
 
             if (diff == 0) {
                 return 0;
@@ -48,7 +54,6 @@ public class TokenStoreImpl implements TokenStore {
             } else {
                 return -1;
             }
-
         }
 
     }
@@ -60,14 +65,16 @@ public class TokenStoreImpl implements TokenStore {
     }
 
     @Override
-    public void storeToken(final String token, final UUID sessionId) {
+    public void storeToken(final String token, final UUID sessionId, Date expirationDate) {
         tokensToSessionId.put(token, sessionId);
+        expireToken.put(new TokenExpiry(token, expirationDate));
     }
 
     @Override
     public void removeToken(final String token) {
-        tokensToSessionId.remove(token);
-        log.info("Token [{}] removed", TokenMasker.maskToken(token));
+        UUID sessionId = tokensToSessionId.remove(token);
+        log.info("Token [{}] removed successfully", TokenMasker.maskToken(token));
+        userSessionService.removeSession(sessionId);
     }
 
     @Override

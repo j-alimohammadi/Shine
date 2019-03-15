@@ -23,8 +23,8 @@ public class JWTTokenServiceImpl implements JWTTokenService {
 
 
     @Override
-    public String generateAuthenticationToken(String userName, List<String> roles) {
-        String commaSeparatedRoles = String.join(",", roles);
+    public JWTInfo generateAuthenticationToken(String userName, String sessionId) {
+        final Date expirationDate = getExpirationDate();
         Claims claims = Jwts.claims()
                 .setSubject("user_name")
                 .setIssuedAt(new Date())
@@ -32,12 +32,13 @@ public class JWTTokenServiceImpl implements JWTTokenService {
                 .setExpiration(getExpirationDate());
 
         claims.put("userName", userName);
-        claims.put("roles", commaSeparatedRoles);
+        claims.put("sessionId", sessionId);
 
-        return Jwts.builder().setClaims(claims)
+        final String tokenValue = Jwts.builder().setClaims(claims)
                 .signWith(SignatureAlgorithm.HS256, getSecretKey())
                 .compact();
 
+        return new JWTInfo(tokenValue, expirationDate);
     }
 
     @Override

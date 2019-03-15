@@ -1,7 +1,7 @@
 package com.shine.core.security.service;
 
 import com.shine.core.security.domain.Role;
-import com.shine.core.security.domain.User;
+import com.shine.core.security.domain.ShineUser;
 import com.shine.core.security.dto.UserSession;
 
 import java.util.Collection;
@@ -14,7 +14,7 @@ import java.util.UUID;
  */
 
 public interface UserSessionService {
-    UserSession createUserSession(User user, Collection<Role> roles);
+    UserSession createUserSession(ShineUser shineUser, Collection<Role> roles);
 
     UserSession findSessionById(UUID uuid);
 

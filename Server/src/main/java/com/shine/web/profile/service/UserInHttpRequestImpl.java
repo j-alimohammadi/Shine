@@ -1,6 +1,6 @@
 package com.shine.web.profile.service;
 
-import com.shine.core.security.domain.User;
+import com.shine.core.security.domain.ShineUser;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 public class UserInHttpRequestImpl implements UserInHttpRequest {
 
     @Override
-    public User getUserFromRequest(HttpServletRequest httpServlet) {
+    public ShineUser getUserFromRequest(HttpServletRequest httpServlet) {
         return null;
     }
 
