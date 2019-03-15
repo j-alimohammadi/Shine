@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface TokenStore {
     UUID getSessionId(String token);
 
-    void putSessionId(String token, UUID sessionId);
+    void storeToken(String token, UUID sessionId);
 
     void removeToken(String token);
 
