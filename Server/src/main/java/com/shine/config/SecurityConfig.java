@@ -7,6 +7,7 @@ import com.shine.web.security.filter.AuthenticationFilter;
 import com.shine.web.security.filter.LoginFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,6 +37,11 @@ import javax.annotation.Resource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final static Logger log = LoggerFactory.getLogger(SecurityConfig.class);
 
+    @Value("${anonymous_user_name}")
+    protected String anonymousUsername;
+
+    @Value("${anonymous_role}")
+    protected String anonymousRoleName;
 
     @Resource(name = "shineUserDetailService")
     protected UserDetailsService userDetailsService;
@@ -86,8 +92,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable();
         httpSecurity.cors();
-//        httpSecurity.anonymous().;
-        
+        httpSecurity
+                .anonymous()
+                .principal(anonymousUsername)
+                .authorities(anonymousRoleName);
+
 
         // URL that needs authentication
 //        httpSecurity.authorizeRequests()

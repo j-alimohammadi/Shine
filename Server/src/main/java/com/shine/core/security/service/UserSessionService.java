@@ -12,6 +12,12 @@ import java.util.UUID;
  */
 
 public interface UserSessionService {
+    /**
+     * Create a new user session. Must be called inside transaction.
+     *
+     * @param shineUser
+     * @return
+     */
     UserSession createUserSession(ShineUser shineUser);
 
     UserSession createUserSession(UUID sessionId, ShineUser shineUser);

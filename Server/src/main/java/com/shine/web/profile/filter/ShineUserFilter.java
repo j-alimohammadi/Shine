@@ -4,6 +4,7 @@ import com.shine.common.web.FilterOrder;
 import com.shine.common.web.ShineRequestContext;
 import com.shine.core.security.dto.UserSession;
 import com.shine.web.profile.service.AnonymousUserHolder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +25,10 @@ import java.util.UUID;
 @Component("shineUserFilter")
 public class ShineUserFilter extends OncePerRequestFilter implements Ordered {
 
+    @Value("${anonymous_user_name}")
+    protected String anonymousUserName;
+
+
     @Resource
     protected AnonymousUserHolder anonymousUserHolder;
 
@@ -32,7 +37,7 @@ public class ShineUserFilter extends OncePerRequestFilter implements Ordered {
         ShineRequestContext shineRequestContext = ShineRequestContext.getShineRequestContext();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // set session id
-        if (authentication.getPrincipal().equals("anonymousUser")) {
+        if (authentication.getPrincipal().equals(anonymousUserName)) {
             UserSession anonymousUserSession = anonymousUserHolder.getAnonymousUserSession();
             shineRequestContext.setSessionId(anonymousUserSession.getId());
         } else {
