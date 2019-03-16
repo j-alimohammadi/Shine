@@ -42,6 +42,7 @@ public class ShineUserServiceImpl implements ShineUserService {
         return shineUserDAO.readUserByUserName(userName);
     }
 
+    @Transactional
     @Override
     public ShineUser findUserByUserNameNN(String userName) throws UsernameNotFoundException {
         return findUserByUserName(userName).orElseThrow(() -> {

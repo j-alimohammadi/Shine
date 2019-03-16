@@ -4,7 +4,7 @@ package com.shine.core.security.utils;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 
-public class TokenMasker {
+public final class TokenMasker {
     private static final int MASK_LENGTH = 23;
 
     private static final String MASK_STRING = "***";
