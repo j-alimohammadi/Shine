@@ -1,7 +1,7 @@
 package com.shine.core.security.service.authentication;
 
 import com.shine.core.security.dto.JWTAccessTokenAuthentication;
-import com.shine.core.security.dto.RegisteredUser;
+import com.shine.core.security.service.jwt.JWTInfo;
 import com.shine.core.security.service.jwt.JWTTokenService;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,13 +33,16 @@ public class JWTAuthenticationProvider extends AbstractUserDetailsAuthentication
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
         JWTAccessTokenAuthentication jwtAccessTokenAuthentication = (JWTAccessTokenAuthentication) authentication;
         final String jwtToken = jwtAccessTokenAuthentication.getToken();
-        RegisteredUser registeredUser = jwtTokenService.parseToken(jwtToken)
-                .orElseThrow(() -> {
-                    return new BadCredentialsException("Invalid token");
-                });
+
+        try {
+            JWTInfo jwtInfo = jwtTokenService.parseToken(jwtToken);
+            authentication.setDetails(jwtInfo.getSessionId());
+            return userDetailsService.loadUserByUsername(jwtInfo.getUserName());
+        } catch (RuntimeException ex) {
+            throw new BadCredentialsException("Invalid token", ex);
+        }
 
 
-        return userDetailsService.loadUserByUsername(registeredUser.getLogin());
     }
 
     @Override

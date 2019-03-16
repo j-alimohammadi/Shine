@@ -44,7 +44,7 @@ public class ShineUser {
 
 
     @OneToMany
-    private Set<Role> roles = new HashSet<>();
+    private Set<ShineRole> shineRoles = new HashSet<>();
 
 
     public Long getId() {
@@ -111,12 +111,12 @@ public class ShineUser {
         this.email = email;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Set<ShineRole> getShineRoles() {
+        return shineRoles;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setShineRoles(Set<ShineRole> shineRoles) {
+        this.shineRoles = shineRoles;
     }
 
     public static final class ShineUserBuilder {

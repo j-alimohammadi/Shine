@@ -11,9 +11,16 @@ public class JWTInfo {
 
     private Date expirationDate;
 
-    public JWTInfo(String tokenValue, Date expirationDate) {
+    private String sessionId;
+
+    private String userName;
+
+
+    public JWTInfo(String tokenValue, String sessionId, String userName, Date expirationDate) {
         this.tokenValue = tokenValue;
         this.expirationDate = expirationDate;
+        this.sessionId = sessionId;
+        this.userName = userName;
     }
 
     public String getTokenValue() {
@@ -22,5 +29,13 @@ public class JWTInfo {
 
     public Date getExpirationDate() {
         return expirationDate;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 }

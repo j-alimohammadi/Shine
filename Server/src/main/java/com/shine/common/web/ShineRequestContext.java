@@ -1,16 +1,47 @@
 package com.shine.common.web;
 
+import com.shine.common.utils.ThreadLocalManager;
+
+import java.util.UUID;
+
 /**
- * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
+ * Convenient holder class for various objects to be automatically available on thread local without invoking the various
+ * services yourself
+ * <p>
+ * <b>Note:</b> Adapted from BroadleafCommerce: https://github.com/BroadleafCommerce/BroadleafCommerce which is under
+ * "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt
  */
 
-public interface ShineRequestContext {
+public class ShineRequestContext {
 
-    ShineRequestContext getShineRequestContext();
 
-    void setShineRequestContext(ShineRequestContext shineRequestContext);
+    private final static ThreadLocal<ShineRequestContext> SHINE_REQUEST_CONTEXT = ThreadLocalManager.createThreadLocal(ShineRequestContext.class);
 
-    String setIpAddress(String ipAddress);
+    public static ShineRequestContext getShineRequestContext() {
+        return SHINE_REQUEST_CONTEXT.get();
+    }
 
-    String getIpAddress();
+    public static void setShineRequestContext(ShineRequestContext shineRequestContext) {
+        SHINE_REQUEST_CONTEXT.set(shineRequestContext);
+    }
+
+    private UUID sessionId;
+
+    private String IpAddress;
+
+    public String setIpAddress(String ipAddress) {
+        return this.IpAddress = ipAddress;
+    }
+
+    public String getIpAddress() {
+        return IpAddress;
+    }
+
+    public UUID getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(UUID sessionId) {
+        this.sessionId = sessionId;
+    }
 }

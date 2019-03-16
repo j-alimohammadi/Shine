@@ -1,6 +1,8 @@
 package com.shine.common.web;
 
+import com.shine.core.security.service.UserSessionService;
 import org.springframework.core.Ordered;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -16,16 +18,19 @@ import java.io.IOException;
  */
 @Component("shineRequestContextFilter")
 public class ShineRequestContextFilter extends OncePerRequestFilter implements Ordered {
-    @Resource
-    private ShineRequestContext shineRequestContext;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        ShineRequestContext shineRequestContext = ShineRequestContext.getShineRequestContext();
 
         shineRequestContext.setIpAddress(getIpAddr(request));
-        shineRequestContext.setShineRequestContext(shineRequestContext);
+
+
 
         filterChain.doFilter(request, response);
+
+
     }
 
     private String getIpAddr(HttpServletRequest request) {
@@ -45,6 +50,6 @@ public class ShineRequestContextFilter extends OncePerRequestFilter implements O
 
     @Override
     public int getOrder() {
-        return FilterOrder.PRE_SECURITY_LOW;
+        return FilterOrder.POST_SECURITY_LOW;
     }
 }

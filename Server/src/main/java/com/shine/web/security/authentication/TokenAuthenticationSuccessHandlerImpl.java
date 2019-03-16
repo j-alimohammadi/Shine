@@ -43,8 +43,8 @@ public class TokenAuthenticationSuccessHandlerImpl implements AuthenticationSucc
         User user = (User) authentication.getPrincipal();
         ShineUser shineUser = shineUserService.findUserByUserNameNN(user.getUsername());
 
-
-        UserSession userSession = userSessionService.createUserSession(shineUser, shineUser.getRoles());
+    
+        UserSession userSession = userSessionService.createUserSession(shineUser);
 
         JWTInfo jwtInfo = jwtTokenService.generateAuthenticationToken(user.getUsername(), userSession.getId().toString());
 

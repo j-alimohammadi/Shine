@@ -1,7 +1,6 @@
 package com.shine.core.security.service.jwt;
 
 import com.shine.common.config.ShineConfigReader;
-import com.shine.core.security.dto.RegisteredUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -9,10 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -23,13 +19,13 @@ public class JWTTokenServiceImpl implements JWTTokenService {
 
 
     @Override
-    public JWTInfo generateAuthenticationToken(String userName, String sessionId) {
+    public JWTInfo generateAuthenticationToken(final String userName, final String sessionId) {
         final Date expirationDate = getExpirationDate();
         Claims claims = Jwts.claims()
                 .setSubject("user_name")
                 .setIssuedAt(new Date())
                 .setIssuer("Shine")
-                .setExpiration(getExpirationDate());
+                .setExpiration(expirationDate);
 
         claims.put("userName", userName);
         claims.put("sessionId", sessionId);
@@ -38,11 +34,11 @@ public class JWTTokenServiceImpl implements JWTTokenService {
                 .signWith(SignatureAlgorithm.HS256, getSecretKey())
                 .compact();
 
-        return new JWTInfo(tokenValue, expirationDate);
+        return new JWTInfo(tokenValue, sessionId, userName, expirationDate);
     }
 
     @Override
-    public Optional<RegisteredUser> parseToken(String jwsToken) {
+    public JWTInfo parseToken(final String jwsToken) {
 
         try {
             Claims claims = Jwts.parser().
@@ -51,14 +47,13 @@ public class JWTTokenServiceImpl implements JWTTokenService {
                     .getBody();
 
             String userName = claims.get("userName", String.class);
-            List<String> roles = Arrays.asList(claims.get("roles", String.class).split(","));
+            String sessionId = claims.get("sessionId", String.class);
+            Date expiration = claims.getExpiration();
 
-            RegisteredUser registeredUser = new RegisteredUser(userName, roles);
-            return Optional.of(registeredUser);
+            return new JWTInfo(jwsToken, sessionId, userName, expiration);
 
         } catch (Exception ex) {
-            log.error("Error on creating claim", ex);
-            return Optional.empty();
+            throw new RuntimeException("Error on creating claim", ex);
         }
 
     }

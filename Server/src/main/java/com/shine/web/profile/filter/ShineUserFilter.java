@@ -1,10 +1,12 @@
 package com.shine.web.profile.filter;
 
 import com.shine.common.web.FilterOrder;
-import com.shine.core.security.domain.ShineUser;
-import com.shine.core.profile.service.UserSessionSource;
+import com.shine.common.web.ShineRequestContext;
+import com.shine.core.security.dto.UserSession;
+import com.shine.web.profile.service.AnonymousUserHolder;
 import com.shine.web.profile.service.UserInHttpRequest;
 import org.springframework.core.Ordered;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -19,19 +21,26 @@ import java.io.IOException;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 @Component("shineUserFilter")
-public class UserFilter extends OncePerRequestFilter implements Ordered {
+public class ShineUserFilter extends OncePerRequestFilter implements Ordered {
     @Resource
     private UserInHttpRequest userInHttpRequest;
 
     @Resource
-    private UserSessionSource userContext;
+    protected AnonymousUserHolder anonymousUserHolder;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        ShineUser shineUser = userInHttpRequest.getUserFromRequest(request);
-        userContext.setCurrentLoginUser(shineUser);
+        ShineRequestContext shineRequestContext = ShineRequestContext.getShineRequestContext();
+        // set session id
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
+            UserSession anonymousUserSession = anonymousUserHolder.getAnonymousUserSession();
+            shineRequestContext.setSessionId(anonymousUserSession.getId());
+        } else {
+            shineRequestContext.setSessionId(shineRequestContext.getSessionId());
+            // todo set session id
+        }
 
-        filterChain.doFilter(request, response);
+
     }
 
     @Override
