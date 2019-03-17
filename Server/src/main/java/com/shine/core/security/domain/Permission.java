@@ -16,13 +16,22 @@ public class Permission {
     @Column(name = "ID")
     private Long id;
 
-
+    @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "PERMISSION_TYPE")
     private PermissionType permissionType;
 
+    @Column(name = "TARGET")
+    private String target;
+
+    @Column(name = "VALUE")
+    private Integer value;
 
 
+    @JoinColumn(name = "SHINE_ROLE")
+    @ManyToOne
+    private ShineRole shineRole;
 
 
 }

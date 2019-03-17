@@ -29,6 +29,9 @@ public class ShineRole {
     @OneToMany(mappedBy = "shineRole")
     private Set<UserRoleXRef> userRoleXRefs = new HashSet<>();
 
+    @OneToMany
+    private Set<Permission> permissions = new HashSet<>();
+
 
     public Long getId() {
         return id;
