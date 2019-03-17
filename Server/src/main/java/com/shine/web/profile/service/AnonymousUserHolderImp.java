@@ -39,19 +39,19 @@ public class AnonymousUserHolderImp implements AnonymousUserHolder {
 
     @PostConstruct
     public void init() {
-        ShineUser shineUser = new ShineUser();
-        shineUser.setLogin(anonymousUsername);
-
-        ShineRole shineRole = new ShineRole();
-        shineRole.setName(anonymousRoleName);
-        shineRole.setDescription("role_anonymous");
-
-        shineUser.setShineRoles(Collections.singleton(shineRole));
-
-        anonymousUserSession = userSessionService.createUserSession(UUID.fromString(anonymousSessionId), shineUser);
-
-        log.info("Created anonymous user session [{}] successfully",
-                TokenMasker.maskToken(anonymousUserSession.getId().toString()));
+//        ShineUser shineUser = new ShineUser();
+//        shineUser.setLogin(anonymousUsername);
+//
+//        ShineRole shineRole = new ShineRole();
+//        shineRole.setName(anonymousRoleName);
+//        shineRole.setDescription("role_anonymous");
+//
+//        shineUser.setShineRoles(Collections.singleton(shineRole));
+//
+//        anonymousUserSession = userSessionService.createUserSession(UUID.fromString(anonymousSessionId), shineUser);
+//
+//        log.info("Created anonymous user session [{}] successfully",
+//                TokenMasker.maskToken(anonymousUserSession.getId().toString()));
 
     }
 

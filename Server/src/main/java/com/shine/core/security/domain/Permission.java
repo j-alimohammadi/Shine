@@ -16,6 +16,7 @@ public class Permission {
     @Column(name = "ID")
     private Long id;
 
+
     private String description;
 
     private PermissionType permissionType;

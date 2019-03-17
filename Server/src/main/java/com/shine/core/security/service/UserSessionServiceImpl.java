@@ -29,8 +29,8 @@ public class UserSessionServiceImpl implements UserSessionService {
 
     @Override
     public UserSession createUserSession(UUID sessionId, ShineUser shineUser) {
-        Set<String> rolesSet = shineUser.getShineRoles().stream()
-                .map(ShineRole::getName)
+        Set<String> rolesSet = shineUser.getUserRoles().stream()
+                .map(userRoleXRef -> userRoleXRef.getShineRole().getName())
                 .collect(Collectors.toSet());
 
         UserSession userSession = new UserSession(sessionId, shineUser, rolesSet);

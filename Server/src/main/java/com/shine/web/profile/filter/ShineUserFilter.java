@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -36,15 +37,20 @@ public class ShineUserFilter extends OncePerRequestFilter implements Ordered {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         ShineRequestContext shineRequestContext = ShineRequestContext.getShineRequestContext();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        final boolean isLoggedinUser = !authentication.getPrincipal().equals(anonymousUserName) &&
+                !Objects.isNull(SecurityContextHolder.getContext().getAuthentication()) ||
+                SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+
         // set session id
-        if (authentication.getPrincipal().equals(anonymousUserName)) {
+        if (isLoggedinUser) {
+            shineRequestContext.setSessionId(UUID.fromString(authentication.getDetails().toString()));
+        } else {
             UserSession anonymousUserSession = anonymousUserHolder.getAnonymousUserSession();
             shineRequestContext.setSessionId(anonymousUserSession.getId());
-        } else {
-            shineRequestContext.setSessionId(UUID.fromString(authentication.getDetails().toString()));
         }
 
-
+        filterChain.doFilter(request, response);
     }
 
     @Override

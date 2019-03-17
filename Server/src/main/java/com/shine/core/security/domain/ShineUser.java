@@ -43,8 +43,8 @@ public class ShineUser {
     private Boolean flagStatus;
 
 
-    @OneToMany
-    private Set<ShineRole> shineRoles = new HashSet<>();
+    @OneToMany(mappedBy = "shineUser")
+    private Set<UserRoleXRef> userRoles = new HashSet<>();
 
 
     public Long getId() {
@@ -111,12 +111,12 @@ public class ShineUser {
         this.email = email;
     }
 
-    public Set<ShineRole> getShineRoles() {
-        return shineRoles;
+    public Set<UserRoleXRef> getUserRoles() {
+        return userRoles;
     }
 
-    public void setShineRoles(Set<ShineRole> shineRoles) {
-        this.shineRoles = shineRoles;
+    public void setUserRoles(Set<UserRoleXRef> shineRoles) {
+        this.userRoles = shineRoles;
     }
 
     public static final class ShineUserBuilder {

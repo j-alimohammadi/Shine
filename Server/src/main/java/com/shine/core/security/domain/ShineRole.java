@@ -1,6 +1,8 @@
 package com.shine.core.security.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -23,8 +25,9 @@ public class ShineRole {
     @Column(name = "DEFAULT_ROLE")
     private boolean defaultRole;
 
-    @ManyToOne
-    private ShineUser shineUser;
+
+    @OneToMany(mappedBy = "shineRole")
+    private Set<UserRoleXRef> userRoleXRefs = new HashSet<>();
 
 
     public Long getId() {
@@ -57,5 +60,13 @@ public class ShineRole {
 
     public void setDefaultRole(boolean defaultRole) {
         this.defaultRole = defaultRole;
+    }
+
+    public Set<UserRoleXRef> getUserRoleXRefs() {
+        return userRoleXRefs;
+    }
+
+    public void setUserRoleXRefs(Set<UserRoleXRef> userRoleXRefs) {
+        this.userRoleXRefs = userRoleXRefs;
     }
 }
