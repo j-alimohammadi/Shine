@@ -1,5 +1,7 @@
 package com.shine.core.security.domain;
 
+import com.shine.core.security.RoleType;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,6 +26,9 @@ public class ShineRole {
 
     @Column(name = "DEFAULT_ROLE")
     private boolean defaultRole;
+
+    @Column(name = "ROLE_TYPE")
+    private RoleType roleType;
 
 
     @OneToMany(mappedBy = "shineRole")
@@ -71,5 +76,21 @@ public class ShineRole {
 
     public void setUserRoleXRefs(Set<UserRoleXRef> userRoleXRefs) {
         this.userRoleXRefs = userRoleXRefs;
+    }
+
+    public RoleType getRoleType() {
+        return roleType;
+    }
+
+    public void setRoleType(RoleType roleType) {
+        this.roleType = roleType;
+    }
+
+    public Set<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<Permission> permissions) {
+        this.permissions = permissions;
     }
 }

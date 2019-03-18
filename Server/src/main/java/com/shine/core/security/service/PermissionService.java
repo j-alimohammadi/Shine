@@ -11,6 +11,17 @@ import com.shine.core.security.domain.ShineRole;
 
 public interface PermissionService {
 
+    /**
+     * Make new permission and assign to Role.
+     *
+     * @param permissionType
+     * @param permissionTarget
+     * @param permissionValueType
+     * @param permissionValue
+     * @param shineRole
+     * @return New persistent permission
+     */
+
     Permission createPermission(PermissionType permissionType, String permissionTarget,
                                 PermissionValueType permissionValueType,
                                 Integer permissionValue, ShineRole shineRole);

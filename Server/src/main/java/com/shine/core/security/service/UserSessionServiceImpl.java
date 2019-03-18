@@ -18,8 +18,6 @@ public class UserSessionServiceImpl implements UserSessionService {
     private final ConcurrentHashMap<UUID, UserSession> uuidToUserSession = new ConcurrentHashMap<>();
 
 
-
-
     @Override
     public UserSession createUserSession(ShineUser shineUser) {
         UUID sessionId = UUID.randomUUID();
@@ -29,8 +27,8 @@ public class UserSessionServiceImpl implements UserSessionService {
 
     @Override
     public UserSession createUserSession(UUID sessionId, ShineUser shineUser) {
-        Set<String> rolesSet = shineUser.getUserRoles().stream()
-                .map(userRoleXRef -> userRoleXRef.getShineRole().getName())
+        Set<ShineRole> rolesSet = shineUser.getUserRoles().stream()
+                .map(userRoleXRef -> userRoleXRef.getShineRole())
                 .collect(Collectors.toSet());
 
         UserSession userSession = new UserSession(sessionId, shineUser, rolesSet);

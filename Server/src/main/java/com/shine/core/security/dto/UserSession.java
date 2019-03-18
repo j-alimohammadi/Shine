@@ -1,7 +1,12 @@
 package com.shine.core.security.dto;
 
+import com.shine.core.security.PermissionType;
+import com.shine.core.security.RoleType;
+import com.shine.core.security.domain.ShineRole;
 import com.shine.core.security.domain.ShineUser;
 
+import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -11,14 +16,27 @@ import java.util.UUID;
 
 public class UserSession {
     private UUID id;
+
     private ShineUser shineUser;
-    private Set<String> roles;
+
+    private Set<String> roles = new HashSet<>();
+
+    private EnumSet<RoleType> roleTypes = EnumSet.noneOf(RoleType.class);
 
 
-    public UserSession(UUID id, ShineUser shineUser, Set<String> roles) {
+    public UserSession(UUID id, ShineUser shineUser, Set<ShineRole> roles) {
         this.id = id;
         this.shineUser = shineUser;
-        this.roles = roles;
+
+        roles.forEach(shineRole -> {
+            this.roles.add(shineRole.getName());
+        });
+
+        roles.forEach(shineRole -> {
+            this.roleTypes.add(shineRole.getRoleType());
+        });
+
+
     }
 
     public UUID getId() {
@@ -31,5 +49,10 @@ public class UserSession {
 
     public Set<String> getRoles() {
         return roles;
+    }
+
+    public boolean isPermitted(final PermissionType permissionType, final String permissionTarget,
+                               final Integer permissionValue) {
+
     }
 }
