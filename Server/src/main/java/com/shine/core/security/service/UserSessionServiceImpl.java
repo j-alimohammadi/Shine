@@ -2,6 +2,7 @@ package com.shine.core.security.service;
 
 import com.shine.core.security.domain.ShineRole;
 import com.shine.core.security.domain.ShineUser;
+import com.shine.core.security.domain.UserRoleXRef;
 import com.shine.core.security.dto.UserSession;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class UserSessionServiceImpl implements UserSessionService {
     @Override
     public UserSession createUserSession(UUID sessionId, ShineUser shineUser) {
         Set<ShineRole> rolesSet = shineUser.getUserRoles().stream()
-                .map(userRoleXRef -> userRoleXRef.getShineRole())
+                .map(UserRoleXRef::getShineRole)
                 .collect(Collectors.toSet());
 
         UserSession userSession = new UserSession(sessionId, shineUser, rolesSet);

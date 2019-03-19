@@ -39,7 +39,7 @@ public class ShineUserFilter extends OncePerRequestFilter implements Ordered {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         final boolean isLoggedinUser = !authentication.getPrincipal().equals(anonymousUserName) &&
-                !Objects.isNull(SecurityContextHolder.getContext().getAuthentication()) ||
+                !Objects.isNull(SecurityContextHolder.getContext().getAuthentication()) &&
                 SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
 
         // set session id

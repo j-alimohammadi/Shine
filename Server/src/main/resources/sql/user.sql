@@ -29,7 +29,7 @@ VALUES (-2, -1, -2);
 
 -- PERMISSION
 INSERT INTO SHINE_PERMISSION(ID, PERMISSION_TYPE, TARGET, PERMISSION_VALUE_TYPE, VALUE, SHINE_ROLE)
-VALUES (-1, 40, 'special_vote_question', 0, 1, -2);
+VALUES (-1, 40, 'specific_vote_question', 0, 1, -2);
 
 
 

@@ -13,6 +13,7 @@ import com.shine.core.search.domain.SearchCriteria;
 import com.shine.core.search.domain.SearchResult;
 import com.shine.core.qa.service.AnswerService;
 import com.shine.core.qa.service.QuestionService;
+import com.shine.core.security.service.ShineSecurity;
 import com.shine.web.search.SearchServiceDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -47,6 +48,9 @@ public class QuestionEndPoint extends BaseEndpoint {
     @Resource(name = "databaseSearchServiceImpl")
     private ShineSearchService shineSearchService;
 
+    @Resource
+    private ShineSecurity shineSecurity;
+
 
     @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public QuestionWrapper createNewQuestion(HttpServletRequest httpServletRequest,
@@ -76,6 +80,8 @@ public class QuestionEndPoint extends BaseEndpoint {
     @PutMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public QuestionWrapper updateQuestion(HttpServletRequest httpServletRequest,
                                           @RequestBody QuestionWrapper questionWrapper) {
+
+
 
         if (StringUtils.isBlank(questionWrapper.getQuestionTitle())) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
@@ -141,6 +147,7 @@ public class QuestionEndPoint extends BaseEndpoint {
     public QuestionWrapper incrementVote(@PathVariable("question-id") Long questionId,
                                          HttpServletRequest httpServletRequest) {
 
+        shineSecurity.isSpecificPermitted("specific_vote_question");
         Question question = questionService.findQuestionById(questionId)
                 .orElseThrow(() -> {
                     return ShineRestException.build(HttpStatus.BAD_REQUEST.value())

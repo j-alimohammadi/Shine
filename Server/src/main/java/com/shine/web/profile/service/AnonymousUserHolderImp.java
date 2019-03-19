@@ -1,6 +1,6 @@
 package com.shine.web.profile.service;
 
-import com.shine.core.security.domain.ShineRole;
+import com.shine.core.profile.service.ShineUserService;
 import com.shine.core.security.domain.ShineUser;
 import com.shine.core.security.dto.UserSession;
 import com.shine.core.security.service.UserSessionService;
@@ -8,11 +8,12 @@ import com.shine.core.security.utils.TokenMasker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.UUID;
 
 /**
@@ -25,8 +26,8 @@ public class AnonymousUserHolderImp implements AnonymousUserHolder {
     @Resource
     protected UserSessionService userSessionService;
 
-    @Value("${anonymous_role}")
-    protected String anonymousRoleName;
+    @Resource
+    protected ShineUserService shineUserService;
 
     @Value("${anonymous_user_name}")
     protected String anonymousUsername;
@@ -35,24 +36,16 @@ public class AnonymousUserHolderImp implements AnonymousUserHolder {
     protected String anonymousSessionId;
 
 
-    protected UserSession anonymousUserSession;
+    private UserSession anonymousUserSession;
 
-    @PostConstruct
+    @EventListener(ApplicationReadyEvent.class)
+    @Transactional
     public void init() {
-//        ShineUser shineUser = new ShineUser();
-//        shineUser.setLogin(anonymousUsername);
-//
-//        ShineRole shineRole = new ShineRole();
-//        shineRole.setName(anonymousRoleName);
-//        shineRole.setDescription("role_anonymous");
-//
-//        shineUser.setShineRoles(Collections.singleton(shineRole));
-//
-//        anonymousUserSession = userSessionService.createUserSession(UUID.fromString(anonymousSessionId), shineUser);
+//        ShineUser anonymousUser = shineUserService.findUserByUserNameNN(anonymousUsername);
+//        anonymousUserSession = userSessionService.createUserSession(UUID.fromString(anonymousSessionId), anonymousUser);
 //
 //        log.info("Created anonymous user session [{}] successfully",
 //                TokenMasker.maskToken(anonymousUserSession.getId().toString()));
-
     }
 
 
