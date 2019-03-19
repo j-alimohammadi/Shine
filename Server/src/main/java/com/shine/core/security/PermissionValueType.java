@@ -12,17 +12,17 @@ public enum PermissionValueType implements EnumType<Integer> {
     /**
      * Boolean type permission that its value can be true or false
      */
-    BOOLEAN(10),
+    BOOLEAN(0),
 
     /**
      * Integer type permission type that its value must be greater than
      */
-    GREATER_THAN(20),
+    GREATER_THAN(10),
 
     /**
      * Integer type permission type that its value must be lesser than
      */
-    LESSER_THAN(30);
+    LESSER_THAN(20);
 
 
     private Integer type;
