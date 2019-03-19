@@ -22,7 +22,7 @@ public class UserSession {
 
     private EnumSet<RoleType> roleTypes = EnumSet.noneOf(RoleType.class);
 
-    private final Map<PermissionType, List<Permission>> permission = new HashMap<>();
+    private final Map<PermissionType, List<Permission>> permissions = new HashMap<>();
 
 
     public UserSession(UUID id, ShineUser shineUser, Set<ShineRole> roles) {
@@ -35,7 +35,7 @@ public class UserSession {
         });
 
         for (PermissionType permissionType : PermissionType.values()) {
-            permission.putIfAbsent(permissionType, new ArrayList<>());
+            permissions.putIfAbsent(permissionType, new ArrayList<>());
         }
 
         compilePermission();
@@ -50,22 +50,40 @@ public class UserSession {
     }
 
     public boolean isPermitted(PermissionType permissionType, final String permissionTarget,
-                               final Integer permissionValue) {
+                               final Integer requestedPermissionValue) {
         if (roleTypes.contains(RoleType.SUPER)) {
             return true;
         }
 
-        Optional<Integer> currentValue = permission.get(permissionType)
+        Optional<Permission> currentPermission = permissions.get(permissionType)
                 .stream()
                 .filter(permission1 -> permission1.getTarget().equalsIgnoreCase(permissionTarget))
-                .map(permission1 -> permission1.getValue())
                 .findAny();
 
-        return !currentValue.isPresent() || currentValue.get() > permissionValue;
+
+        // if no permission set, by default user permitted
+        if (!currentPermission.isPresent()) {
+            return true;
+        }
+
+
+        final Integer currentPermissionValue = currentPermission.get().getValue();
+        if (currentPermission.get().getPermissionValueType().equals(PermissionValueType.BOOLEAN)) {
+            return requestedPermissionValue <= currentPermissionValue;
+        } else if (currentPermission.get().getPermissionValueType().equals(PermissionValueType.GREATER_THAN)) {
+            return requestedPermissionValue > currentPermissionValue;
+        } else if (currentPermission.get().getPermissionValueType().equals(PermissionValueType.LESSER_THAN)) {
+            return requestedPermissionValue < currentPermissionValue;
+        } else {
+            throw new UnsupportedOperationException(String.format("PermissionValueType [%s] not support",
+                    currentPermission.get().getPermissionValueType()));
+        }
+
+
     }
 
     public List<Permission> getPermissionsByType(PermissionType permissionType) {
-        return Collections.unmodifiableList(permission.get(permissionType));
+        return Collections.unmodifiableList(permissions.get(permissionType));
     }
 
     private void compilePermission() {
@@ -98,7 +116,7 @@ public class UserSession {
         final PermissionType permissionType = perm.getPermissionType();
         final PermissionValueType permissionValueType = perm.getPermissionValueType();
 
-        Optional<Permission> currentPermission = permission.get(permissionType)
+        Optional<Permission> currentPermission = permissions.get(permissionType)
                 .stream()
                 .filter(permission1 -> {
                     return permission1.getTarget().equals(perm.getTarget());
@@ -106,7 +124,7 @@ public class UserSession {
 
 
         if (!currentPermission.isPresent()) {
-            permission.get(permissionType).add(perm);
+            permissions.get(permissionType).add(perm);
             return;
         }
 
