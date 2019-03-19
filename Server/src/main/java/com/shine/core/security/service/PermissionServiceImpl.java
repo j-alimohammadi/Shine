@@ -62,16 +62,13 @@ public class PermissionServiceImpl implements PermissionService {
             }
         }
 
-        if (permissionValueType.equals(PermissionValueType.EQUAL) ||
-                permissionValueType.equals(PermissionValueType.GREATER_THAN) ||
+        if (permissionValueType.equals(PermissionValueType.GREATER_THAN) ||
                 permissionValueType.equals(PermissionValueType.LESSER_THAN)) {
 
             if (Objects.isNull(permissionValue)) {
                 throw new InvalidPermissionException("null is invalid for PermissionValueType.EQUAL|GREATER_THAN|LESSER_THAN");
             }
-
         }
-
 
     }
 }

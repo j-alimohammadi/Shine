@@ -22,12 +22,7 @@ public enum PermissionValueType implements EnumType<Integer> {
     /**
      * Integer type permission type that its value must be lesser than
      */
-    LESSER_THAN(30),
-
-    /**
-     * Integer type permission type that its value must be equal than
-     */
-    EQUAL(40);
+    LESSER_THAN(30);
 
 
     private Integer type;

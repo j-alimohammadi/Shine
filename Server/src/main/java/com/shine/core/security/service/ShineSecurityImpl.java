@@ -26,8 +26,8 @@ public class ShineSecurityImpl implements ShineSecurity {
     @Override
     public boolean isSpecificPermitted(final String permission, final Integer value) {
         return getCurrentUserSession().isPermitted(PermissionType.SPECIFIC, permission, value);
-    }
 
+    }
 
     private UserSession getCurrentUserSession() {
         ShineRequestContext shineRequestContext = ShineRequestContext.getShineRequestContext();
