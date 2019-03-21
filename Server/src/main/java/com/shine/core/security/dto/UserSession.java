@@ -30,7 +30,7 @@ public class UserSession {
         this.shineUser = shineUser;
         this.roles.addAll(roles);
 
-        roles.forEach(shineRole -> {
+        this.roles.forEach(shineRole -> {
             this.roleTypes.add(shineRole.getRoleType());
         });
 

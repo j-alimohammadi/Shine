@@ -42,7 +42,6 @@ public class ShineUser {
     @Column(name = "FLAG_STATUS")
     private Boolean flagStatus;
 
-
     @OneToMany(mappedBy = "shineUser")
     private Set<UserRoleXRef> userRoles = new HashSet<>();
 

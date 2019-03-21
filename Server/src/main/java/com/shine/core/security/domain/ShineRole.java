@@ -1,6 +1,7 @@
 package com.shine.core.security.domain;
 
 import com.shine.core.security.RoleType;
+import com.shine.core.security.jpa.RoleTypeConverter;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -27,12 +28,13 @@ public class ShineRole {
     @Column(name = "DEFAULT_ROLE")
     private boolean defaultRole;
 
+    @Convert(converter = RoleTypeConverter.class)
     @Column(name = "ROLE_TYPE")
     private RoleType roleType;
 
 
     @OneToMany(mappedBy = "shineRole")
-    private Set<UserRoleXRef> userRoleXRefs = new HashSet<>();
+    private Set<UserRoleXRef> userRole = new HashSet<>();
 
     @OneToMany(mappedBy = "shineRole")
     private Set<Permission> permissions = new HashSet<>();
@@ -70,12 +72,12 @@ public class ShineRole {
         this.defaultRole = defaultRole;
     }
 
-    public Set<UserRoleXRef> getUserRoleXRefs() {
-        return userRoleXRefs;
+    public Set<UserRoleXRef> getUserRole() {
+        return userRole;
     }
 
-    public void setUserRoleXRefs(Set<UserRoleXRef> userRoleXRefs) {
-        this.userRoleXRefs = userRoleXRefs;
+    public void setUserRole(Set<UserRoleXRef> userRoleXRefs) {
+        this.userRole = userRoleXRefs;
     }
 
     public RoleType getRoleType() {

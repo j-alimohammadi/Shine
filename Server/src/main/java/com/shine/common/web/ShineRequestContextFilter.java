@@ -1,12 +1,10 @@
 package com.shine.common.web;
 
-import com.shine.core.security.service.UserSessionService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,17 +17,19 @@ import java.io.IOException;
 @Component("shineRequestContextFilter")
 public class ShineRequestContextFilter extends OncePerRequestFilter implements Ordered {
 
+    @Value("${spring.h2.console.path}")
+    protected String inMemoryDataBasePath;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        ShineRequestContext shineRequestContext = ShineRequestContext.getShineRequestContext();
+        if (isIgnoredURL(request)) {
 
-        shineRequestContext.setIpAddress(getIpAddr(request));
+        } else {
+            ShineRequestContext shineRequestContext = ShineRequestContext.getShineRequestContext();
 
-
-
-        filterChain.doFilter(request, response);
-
+            shineRequestContext.setIpAddress(getIpAddr(request));
+            filterChain.doFilter(request, response);
+        }
 
     }
 
@@ -47,6 +47,10 @@ public class ShineRequestContextFilter extends OncePerRequestFilter implements O
         return ip;
     }
 
+
+    private boolean isIgnoredURL(HttpServletRequest request) {
+        return false;
+    }
 
     @Override
     public int getOrder() {

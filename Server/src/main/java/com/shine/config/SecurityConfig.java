@@ -3,6 +3,8 @@ package com.shine.config;
 import com.shine.core.security.service.authentication.JWTAuthenticationProvider;
 import com.shine.core.security.service.jwt.JWTTokenService;
 import com.shine.core.security.service.jwt.JWTTokenServiceImpl;
+import com.shine.web.profile.filter.ShineUserStatusFilter;
+import com.shine.web.profile.service.AnonymousUserHolder;
 import com.shine.web.security.filter.AuthenticationFilter;
 import com.shine.web.security.filter.LoginFilter;
 import org.slf4j.Logger;
@@ -25,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
 
 import javax.annotation.Resource;
 
@@ -40,11 +43,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${anonymous_user_name}")
     protected String anonymousUsername;
 
-    @Value("${anonymous_role}")
-    protected String anonymousRoleName;
-
     @Resource(name = "shineUserDetailService")
     protected UserDetailsService userDetailsService;
+
+    @Resource
+    protected AnonymousUserHolder anonymousUserHolder;
 
 
     @Resource(name = "tokenAuthenticationSuccessHandlerImpl")
@@ -94,8 +97,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.cors();
         httpSecurity
                 .anonymous()
-                .principal(anonymousUsername)
-                .authorities(anonymousRoleName);
+                .principal(anonymousUsername);
 
 
         // URL that needs authentication
@@ -119,7 +121,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         );
 
 
-        // http.requiresChannel().anyRequest().requiresSecure();
+        httpSecurity.addFilterAfter(new ShineUserStatusFilter(anonymousUsername, anonymousUserHolder),
+                RememberMeAuthenticationFilter.class);
 
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.headers().frameOptions().disable();
@@ -132,5 +135,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
+
+
 }
 

@@ -10,11 +10,10 @@ VALUES (-2, true, 'anonymous_user', 'anonymous@domain.com', 'not_use', CURRENT_T
 
 -- DEFAULT ROLES
 INSERT INTO SHINE_ROLE(ID, NAME, DESCRIPTION, DEFAULT_ROLE, ROLE_TYPE)
-VALUES (-1, 'anonymous_role', 'anonymous role', true, 30);
+VALUES (-1, 'anonymous_role', '1anonymous role', true, 30);
 
 INSERT INTO SHINE_ROLE(ID, NAME, DESCRIPTION, DEFAULT_ROLE, ROLE_TYPE)
-VALUES (-2, 'registered_user_role', 'registered user role', true, 0);
-
+VALUES (-2, 'registered_user_role', 'registered user role', false, 0);
 
 INSERT INTO SHINE_ROLE(ID, NAME, DESCRIPTION, DEFAULT_ROLE, ROLE_TYPE)
 VALUES (-3, 'administration', 'administration role', false, 10);
