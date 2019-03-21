@@ -16,7 +16,7 @@ public class PermissionTypeConvertor implements AttributeConverter<PermissionTyp
     }
 
     @Override
-    public PermissionType convertToEntityAttribute(Integer dbData) {
-        return null;
+    public PermissionType convertToEntityAttribute(Integer permissionValue) {
+        return PermissionType.fromType(permissionValue);
     }
 }

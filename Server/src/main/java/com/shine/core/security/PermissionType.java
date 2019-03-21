@@ -26,7 +26,7 @@ public enum PermissionType implements EnumType<Integer> {
         return type;
     }
 
-    public PermissionType fromType(int type) {
+    public static PermissionType fromType(int type) {
         for (PermissionType permissionType : PermissionType.values()) {
             if (Objects.equals(type, permissionType.getType()))
                 return permissionType;
