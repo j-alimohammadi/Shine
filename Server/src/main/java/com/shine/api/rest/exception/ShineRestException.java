@@ -46,6 +46,7 @@ public class ShineRestException extends RuntimeException {
     //            User Management Code
     /////////////////////////////////////////////
     public final static String UNAUTHENTICATED_USER = "shine.platform.restapi.exception.user.unauthenticated";
+    public final static String UNAUTHORIZED_USER = "shine.platform.restapi.exception.user.unauthorized";
     public final static String INVALID_USER_REGISTRATION_INFO = "shine.platform.restapi.exception.user.registrations";
 
 

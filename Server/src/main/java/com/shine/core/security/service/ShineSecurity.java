@@ -1,5 +1,7 @@
 package com.shine.core.security.service;
 
+import org.springframework.security.access.AccessDeniedException;
+
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
@@ -14,6 +16,14 @@ public interface ShineSecurity {
      * @return true if user has permission, otherwise false
      */
     boolean isSpecificPermitted(String permission);
+
+    /**
+     * Check if current user has a specific permission.
+     *
+     * @param permission specific permission id
+     * @throws AccessDeniedException if the user has no specified permission
+     */
+    void checkSpecificPermission(String permission) throws AccessDeniedException;
 
 
     /**

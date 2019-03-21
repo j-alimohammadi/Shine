@@ -8,11 +8,11 @@ import com.shine.api.rest.wrapper.SearchResultWrapper;
 import com.shine.core.qa.domain.Answer;
 import com.shine.core.qa.domain.PostType;
 import com.shine.core.qa.domain.Question;
+import com.shine.core.qa.service.AnswerService;
+import com.shine.core.qa.service.QuestionService;
 import com.shine.core.search.ShineSearchService;
 import com.shine.core.search.domain.SearchCriteria;
 import com.shine.core.search.domain.SearchResult;
-import com.shine.core.qa.service.AnswerService;
-import com.shine.core.qa.service.QuestionService;
 import com.shine.core.security.service.ShineSecurity;
 import com.shine.web.search.SearchServiceDTO;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -80,7 +81,6 @@ public class QuestionEndPoint extends BaseEndpoint {
     @PutMapping(path = "", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public QuestionWrapper updateQuestion(HttpServletRequest httpServletRequest,
                                           @RequestBody QuestionWrapper questionWrapper) {
-
 
 
         if (StringUtils.isBlank(questionWrapper.getQuestionTitle())) {
@@ -147,7 +147,13 @@ public class QuestionEndPoint extends BaseEndpoint {
     public QuestionWrapper incrementVote(@PathVariable("question-id") Long questionId,
                                          HttpServletRequest httpServletRequest) {
 
-        shineSecurity.isSpecificPermitted("specific_vote_question");
+        try {
+            shineSecurity.checkSpecificPermission("specific_vote_question");
+        } catch (AccessDeniedException ex) {
+            throw ShineRestException.build(HttpStatus.FORBIDDEN.value())
+                    .addMessage(ShineRestException.UNAUTHORIZED_USER);
+        }
+
         Question question = questionService.findQuestionById(questionId)
                 .orElseThrow(() -> {
                     return ShineRestException.build(HttpStatus.BAD_REQUEST.value())

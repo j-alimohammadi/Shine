@@ -61,9 +61,17 @@ public class UserSession {
                 .findAny();
 
 
-        // if no permission set, by default user permitted
+        // if no permission set, check in role types
         if (!currentPermission.isPresent()) {
-            return true;
+            boolean hasPermission = false;
+            for (RoleType roleType : roleTypes) {
+                if (roleTypeCheckPermission(roleType)) {
+                    hasPermission = true;
+                    break;
+                }
+            }
+
+            return hasPermission;
         }
 
 
@@ -79,6 +87,22 @@ public class UserSession {
                     currentPermission.get().getPermissionValueType()));
         }
 
+
+    }
+
+    private boolean roleTypeCheckPermission(RoleType roleType) {
+        switch (roleType) {
+            case SUPER:
+                return true;
+            case DENYING:
+                return false;
+            case READONLY:
+                return true;
+            case STANDARD:
+                return true;
+            default:
+                return false;
+        }
 
     }
 

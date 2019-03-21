@@ -60,6 +60,8 @@ public class ShineExceptionMapper {
         return errorResponse;
     }
 
+
+
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ErrorResponse handleException(HttpServletRequest request, HttpServletResponse response,
