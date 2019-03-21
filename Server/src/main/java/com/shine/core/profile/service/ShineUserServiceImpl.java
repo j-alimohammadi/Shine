@@ -2,6 +2,7 @@ package com.shine.core.profile.service;
 
 import com.shine.core.profile.dao.ShineUserDAO;
 import com.shine.core.security.domain.ShineUser;
+import com.shine.core.security.domain.UserRoleXRef;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,8 @@ public class ShineUserServiceImpl implements ShineUserService {
     @Transactional
     @Override
     public Optional<ShineUser> findUserByUserName(String userName) {
-        return shineUserDAO.readUserByUserName(userName);
+        Optional<ShineUser> shineUser = shineUserDAO.readUserByUserName(userName);
+        return shineUser;
     }
 
     @Transactional

@@ -9,7 +9,7 @@ import javax.persistence.Converter;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 @Converter(autoApply = true)
-public class RoleTypeConvertor implements AttributeConverter<RoleType, Integer> {
+public class RoleTypeConverter implements AttributeConverter<RoleType, Integer> {
     @Override
     public Integer convertToDatabaseColumn(RoleType roleType) {
         return roleType.getType();

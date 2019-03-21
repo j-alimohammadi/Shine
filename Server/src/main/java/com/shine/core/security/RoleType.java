@@ -14,7 +14,7 @@ public enum RoleType implements EnumType<Integer> {
     SUPER(10),
 
     READONLY(20),
-    
+
     DENYING(30);
 
 
@@ -26,14 +26,14 @@ public enum RoleType implements EnumType<Integer> {
 
     @Override
     public Integer getType() {
-        return null;
+        return type;
     }
 
 
     public static RoleType fromType(Integer type) {
-        for (RoleType permissionType : RoleType.values()) {
-            if (Objects.equals(type, permissionType.getType()))
-                return permissionType;
+        for (RoleType roleType : RoleType.values()) {
+            if (Objects.equals(type, roleType.getType()))
+                return roleType;
         }
         return null;
     }
