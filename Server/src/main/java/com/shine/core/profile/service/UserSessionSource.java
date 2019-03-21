@@ -1,6 +1,6 @@
 package com.shine.core.profile.service;
 
-import com.shine.core.profile.domain.ShineUser;
+import com.shine.core.security.domain.ShineUser;
 
 /**
  * An holder class that maintain current logged in user.
@@ -8,7 +8,7 @@ import com.shine.core.profile.domain.ShineUser;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 
-public interface ShineUserContext {
+public interface UserSessionSource {
     ShineUser getCurrentLoginUser();
 
     void setCurrentLoginUser(ShineUser shineUser);

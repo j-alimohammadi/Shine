@@ -1,7 +1,7 @@
 package com.shine.core.profile.dao;
 
 import com.shine.common.persistence.genericDao.DAO;
-import com.shine.core.profile.domain.ShineUser;
+import com.shine.core.security.domain.ShineUser;
 
 import java.util.Optional;
 

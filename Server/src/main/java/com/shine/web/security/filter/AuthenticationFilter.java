@@ -1,6 +1,6 @@
 package com.shine.web.security.filter;
 
-import com.shine.core.security.domain.JWTAccessTokenAuthentication;
+import com.shine.core.security.dto.JWTAccessTokenAuthentication;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -55,8 +55,10 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
 
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authResult);
+        
 
-        // we do not wand to redirect after authenticate because this is a stateless request
+
+        // we do not want to redirect after authenticate because this is a stateless request
         chain.doFilter(request, response);
     }
 }

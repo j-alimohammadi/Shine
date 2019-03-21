@@ -3,10 +3,13 @@ package com.shine.config;
 import com.shine.core.security.service.authentication.JWTAuthenticationProvider;
 import com.shine.core.security.service.jwt.JWTTokenService;
 import com.shine.core.security.service.jwt.JWTTokenServiceImpl;
+import com.shine.web.profile.filter.ShineUserStatusFilter;
+import com.shine.web.profile.service.AnonymousUserHolder;
 import com.shine.web.security.filter.AuthenticationFilter;
 import com.shine.web.security.filter.LoginFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
 
 import javax.annotation.Resource;
 
@@ -36,9 +40,14 @@ import javax.annotation.Resource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final static Logger log = LoggerFactory.getLogger(SecurityConfig.class);
 
+    @Value("${anonymous_user_name}")
+    protected String anonymousUsername;
 
     @Resource(name = "shineUserDetailService")
     protected UserDetailsService userDetailsService;
+
+    @Resource
+    protected AnonymousUserHolder anonymousUserHolder;
 
 
     @Resource(name = "tokenAuthenticationSuccessHandlerImpl")
@@ -59,8 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Bean
-    public AuthenticationProvider daoAuthenticationProvider() {
+    private AuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(getPasswordEncoder());
@@ -68,8 +76,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return provider;
     }
 
-    @Bean
-    public AuthenticationProvider jwtAuthenticationProvider() {
+
+    private AuthenticationProvider jwtAuthenticationProvider() {
         JWTAuthenticationProvider jwtAuthenticationProvider =
                 new JWTAuthenticationProvider(userDetailsService, getJwtTokenService());
 
@@ -87,22 +95,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable();
         httpSecurity.cors();
-
-        // URLs that don`t need authentication
-        httpSecurity.authorizeRequests()
-                .antMatchers("/api/user/login")
-                .permitAll();
-
-        httpSecurity.authorizeRequests()
-                .antMatchers("/api/**")
-                .permitAll();
+        httpSecurity
+                .anonymous()
+                .principal(anonymousUsername);
 
 
-        httpSecurity.addFilterBefore(new AuthenticationFilter("/**", authenticationManager(), failureHandler), UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.addFilterBefore(new LoginFilter("/api/user/login", authenticationManager(), successHandler, failureHandler), AuthenticationFilter.class);
+        // URL that needs authentication
+//        httpSecurity.authorizeRequests()
+//                .antMatchers("/question/**/vote/increment")
+//                .authenticated();
 
 
-        // http.requiresChannel().anyRequest().requiresSecure();
+        // permit all other URL
+        httpSecurity.authorizeRequests().anyRequest().permitAll();
+
+
+        httpSecurity.addFilterBefore(
+                new AuthenticationFilter("/**", authenticationManager(), failureHandler),
+                UsernamePasswordAuthenticationFilter.class
+        );
+
+        httpSecurity.addFilterBefore(
+                new LoginFilter("/api/user/login", authenticationManager(), successHandler, failureHandler),
+                AuthenticationFilter.class
+        );
+
+
+        httpSecurity.addFilterAfter(new ShineUserStatusFilter(anonymousUsername, anonymousUserHolder),
+                RememberMeAuthenticationFilter.class);
 
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.headers().frameOptions().disable();
@@ -115,5 +135,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
+
+
 }
 

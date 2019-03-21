@@ -1,7 +1,7 @@
 package com.shine.core.profile.dao;
 
 import com.shine.common.persistence.genericDao.AbstractDao;
-import com.shine.core.profile.domain.ShineUser;
+import com.shine.core.security.domain.ShineUser;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 

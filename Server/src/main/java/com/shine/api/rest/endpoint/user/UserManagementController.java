@@ -2,7 +2,7 @@ package com.shine.api.rest.endpoint.user;
 
 import com.shine.api.rest.endpoint.BaseEndpoint;
 import com.shine.api.rest.exception.ShineRestException;
-import com.shine.core.profile.domain.ShineUser;
+import com.shine.core.security.domain.ShineUser;
 import com.shine.core.profile.service.ShineUserService;
 import com.shine.core.security.service.login.LoginService;
 import com.shine.web.profile.dto.ShineUserDTO;

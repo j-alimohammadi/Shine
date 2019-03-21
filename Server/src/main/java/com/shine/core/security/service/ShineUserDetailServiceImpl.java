@@ -1,6 +1,6 @@
 package com.shine.core.security.service;
 
-import com.shine.core.profile.domain.ShineUser;
+import com.shine.core.security.domain.ShineUser;
 import com.shine.core.profile.service.ShineUserService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -38,7 +37,7 @@ public class ShineUserDetailServiceImpl implements UserDetailsService {
         }
 
         ShineUser shineUser = shineUserService
-                .findUserByUsername(username).orElseThrow(() -> {
+                .findUserByUserName(username).orElseThrow(() -> {
                     return new UsernameNotFoundException(String.format("Username [%s] not found", username));
                 });
 
@@ -51,6 +50,6 @@ public class ShineUserDetailServiceImpl implements UserDetailsService {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
-        return new User(username, shineUser.getPassword(), true, true, true, true, grantedAuthorities);
+        return new org.springframework.security.core.userdetails.User(username, shineUser.getPassword(), true, true, true, true, grantedAuthorities);
     }
 }

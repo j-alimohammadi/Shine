@@ -1,9 +1,11 @@
-package com.shine.core.profile.domain;
+package com.shine.core.security.domain;
 
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -39,6 +41,9 @@ public class ShineUser {
 
     @Column(name = "FLAG_STATUS")
     private Boolean flagStatus;
+
+    @OneToMany(mappedBy = "shineUser")
+    private Set<UserRoleXRef> userRoles = new HashSet<>();
 
 
     public Long getId() {
@@ -103,6 +108,14 @@ public class ShineUser {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<UserRoleXRef> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<UserRoleXRef> shineRoles) {
+        this.userRoles = shineRoles;
     }
 
     public static final class ShineUserBuilder {
