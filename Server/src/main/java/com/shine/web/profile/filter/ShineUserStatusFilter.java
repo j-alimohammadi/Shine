@@ -46,6 +46,7 @@ public class ShineUserStatusFilter extends OncePerRequestFilter implements Order
             shineRequestContext.setSessionId(UUID.fromString(authentication.getDetails().toString()));
         } else {
             UserSession anonymousUserSession = anonymousUserHolder.getAnonymousUserSession();
+
             shineRequestContext.setSessionId(anonymousUserSession.getId());
         }
 
