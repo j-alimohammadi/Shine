@@ -55,7 +55,6 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
 
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authResult);
-        
 
 
         // we do not want to redirect after authenticate because this is a stateless request
