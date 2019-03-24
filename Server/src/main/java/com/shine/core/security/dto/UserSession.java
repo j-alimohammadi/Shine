@@ -69,7 +69,7 @@ public class UserSession {
         // if no permission set, check in role types
         for (RoleType roleType : roleTypes) {
             Integer newValue = roleTypeCheckPermission(roleType);
-            if (!Objects.isNull(newValue) && newValue > permissionValue) {
+            if (!Objects.isNull(newValue) && (Objects.isNull(permissionValue) || permissionValue < requestedPermissionValue)) {
                 permissionValue = newValue;
             }
 
