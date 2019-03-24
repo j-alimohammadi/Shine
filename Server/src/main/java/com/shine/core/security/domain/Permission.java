@@ -1,7 +1,6 @@
 package com.shine.core.security.domain;
 
 import com.shine.core.security.PermissionType;
-import com.shine.core.security.PermissionValueType;
 
 import javax.persistence.*;
 
@@ -23,11 +22,11 @@ public class Permission {
     @Column(name = "TARGET")
     private String target;
 
-    @Column(name = "PERMISSION_VALUE_TYPE")
-    private PermissionValueType permissionValueType;
-
     @Column(name = "VALUE")
     private Integer value;
+
+    @Column(name = "ADDITIONAL_CONDITION")
+    private String additionalCondition;
 
     @JoinColumn(name = "SHINE_ROLE")
     @ManyToOne
@@ -58,14 +57,6 @@ public class Permission {
         this.target = target;
     }
 
-    public PermissionValueType getPermissionValueType() {
-        return permissionValueType;
-    }
-
-    public void setPermissionValueType(PermissionValueType permissionValueType) {
-        this.permissionValueType = permissionValueType;
-    }
-
     public Integer getValue() {
         return value;
     }
@@ -80,5 +71,13 @@ public class Permission {
 
     public void setShineRole(ShineRole shineRole) {
         this.shineRole = shineRole;
+    }
+
+    public String getAdditionalCondition() {
+        return additionalCondition;
+    }
+
+    public void setAdditionalCondition(String addionalCondition) {
+        this.additionalCondition = addionalCondition;
     }
 }

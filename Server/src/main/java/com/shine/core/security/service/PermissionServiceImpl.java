@@ -33,7 +33,6 @@ public class PermissionServiceImpl implements PermissionService {
         Permission permission = new Permission();
         permission.setPermissionType(permissionType);
         permission.setTarget(permissionTarget);
-        permission.setPermissionValueType(permissionValueType);
         permission.setValue(permissionValue);
         permission.setShineRole(shineRole);
 

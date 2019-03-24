@@ -6,6 +6,7 @@ import com.shine.core.security.RoleType;
 import com.shine.core.security.domain.Permission;
 import com.shine.core.security.domain.ShineRole;
 import com.shine.core.security.domain.ShineUser;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
@@ -75,17 +76,22 @@ public class UserSession {
         }
 
 
-        final Integer currentPermissionValue = currentPermission.get().getValue();
-        if (currentPermission.get().getPermissionValueType().equals(PermissionValueType.BOOLEAN)) {
-            return requestedPermissionValue <= currentPermissionValue;
-        } else if (currentPermission.get().getPermissionValueType().equals(PermissionValueType.GREATER_THAN)) {
-            return requestedPermissionValue > currentPermissionValue;
-        } else if (currentPermission.get().getPermissionValueType().equals(PermissionValueType.LESSER_THAN)) {
-            return requestedPermissionValue < currentPermissionValue;
-        } else {
-            throw new UnsupportedOperationException(String.format("PermissionValueType [%s] not support",
-                    currentPermission.get().getPermissionValueType()));
+        // permission is set before
+        if(currentPermission.get().getValue())
+
+        final String additionalCondition = currentPermission.get().getAdditionalCondition();
+        if (StringUtils.isNotBlank(additionalCondition)) {
+            //todo: for now we check only for reputation.
+            // refactor this to accept any property and condition
+            final long repudiation = Long.valueOf(additionalCondition);
+
+            if (shineUser.getRepudiation() > repudiation) {
+                return true;
+            } else {
+                return false;
+            }
         }
+
 
 
     }
@@ -138,7 +144,6 @@ public class UserSession {
      */
     private void addPermission(Permission perm) {
         final PermissionType permissionType = perm.getPermissionType();
-        final PermissionValueType permissionValueType = perm.getPermissionValueType();
 
         Optional<Permission> currentPermission = permissions.get(permissionType)
                 .stream()
@@ -150,21 +155,6 @@ public class UserSession {
         if (!currentPermission.isPresent()) {
             permissions.get(permissionType).add(perm);
             return;
-        }
-
-        if (permissionValueType.equals(PermissionValueType.BOOLEAN)
-                || permissionValueType.equals(PermissionValueType.LESSER_THAN)) {
-
-            if (perm.getValue() > currentPermission.get().getValue()) {
-                currentPermission.get().setValue(perm.getValue());
-            }
-        } else if (permissionValueType.equals(PermissionValueType.GREATER_THAN)) {
-            if (perm.getValue() < currentPermission.get().getValue()) {
-                currentPermission.get().setValue(perm.getValue());
-            }
-        } else {
-            throw new UnsupportedOperationException(String.format("PermissionValueType [%s] not support",
-                    permissionValueType.toString()));
         }
 
     }
