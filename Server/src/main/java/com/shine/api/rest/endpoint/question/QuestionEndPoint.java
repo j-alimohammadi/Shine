@@ -150,7 +150,7 @@ public class QuestionEndPoint extends BaseEndpoint {
         try {
             shineSecurity.checkSpecificPermission("specific_vote_question");
         } catch (AccessDeniedException ex) {
-            throw ShineRestException.build(HttpStatus.FORBIDDEN.value())
+            throw ShineRestException.build(HttpStatus.FORBIDDEN.value(), ex)
                     .addMessage(ShineRestException.UNAUTHORIZED_USER);
         }
 
