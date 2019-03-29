@@ -80,18 +80,18 @@ public class UserSession {
                 .map(Permission::getAdditionalCondition)
                 .orElse(null);
 
-        boolean additionalConditionEvalution = true;
+        boolean additionalConditionEvaluation = true;
         if (StringUtils.isNotBlank(additionalCondition)) {
             //todo: for now we check only for reputation.
             // refactor this to accept any property and condition
             final long repudiation = Long.valueOf(additionalCondition);
 
             if (shineUser.getRepudiation() < repudiation) {
-                additionalConditionEvalution = false;
+                additionalConditionEvaluation = false;
             }
         }
 
-        return Objects.isNull(permissionValue) || (requestedPermissionValue < permissionValue && additionalConditionEvalution);
+        return Objects.isNull(permissionValue) || (requestedPermissionValue < permissionValue && additionalConditionEvaluation);
     }
 
     private Integer roleTypeCheckPermission(RoleType roleType) {
