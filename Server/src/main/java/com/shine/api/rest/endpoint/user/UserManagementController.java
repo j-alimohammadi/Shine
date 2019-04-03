@@ -2,8 +2,8 @@ package com.shine.api.rest.endpoint.user;
 
 import com.shine.api.rest.endpoint.BaseEndpoint;
 import com.shine.api.rest.exception.ShineRestException;
-import com.shine.core.security.domain.ShineUser;
 import com.shine.core.profile.service.ShineUserService;
+import com.shine.core.security.domain.ShineUser;
 import com.shine.core.security.service.login.LoginService;
 import com.shine.web.profile.dto.ShineUserDTO;
 import org.apache.commons.collections4.MapUtils;
@@ -81,7 +81,6 @@ public class UserManagementController extends BaseEndpoint {
                 .withActiveStatusFlag(true)
                 .withUnEncodedPassword(shineUserDTO.getClearTextPassword())
                 .build();
-
 
         shineUserService.createNewUser(shineUser);
 

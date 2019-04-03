@@ -1,5 +1,6 @@
 package com.shine.core.security.domain;
 
+import com.shine.core.security.service.OAuthProvider;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -33,14 +34,17 @@ public class ShineUser {
     @Column(name = "PASSWORD")
     private String password;
 
-    @Column(name = "REPUDIATION")
-    private Integer repudiation;
+    @Column(name = "REPUTATION")
+    private Integer reputation;
 
     @Column(name = "REGISTER_TIME")
     private Date registerTime;
 
     @Column(name = "FLAG_STATUS")
     private Boolean flagStatus;
+
+    @Column(name = "OAUTH_PROVIDER")
+    private OAuthProvider OAuthProvider;
 
     @OneToMany(mappedBy = "shineUser")
     private Set<UserRoleXRef> userRoles = new HashSet<>();
@@ -70,12 +74,12 @@ public class ShineUser {
         this.password = password;
     }
 
-    public Integer getRepudiation() {
-        return repudiation;
+    public Integer getReputation() {
+        return reputation;
     }
 
-    public void setRepudiation(Integer repudiation) {
-        this.repudiation = repudiation;
+    public void setReputation(Integer repudiation) {
+        this.reputation = repudiation;
     }
 
     public Date getRegisterTime() {
@@ -118,6 +122,14 @@ public class ShineUser {
         this.userRoles = shineRoles;
     }
 
+    public OAuthProvider getOAuthProvider() {
+        return OAuthProvider;
+    }
+
+    public void setOAuthProvider(OAuthProvider OAuthProvider) {
+        this.OAuthProvider = OAuthProvider;
+    }
+
     public static final class ShineUserBuilder {
         private ShineUser shineUser;
 
@@ -155,7 +167,7 @@ public class ShineUser {
         }
 
         public ShineUserBuilder withRepudiation(Integer repudiation) {
-            shineUser.setRepudiation(repudiation);
+            shineUser.setReputation(repudiation);
             return this;
         }
 

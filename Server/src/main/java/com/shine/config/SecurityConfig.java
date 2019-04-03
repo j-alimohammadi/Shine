@@ -3,6 +3,8 @@ package com.shine.config;
 import com.shine.core.security.service.authentication.JWTAuthenticationProvider;
 import com.shine.core.security.service.jwt.JWTTokenService;
 import com.shine.core.security.service.jwt.JWTTokenServiceImpl;
+import com.shine.core.security.service.oauth.CustomOAuth2UserService;
+import com.shine.core.security.service.oauth.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.shine.web.profile.filter.ShineUserStatusFilter;
 import com.shine.web.profile.service.AnonymousUserHolder;
 import com.shine.web.security.filter.AuthenticationFilter;
@@ -56,6 +58,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource(name = "tokenAuthenticationFailHandlerImpl")
     protected AuthenticationFailureHandler failureHandler;
 
+
+    @Resource
+    private CustomOAuth2UserService customOAuth2UserService;
+
     @Bean("BCryptPasswordEncoder")
     public PasswordEncoder getPasswordEncoder() {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -100,13 +106,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .principal(anonymousUsername);
 
 
-        // URL that needs authentication
-//        httpSecurity.authorizeRequests()
-//                .antMatchers("/question/**/vote/increment")
-//                .authenticated();
-
-
-        // permit all other URL
+        // permit all URL
         httpSecurity.authorizeRequests().anyRequest().permitAll();
 
 
@@ -125,9 +125,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 RememberMeAuthenticationFilter.class);
 
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        // social login
+        httpSecurity.oauth2Login().authorizationEndpoint().baseUri("/oauth2/authorization");
+        httpSecurity.oauth2Login().authorizationEndpoint().authorizationRequestRepository(cookieAuthorizationRequestRepository());
+        httpSecurity.oauth2Login().redirectionEndpoint().baseUri("/oauth2/callback/*");
+        httpSecurity.oauth2Login().userInfoEndpoint().userService(customOAuth2UserService);
+        httpSecurity.oauth2Login().successHandler(successHandler);
+        httpSecurity.oauth2Login().failureHandler(failureHandler);
+
         httpSecurity.headers().frameOptions().disable();
 
 
+    }
+
+
+    @Bean
+    public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
+        return new HttpCookieOAuth2AuthorizationRequestRepository();
     }
 
     @Bean(name = "shineAuthenticationManager")

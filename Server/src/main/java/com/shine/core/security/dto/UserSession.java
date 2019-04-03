@@ -86,7 +86,7 @@ public class UserSession {
             // refactor this to accept any property and condition
             final long repudiation = Long.valueOf(additionalCondition);
 
-            if (shineUser.getRepudiation() < repudiation) {
+            if (shineUser.getReputation() < repudiation) {
                 additionalConditionEvaluation = false;
             }
         }

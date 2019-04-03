@@ -22,6 +22,7 @@ public enum PermissionType implements EnumType<Integer> {
         this.type = permissionType;
     }
 
+    @Override
     public Integer getType() {
         return type;
     }
