@@ -11,7 +11,9 @@ import java.util.Set;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 @Entity
-@Table(name = "SHINE_ROLE")
+@Table(name = "SHINE_ROLE", indexes = {
+        @Index(name = "INDEX_ROLE_NAME", columnList = "NAME", unique = true)
+})
 public class ShineRole {
 
     @Id

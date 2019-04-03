@@ -86,12 +86,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 .withRegisterTime(new Date())
                 .withRepudiation(0)
                 .withActiveStatusFlag(true)
-                .withUnEncodedPassword("not_important")
+                .withUnEncodedPassword("")
                 .build();
 
         shineUser.setOAuthProvider(OAuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase()));
 
-        return shineUserService.createNewUser(shineUser, );
+        return shineUserService.createNewUser(shineUser);
     }
 
 

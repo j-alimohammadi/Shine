@@ -1,9 +1,9 @@
 package com.shine.core.profile.service;
 
-import com.shine.core.profile.dao.ShineRoleDAO;
 import com.shine.core.profile.dao.ShineUserDAO;
 import com.shine.core.security.domain.ShineRole;
 import com.shine.core.security.domain.ShineUser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,31 +22,35 @@ public class ShineUserServiceImpl implements ShineUserService {
     @Resource(name = "shineUserDAOImpl")
     protected ShineUserDAO shineUserDAO;
 
-    @Resource(name = "roleDAOImpl")
-    protected ShineRoleDAO shineRoleDAO;
+    @Resource(name = "roleServiceImpl")
+    protected RoleService roleService;
 
 
     @Resource(name = "BCryptPasswordEncoder")
     protected PasswordEncoder passwordEncoder;
 
 
+    @Value("${default.user_role}")
+    protected String defaultUserRole;
+
+
     @Transactional
     @Override
     public ShineUser createNewUser(ShineUser shineUser) {
-        return null;
+        return createNewUser(shineUser, defaultUserRole);
     }
 
     @Transactional
     @Override
-    public ShineUser createNewUser(ShineUser shineUser, String roleName) {
+    public ShineUser createNewUser(ShineUser shineUser, final String roleName) {
         // todo: change default enable status flag with a configuration property
+        ShineRole shineRole = roleService.findRoleByNameNN(roleName);
+        shineUser.addRole(shineRole);
 
         final String password = shineUser.getUnEncodedPassword();
         shineUser.setPassword(passwordEncoder.encode(password));
 
-        ShineUser savedShineUser = shineUserDAO.createOrUpdate(shineUser);
-
-        return savedShineUser;
+        return shineUserDAO.createOrUpdate(shineUser);
     }
 
     @Override
@@ -64,14 +68,13 @@ public class ShineUserServiceImpl implements ShineUserService {
     @Transactional
     @Override
     public ShineUser findUserByUserNameNN(String userName) throws UsernameNotFoundException {
-        return findUserByUserName(userName).orElseThrow(() -> {
-            return new UsernameNotFoundException(String.format("Username [%s] not found", userName));
-        });
+        return findUserByUserName(userName)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("Username [%s] not found", userName)));
     }
 
     @Transactional
     @Override
     public Set<ShineRole> findRoleByUserName(String userName) {
-        return shineRoleDAO.readRolesByUserName(userName);
+        return roleService.findRolesByUserName(userName);
     }
 }

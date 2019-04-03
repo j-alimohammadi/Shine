@@ -130,6 +130,15 @@ public class ShineUser {
         this.OAuthProvider = OAuthProvider;
     }
 
+    public void addRole(ShineRole shineRole) {
+        UserRoleXRef userRoleXRef = new UserRoleXRef();
+        userRoleXRef.setShineRole(shineRole);
+        userRoleXRef.setShineUser(this);
+
+        userRoles.add(userRoleXRef);
+    }
+
+
     public static final class ShineUserBuilder {
         private ShineUser shineUser;
 
