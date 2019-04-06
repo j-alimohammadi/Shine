@@ -41,7 +41,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         } catch (AuthenticationException ex) {
             throw ex;
         } catch (Exception ex) {
-            // Throwing an instance of AuthenticationException will trigger the OAuth2AuthenticationFailureHandler
             throw new InternalAuthenticationServiceException(ex.getMessage(), ex.getCause());
         }
     }
@@ -58,7 +57,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 
         ShineUser shineUser1 = foundUser.map(shineUser -> {
-            if (!shineUser.getOAuthProvider().equals(OAuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
+            String clientId = oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase();
+            if (!shineUser.getOAuthProvider().equals(OAuthProvider.valueOf(clientId))) {
                 throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " +
                         shineUser.getOAuthProvider() + " account. Please use your " + shineUser.getOAuthProvider() +
                         " account to login.");
