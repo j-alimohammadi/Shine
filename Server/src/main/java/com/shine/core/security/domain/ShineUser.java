@@ -46,7 +46,8 @@ public class ShineUser {
     @Column(name = "OAUTH_PROVIDER")
     private OAuthProvider OAuthProvider;
 
-    @OneToMany(mappedBy = "shineUser")
+
+    @OneToMany(mappedBy = "shineUser", cascade = CascadeType.ALL)
     private Set<UserRoleXRef> userRoles = new HashSet<>();
 
 

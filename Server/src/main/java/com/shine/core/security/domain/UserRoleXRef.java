@@ -6,7 +6,7 @@ import javax.persistence.*;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 @Entity
-@Table(name = "USER_ROLE_XREF")
+@Table(name = "SHINE_USER_ROLE_XREF")
 public class UserRoleXRef {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

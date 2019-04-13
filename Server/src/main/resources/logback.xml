@@ -6,7 +6,7 @@
         </encoder>
     </appender>
 
-    <root level="ALL" >
+    <root level="INFO" >
         <appender-ref ref="STDOUT"/>
     </root>
 
@@ -15,7 +15,7 @@
     <logger name="org.springframework.security" level="INFO"/>
     <logger name="org.apache.tomcat" level="OFF"/>
 
-    <logger name="com.shine" level="ALL"/>
+    <logger name="com.shine" level="DEBUG"/>
 
 
 </configuration>

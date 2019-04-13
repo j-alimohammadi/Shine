@@ -55,6 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource(name = "tokenAuthenticationSuccessHandlerImpl")
     protected AuthenticationSuccessHandler successHandler;
 
+    @Resource(name = "oauthAuthenticationSuccessHandlerImpl")
+    protected AuthenticationSuccessHandler oauthAuthenticationSuccessHandler;
+
     @Resource(name = "tokenAuthenticationFailHandlerImpl")
     protected AuthenticationFailureHandler failureHandler;
 
@@ -131,7 +134,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.oauth2Login().authorizationEndpoint().authorizationRequestRepository(cookieAuthorizationRequestRepository());
         httpSecurity.oauth2Login().redirectionEndpoint().baseUri("/oauth2/callback/*");
         httpSecurity.oauth2Login().userInfoEndpoint().userService(customOAuth2UserService);
-        httpSecurity.oauth2Login().successHandler(successHandler);
+        httpSecurity.oauth2Login().successHandler(oauthAuthenticationSuccessHandler);
         httpSecurity.oauth2Login().failureHandler(failureHandler);
 
         httpSecurity.headers().frameOptions().disable();
