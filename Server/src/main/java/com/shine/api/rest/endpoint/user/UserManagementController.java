@@ -43,7 +43,7 @@ public class UserManagementController extends BaseEndpoint {
     protected LoginService loginService;
 
 
-    @Resource(name = "tokenAuthenticationSuccessHandlerImpl")
+    @Resource(name = "simpleAuthenticationSuccessHandlerImpl")
     protected AuthenticationSuccessHandler authenticationSuccessHandler;
 
 
