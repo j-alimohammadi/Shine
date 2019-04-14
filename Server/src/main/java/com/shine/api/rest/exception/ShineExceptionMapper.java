@@ -1,6 +1,6 @@
 package com.shine.api.rest.exception;
 
-import com.shine.api.rest.dto.ErrorResponse;
+import com.shine.common.web.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -13,8 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.shine.common.web.ErrorResponse.ErrorResponseBuilder.anErrorResponse;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -45,14 +48,19 @@ public class ShineExceptionMapper {
                 .map(messageEntry -> messageSource.getMessage(messageEntry.getKey(), messageEntry.getValue(), locale))
                 .collect(Collectors.toList());
 
+        Map<String, Object> additionalData = ex.getAdditionalData();
 
-        ErrorResponse errorResponse = ErrorResponse.ErrorResponseBuilder.anErrorResponse()
+
+        ErrorResponse errorResponse = anErrorResponse()
                 .withHttpStatus(ex.getHttpStatusCode())
                 .withMessages(errorMessage)
+                .withAddionalData(additionalData)
                 .build();
 
         return errorResponse;
     }
+
+
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
@@ -66,7 +74,7 @@ public class ShineExceptionMapper {
 
         String errorMessage = messageSource.getMessage(ShineRestException.UNKNOWN, null, locale);
 
-        ErrorResponse errorResponse = ErrorResponse.ErrorResponseBuilder.anErrorResponse()
+        ErrorResponse errorResponse = anErrorResponse()
                 .withHttpStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
                 .withMessages(errorMessage)
                 .build();

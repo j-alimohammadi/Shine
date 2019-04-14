@@ -2,11 +2,16 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
                  version="2.0">
-    <named-query name="findQuestion">
+    <named-query name="readAnswerForQuestion">
         <query>
             <![CDATA[
-                 SELECT answer FROM Answer answer ORDER BY answer.createdTimeStamp
+                SELECT answer FROM Answer AS answer
+                JOIN answer.question AS question
+                WHERE question.id = :questionId
+                ORDER BY answer.accepted DESC 
              ]]>
         </query>
     </named-query>
+
+
 </entity-mappings>
