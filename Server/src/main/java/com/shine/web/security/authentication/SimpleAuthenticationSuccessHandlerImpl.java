@@ -24,8 +24,8 @@ import java.io.IOException;
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
-@Service("tokenAuthenticationSuccessHandlerImpl")
-public class TokenAuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
+@Service("simpleAuthenticationSuccessHandlerImpl")
+public class SimpleAuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
     @Resource(name = "JWTTokenServiceImpl")
     protected JWTTokenService jwtTokenService;

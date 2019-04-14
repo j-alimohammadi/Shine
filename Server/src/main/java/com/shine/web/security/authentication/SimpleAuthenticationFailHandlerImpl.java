@@ -21,9 +21,9 @@ import java.util.Locale;
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
-@Service("tokenAuthenticationFailHandlerImpl")
-public class TokenAuthenticationFailHandlerImpl implements AuthenticationFailureHandler {
-    private final static Logger log = LoggerFactory.getLogger(TokenAuthenticationFailHandlerImpl.class);
+@Service("simpleAuthenticationFailHandlerImpl")
+public class SimpleAuthenticationFailHandlerImpl implements AuthenticationFailureHandler {
+    private final static Logger log = LoggerFactory.getLogger(SimpleAuthenticationFailHandlerImpl.class);
 
     @Resource(name = "shineMessageSource")
     private MessageSource messageSource;

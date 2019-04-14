@@ -52,13 +52,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected AnonymousUserHolder anonymousUserHolder;
 
 
-    @Resource(name = "tokenAuthenticationSuccessHandlerImpl")
-    protected AuthenticationSuccessHandler successHandler;
+    @Resource(name = "simpleAuthenticationSuccessHandlerImpl")
+    protected AuthenticationSuccessHandler simpleAuthenticationHandler;
 
     @Resource(name = "oauthAuthenticationSuccessHandlerImpl")
     protected AuthenticationSuccessHandler oauthAuthenticationSuccessHandler;
 
-    @Resource(name = "tokenAuthenticationFailHandlerImpl")
+    @Resource(name = "simpleAuthenticationFailHandlerImpl")
     protected AuthenticationFailureHandler failureHandler;
 
 
@@ -119,7 +119,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         );
 
         httpSecurity.addFilterBefore(
-                new LoginFilter("/api/user/login", authenticationManager(), successHandler, failureHandler),
+                new LoginFilter("/api/user/login", authenticationManager(), simpleAuthenticationHandler, failureHandler),
                 AuthenticationFilter.class
         );
 
