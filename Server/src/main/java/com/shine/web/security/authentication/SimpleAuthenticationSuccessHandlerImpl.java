@@ -8,7 +8,6 @@ import com.shine.core.security.service.UserSessionService;
 import com.shine.core.security.service.jwt.JWTInfo;
 import com.shine.core.security.service.jwt.JWTTokenService;
 import com.shine.core.security.service.token.TokenStore;
-import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -54,7 +53,7 @@ public class SimpleAuthenticationSuccessHandlerImpl implements AuthenticationSuc
             ShineUser shineUser = shineUserService.findUserByUserNameNN(user.getUsername());
             return userSessionService.createUserSession(shineUser);
         });
-
+        
         JWTInfo jwtInfo = jwtTokenService.generateAuthenticationToken(user.getUsername(), userSession.getId().toString());
 
         tokenStore.storeToken(jwtInfo.getTokenValue(), userSession.getId(), jwtInfo.getExpirationDate());

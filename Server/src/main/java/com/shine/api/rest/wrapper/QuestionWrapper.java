@@ -35,7 +35,6 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
     @Resource
     private TagService tagService;
 
-
     @JsonProperty("id")
     private Long id;
 

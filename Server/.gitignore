@@ -33,7 +33,7 @@ target/
 **/*.vpp~*
 
 # JRebel config
-/src/main/resources/rebel.xml
+**/rebel.xml
 
 # Release plugin files
 release.properties
