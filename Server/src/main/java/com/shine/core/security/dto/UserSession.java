@@ -1,7 +1,6 @@
 package com.shine.core.security.dto;
 
 import com.shine.core.security.PermissionType;
-import com.shine.core.security.PermissionValueType;
 import com.shine.core.security.RoleType;
 import com.shine.core.security.domain.Permission;
 import com.shine.core.security.domain.ShineRole;
@@ -91,7 +90,8 @@ public class UserSession {
             }
         }
 
-        return Objects.isNull(permissionValue) || (requestedPermissionValue < permissionValue && additionalConditionEvaluation);
+        return Objects.isNull(permissionValue) ||
+                (requestedPermissionValue < permissionValue && additionalConditionEvaluation);
     }
 
     private Integer roleTypeCheckPermission(RoleType roleType) {
@@ -130,14 +130,6 @@ public class UserSession {
 
 
     /**
-     * Add permission based on {@link PermissionValueType} value. Permission added based on <b>OR</b> them.<br>
-     * <p>
-     * If Permission value is {@link PermissionValueType#BOOLEAN} or {@link PermissionValueType#LESSER_THAN} then new
-     * value should be greater than existing value.<br>
-     * <p>
-     * If Permission value is {@link PermissionValueType#GREATER_THAN} then new value should be less than existing
-     * value.
-     *
      * @param perm New permission value
      */
     private void addPermission(Permission perm) {

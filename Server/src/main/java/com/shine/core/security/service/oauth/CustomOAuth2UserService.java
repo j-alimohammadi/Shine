@@ -57,16 +57,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 
         ShineUser shineUser1 = foundUser.map(shineUser -> {
-            String clientId = oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase();
-            if (!shineUser.getOAuthProvider().equals(OAuthProvider.valueOf(clientId))) {
+            String providerId = oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase();
+            if (!shineUser.getOAuthProvider().equals(OAuthProvider.valueOf(providerId))) {
                 throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " +
                         shineUser.getOAuthProvider() + " account. Please use your " + shineUser.getOAuthProvider() +
                         " account to login.");
             }
             return shineUser;
-        }).orElseGet(() -> {
-            return registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
-        });
+        }).orElseGet(() -> registerNewUser(oAuth2UserRequest, oAuth2UserInfo));
 
 
         Set<ShineRole> foundRoles = shineUserService.findRoleByUserName(shineUser1.getLogin());

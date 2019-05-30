@@ -148,7 +148,6 @@ public class QuestionEndPoint extends BaseEndpoint {
                                          HttpServletRequest httpServletRequest) {
 
         try {
-            
             shineSecurity.checkSpecificPermission("specific_vote_question");
         } catch (AccessDeniedException ex) {
             throw ShineRestException.build(HttpStatus.FORBIDDEN.value(), ex)
