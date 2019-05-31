@@ -26,7 +26,9 @@ class App extends Component {
           <DefaultLayout path="/ask" component={Ask} titleOfPage='Ask a question'/>
           <DefaultLayout path="/un-answered" component={UnAnswered} titleOfPage='Recent questions without answers'/>
           <LoginTemplate path="/login" component={Login} titleOfPage=''/>
+          <LoginTemplate path="/oauth/redirect" component={Login} titleOfPage=''/>
           <LoginTemplate path="/logout" component={Logout} titleOfPage=''/>
+          <AnswerTemplate path="/answer/:questionId/:title" component={Answer}/>
           <AnswerTemplate path="/answer/:questionId/:title" component={Answer}/>
           <DefaultLayout component={ERROR} titleOfPage='Error in response'/>
 
