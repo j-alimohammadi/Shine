@@ -20,7 +20,7 @@ class Login extends Component {
     this.handleFormSubmitLogin = this.handleFormSubmitLogin.bind(this)
     this.handleUserNameChange = this.handleUserNameChange.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this)
-    this.handleOAuthLogin = this.handleOAuthLogin(this)
+    this.handleOAuthLogin = this.handleOAuthLogin.bind(this)
 
     // property
     this.GOOGLE_AUTH_URL = 'http://localhost:8090/oauth2/authorization/google?redirect_uri=http://localhost:3001/oauth/redirect'
@@ -29,11 +29,12 @@ class Login extends Component {
   }
 
   handleFormSubmitLogin (event) {
+    debugger
     event.preventDefault()
 
     const {userName, password} = this.state
 
-    this.authenticationService.login(userName, password)
+    this.authenticationService.loginWithUserPassword(userName, password)
       .then((isOk) => {
         if (isOk) {
           this.setState({isUserLoggedin: true})
@@ -53,11 +54,17 @@ class Login extends Component {
     this.setState({password: event.target.value})
   }
 
+  handleOAuthLogin (token) {
+    this.authenticationService.loginWithOAuth(token)
+    this.setState({isUserLoggedin: true})
+
+  }
+
   render () {
     const requestParameter = queryString.parse(this.props.location.search)
 
-    if (typeof requestParameter.token === 'undefined') {
-         this.handleOAuthLogin()
+    if (typeof requestParameter.token !== 'undefined') {
+      this.handleOAuthLogin(requestParameter.token)
     }
 
     let logoutMessage = null
