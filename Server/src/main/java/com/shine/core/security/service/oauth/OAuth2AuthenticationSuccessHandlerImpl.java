@@ -71,7 +71,7 @@ public class OAuth2AuthenticationSuccessHandlerImpl implements AuthenticationSuc
     }
 
 
-    protected String determineTargetUrl(HttpServletRequest request, String loginName, UserSession userSession) {
+    private String determineTargetUrl(HttpServletRequest request, String loginName, UserSession userSession) {
         Optional<String> redirectUri = CookieUtils
                 .getCookie(request, HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME)
                 .map(Cookie::getValue);
