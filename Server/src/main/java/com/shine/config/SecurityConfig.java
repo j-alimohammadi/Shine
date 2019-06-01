@@ -58,6 +58,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource(name = "oauthAuthenticationSuccessHandlerImpl")
     protected AuthenticationSuccessHandler oauthAuthenticationSuccessHandler;
 
+    @Resource(name = "OAuth2AuthenticationFailureHandler")
+    protected AuthenticationFailureHandler authenticationFailureHandler;
+
     @Resource(name = "simpleAuthenticationFailHandlerImpl")
     protected AuthenticationFailureHandler failureHandler;
 
@@ -135,7 +138,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.oauth2Login().redirectionEndpoint().baseUri("/oauth2/callback/*");
         httpSecurity.oauth2Login().userInfoEndpoint().userService(customOAuth2UserService);
         httpSecurity.oauth2Login().successHandler(oauthAuthenticationSuccessHandler);
-        httpSecurity.oauth2Login().failureHandler(failureHandler);
+        httpSecurity.oauth2Login().failureHandler(authenticationFailureHandler);
 
         httpSecurity.headers().frameOptions().disable();
 

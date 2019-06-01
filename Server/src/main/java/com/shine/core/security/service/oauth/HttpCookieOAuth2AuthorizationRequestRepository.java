@@ -11,8 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Since we have stateless rest service we store authorization request based on cookies
+ *
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
+
 
 @Component
 public class HttpCookieOAuth2AuthorizationRequestRepository implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
