@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.*;
 
 /**
+ * Contains user information after user logged in
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 
