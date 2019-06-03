@@ -60,6 +60,17 @@
         </query>
     </named-query>
 
+    <named-query name="findPostViewByPostIdAndUserId">
+        <query>
+            <![CDATA[
+                 SELECT postView FROM PostView postView
+                 WHERE postView.userId= :userId
+                 AND postView.postId=:postId
+
+             ]]>
+        </query>
+    </named-query>
+
 
 
 </entity-mappings>

@@ -9,7 +9,7 @@ import java.util.Optional;
  */
 
 public interface PostViewService {
-    PostView findPostViewByPostIdAndUserId(long postId, long userId);
+    Optional<PostView> findPostViewByPostIdAndUserId(long postId, long userId);
 
     Optional<PostView> findPostViewByPostIdAndIpAddress(long postId, String ipAddress);
 

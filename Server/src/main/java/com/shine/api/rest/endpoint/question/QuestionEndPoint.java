@@ -143,6 +143,21 @@ public class QuestionEndPoint extends BaseEndpoint {
     }
 
 
+    @GetMapping(path = "")
+    public SearchResultWrapper findQuestions(HttpServletRequest httpServletRequest) {
+        SearchCriteria searchCriteria = searchServiceDTO.buildSearchCriteria(httpServletRequest);
+        searchCriteria.addFilterCriteria("postType", PostType.QUESTION.typeName);
+
+        SearchResult searchResult = shineSearchService.searchPosts(searchCriteria);
+
+        SearchResultWrapper searchResultWrapper = applicationContext.getBean(SearchResultWrapper.class);
+        searchResultWrapper.wrap(searchResult, httpServletRequest);
+
+        return searchResultWrapper;
+    }
+
+
+
     @PutMapping(path = "/{question-id}/vote/increment")
     public QuestionWrapper incrementVote(@PathVariable("question-id") Long questionId,
                                          HttpServletRequest httpServletRequest) {
@@ -210,19 +225,6 @@ public class QuestionEndPoint extends BaseEndpoint {
 
         return response;
 
-    }
-
-    @GetMapping(path = "")
-    public SearchResultWrapper findQuestions(HttpServletRequest httpServletRequest) {
-        SearchCriteria searchCriteria = searchServiceDTO.buildSearchCriteria(httpServletRequest);
-        searchCriteria.addFilterCriteria("postType", PostType.QUESTION.typeName);
-
-        SearchResult searchResult = shineSearchService.searchPosts(searchCriteria);
-
-        SearchResultWrapper searchResultWrapper = applicationContext.getBean(SearchResultWrapper.class);
-        searchResultWrapper.wrap(searchResult, httpServletRequest);
-
-        return searchResultWrapper;
     }
 
 

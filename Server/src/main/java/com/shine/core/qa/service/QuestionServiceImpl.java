@@ -2,12 +2,13 @@ package com.shine.core.qa.service;
 
 import com.shine.common.web.ShineRequestContext;
 import com.shine.common.web.TextUtility;
-import com.shine.core.profile.service.UserSessionSource;
+import com.shine.core.profile.service.ShineUserService;
 import com.shine.core.qa.dao.QuestionDao;
 import com.shine.core.qa.domain.Answer;
 import com.shine.core.qa.domain.PostView;
 import com.shine.core.qa.domain.Question;
 import com.shine.core.qa.domain.Tag;
+import com.shine.core.security.domain.ShineUser;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.slf4j.Logger;
@@ -42,7 +43,7 @@ public class QuestionServiceImpl implements QuestionService {
     private TagService tagService;
 
     @Resource
-    private UserSessionSource userContext;
+    private ShineUserService shineUserService;
 
     @Resource
     private PostViewService postViewService;
@@ -140,22 +141,26 @@ public class QuestionServiceImpl implements QuestionService {
             throw new RuntimeException("Question should be saved before we can add view count");
         }
 
-        // todo: if user is logged in, find views by authenticate and post_id
-        if (Objects.isNull(userContext.getCurrentLoginUser())) {
-            String ipAddress = ShineRequestContext.getShineRequestContext().getIpAddress();
-            Optional<PostView> postView = postViewService.findPostViewByPostIdAndIpAddress(question.getId(), ipAddress);
+        Optional<PostView> postView;
+        final String ipAddress = ShineRequestContext.getShineRequestContext().getIpAddress();
+        if (shineUserService.isCurrentUserAnonymous()) {
+            postView = postViewService.findPostViewByPostIdAndIpAddress(question.getId(), ipAddress);
+        } else {
+            ShineUser shineUser = shineUserService.currentLoggedInUser();
+            postView = postViewService.findPostViewByPostIdAndUserId(question.getId(), shineUser.getId());
+        }
 
-            if (!postView.isPresent()) {
-                PostView postViewTemp = new PostView();
-                postViewTemp.setIp(ipAddress);
-                postViewTemp.setPostId(question.getId());
 
-                postViewService.createPostView(postViewTemp);
-                question.setViewCount(question.getViewCount() + 1);
-                log.info("Adding view count to post [{}] ", question);
-                questionDao.createOrUpdate(question);
-            }
+        if (!postView.isPresent()) {
+            PostView postViewTemp = new PostView();
+            postViewTemp.setIp(ipAddress);
+            postViewTemp.setPostId(question.getId());
 
+
+            postViewService.createPostView(postViewTemp);
+            question.setViewCount(question.getViewCount() + 1);
+            log.info("Adding view count to post [{}] ", question);
+            questionDao.createOrUpdate(question);
         }
 
         return question.getViewCount();

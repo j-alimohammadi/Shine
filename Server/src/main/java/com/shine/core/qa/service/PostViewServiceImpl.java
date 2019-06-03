@@ -18,8 +18,8 @@ public class PostViewServiceImpl implements PostViewService {
     private PostViewDao postViewDao;
 
     @Override
-    public PostView findPostViewByPostIdAndUserId(long postId, long userId) {
-        return null;
+    public Optional<PostView> findPostViewByPostIdAndUserId(long postId, long userId) {
+        return postViewDao.readPostViewByPostIdAndUserId(postId, userId);
     }
 
     @Override

@@ -11,4 +11,6 @@ import java.util.Optional;
 
 public interface PostViewDao extends DAO<PostView> {
     Optional<PostView> readPostViewByPostIdAndIpAddress(long postId, String ipAddress);
+
+    Optional<PostView> readPostViewByPostIdAndUserId(long postId, long userId);
 }

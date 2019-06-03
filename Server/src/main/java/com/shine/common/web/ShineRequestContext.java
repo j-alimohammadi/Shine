@@ -44,4 +44,5 @@ public class ShineRequestContext {
     public void setSessionId(UUID sessionId) {
         this.sessionId = sessionId;
     }
+
 }

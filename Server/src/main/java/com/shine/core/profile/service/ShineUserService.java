@@ -43,4 +43,8 @@ public interface ShineUserService {
      * @return
      */
     Set<ShineRole> findRoleByUserName(String userName);
+
+    boolean isCurrentUserAnonymous();
+
+    ShineUser currentLoggedInUser();
 }

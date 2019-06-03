@@ -4,12 +4,15 @@ import com.shine.core.profile.dao.ShineUserDAO;
 import com.shine.core.security.domain.ShineRole;
 import com.shine.core.security.domain.ShineUser;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -30,14 +33,17 @@ public class ShineUserServiceImpl implements ShineUserService {
     protected PasswordEncoder passwordEncoder;
 
 
-    @Value("${default.user_role}")
-    protected String defaultUserRole;
+    @Value("${default.registeration.user_role}")
+    protected String defaultRegistrationUserRole;
+
+    @Value("${anonymous_user_name}")
+    private String anonymousUsername;
 
 
     @Transactional
     @Override
     public ShineUser createNewUser(ShineUser shineUser) {
-        return createNewUser(shineUser, defaultUserRole);
+        return createNewUser(shineUser, defaultRegistrationUserRole);
     }
 
     @Transactional
@@ -77,4 +83,23 @@ public class ShineUserServiceImpl implements ShineUserService {
     public Set<ShineRole> findRoleByUserName(String userName) {
         return roleService.findRolesByUserName(userName);
     }
+
+    @Override
+    public boolean isCurrentUserAnonymous() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return !Objects.isNull(authentication) &&
+                Objects.equals(anonymousUsername, authentication.getPrincipal().toString());
+    }
+
+    @Override
+    public ShineUser currentLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (Objects.isNull(authentication)) {
+            return null;
+        }
+
+        return findUserByUserNameNN(authentication.getPrincipal().toString());
+    }
+
+
 }

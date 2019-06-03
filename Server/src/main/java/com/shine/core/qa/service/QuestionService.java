@@ -24,6 +24,16 @@ public interface QuestionService {
 
     Question voteDown(Question question);
 
+    /**
+     * Add view count based on:
+     * <ul>
+     *  <li>If anonymous user, use IP address</li>
+     *  <li>If logged in user, use user name</li>
+     * </ul>
+     *
+     * @param question
+     * @return
+     */
     Long addViewCountIfPossible(Question question);
 
     Answer acceptAnswer(Answer answer);

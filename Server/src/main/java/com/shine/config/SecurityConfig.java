@@ -1,5 +1,6 @@
 package com.shine.config;
 
+import com.shine.core.profile.service.ShineUserService;
 import com.shine.core.security.service.authentication.JWTAuthenticationProvider;
 import com.shine.core.security.service.jwt.JWTTokenService;
 import com.shine.core.security.service.jwt.JWTTokenServiceImpl;
@@ -64,6 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource(name = "simpleAuthenticationFailHandlerImpl")
     protected AuthenticationFailureHandler failureHandler;
 
+    @Resource(name = "shineUserServiceImpl")
+    protected ShineUserService shineUserService;
 
     @Resource
     private CustomOAuth2UserService customOAuth2UserService;
@@ -127,7 +130,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         );
 
 
-        httpSecurity.addFilterAfter(new ShineUserStatusFilter(anonymousUsername, anonymousUserHolder),
+        httpSecurity.addFilterAfter(new ShineUserStatusFilter(anonymousUserHolder, shineUserService),
                 RememberMeAuthenticationFilter.class);
 
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
