@@ -142,11 +142,11 @@ public class QuestionServiceImpl implements QuestionService {
         }
 
         Optional<PostView> postView;
+        ShineUser shineUser = shineUserService.currentLoggedInUser();
         final String ipAddress = ShineRequestContext.getShineRequestContext().getIpAddress();
-        if (shineUserService.isCurrentUserAnonymous()) {
+        if (shineUserService.isAnonymousUser(shineUser.getLogin())) {
             postView = postViewService.findPostViewByPostIdAndIpAddress(question.getId(), ipAddress);
         } else {
-            ShineUser shineUser = shineUserService.currentLoggedInUser();
             postView = postViewService.findPostViewByPostIdAndUserId(question.getId(), shineUser.getId());
         }
 
@@ -155,7 +155,7 @@ public class QuestionServiceImpl implements QuestionService {
             PostView postViewTemp = new PostView();
             postViewTemp.setIp(ipAddress);
             postViewTemp.setPostId(question.getId());
-
+            postViewTemp.setUserId(shineUser.getId());
 
             postViewService.createPostView(postViewTemp);
             question.setViewCount(question.getViewCount() + 1);

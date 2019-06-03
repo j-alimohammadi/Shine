@@ -46,5 +46,7 @@ public interface ShineUserService {
 
     boolean isCurrentUserAnonymous();
 
+    boolean isAnonymousUser(String login);
+
     ShineUser currentLoggedInUser();
 }

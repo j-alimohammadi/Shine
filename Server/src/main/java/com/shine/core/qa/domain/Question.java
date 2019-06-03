@@ -94,6 +94,7 @@ public class Question extends Post {
         return "Question{" +
                 "id= '" + getId() + '\'' +
                 "title='" + title + '\'' +
+                "view count='" + viewCount + '\'' +
                 "} ";
     }
 }

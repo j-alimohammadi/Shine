@@ -92,10 +92,15 @@ public class ShineUserServiceImpl implements ShineUserService {
     }
 
     @Override
+    public boolean isAnonymousUser(String login) {
+        return Objects.equals(anonymousUsername, login);
+    }
+
+    @Override
     public ShineUser currentLoggedInUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (Objects.isNull(authentication)) {
-            return null;
+            throw new UsernameNotFoundException("User not logged in");
         }
 
         return findUserByUserNameNN(authentication.getPrincipal().toString());
