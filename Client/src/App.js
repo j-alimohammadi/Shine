@@ -24,7 +24,6 @@ class App extends Component {
           <DefaultLayout path="/post/search" component={SearchResult} titleOfPage='Search Result'/>
           <DefaultLayout path="/question" component={Question} titleOfPage='Recent questions'/>
           <DefaultLayout path="/ask" component={Ask} titleOfPage='Ask a question'/>
-          <DefaultLayout path="/un-answered" component={UnAnswered} titleOfPage='Recent questions without answers'/>
           <LoginTemplate path="/login" component={Login} titleOfPage=''/>
           <LoginTemplate path="/oauth/redirect" component={Login} titleOfPage=''/>
           <LoginTemplate path="/logout" component={Logout} titleOfPage=''/>
