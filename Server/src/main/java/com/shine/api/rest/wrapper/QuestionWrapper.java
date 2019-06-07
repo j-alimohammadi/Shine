@@ -35,7 +35,6 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
     @Resource
     private TagService tagService;
 
-
     @JsonProperty("id")
     private Long id;
 
@@ -48,16 +47,16 @@ public class QuestionWrapper extends BaseWrapper implements APIUnWrapper<Questio
     @JsonProperty("vote")
     private Long vote;
 
-    @JsonProperty(value = "answer_count")
+    @JsonProperty("answer_count")
     private Long answerCount;
 
-    @JsonProperty(value = "question_url")
+    @JsonProperty("question_url")
     private String questionURL;
 
-    @JsonProperty(value = "view_count")
+    @JsonProperty("view_count")
     private Long viewCount;
 
-    @JsonProperty(value = "tag_names")
+    @JsonProperty("tag_names")
     private List<String> tagNames = new ArrayList<>();
 
     public String getQuestionTitle() {

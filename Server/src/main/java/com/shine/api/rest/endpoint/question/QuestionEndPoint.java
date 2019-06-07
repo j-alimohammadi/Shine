@@ -32,8 +32,7 @@ import java.util.Objects;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 @RestController
-@RequestMapping(value = "/question",
-        produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/question", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class QuestionEndPoint extends BaseEndpoint {
     private final static Logger log = LoggerFactory.getLogger(QuestionEndPoint.class);
 
@@ -155,7 +154,6 @@ public class QuestionEndPoint extends BaseEndpoint {
 
         return searchResultWrapper;
     }
-
 
 
     @PutMapping(path = "/{question-id}/vote/increment")
