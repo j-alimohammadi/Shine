@@ -82,6 +82,12 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    public List<Tag> findAllTags(int answerOffset, int answerLimit) {
+        
+        return null;
+    }
+
+    @Override
     public Integer addTagUsedCount(List<Tag> tagList, Long count) {
         tagList.forEach(tag -> {
             tag.setUsedCount(tag.getUsedCount() + count);

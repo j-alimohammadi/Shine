@@ -20,6 +20,8 @@ public interface TagService {
 
     Integer createNotExistTags(List<String> tagNames);
 
+    List<Tag> findAllTags(int answerOffset, int answerLimit);
+
     /**
      * Add number of used count to Tag
      * @param tagList
