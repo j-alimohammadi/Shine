@@ -70,17 +70,17 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
         Path<? extends Post> path;
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
-        // search in the post body and title
+        // search in the post body and question title
         final String query = searchCriteria.getQuery();
         if (StringUtils.isNotBlank(query)) {
             Predicate searchInBody = criteriaBuilder.like(
                     criteriaBuilder.lower(postRoot.get(Post_.body)), '%' + query + '%');
 
-            Predicate searchInTitle = criteriaBuilder.and(
+            Predicate searchInQuestionTitle = criteriaBuilder.and(
                     criteriaBuilder.equal(postRoot.type(), Question.class),
                     criteriaBuilder.like(((Root<Question>) ((Root<?>) postRoot)).get(Question_.title), '%' + query + '%'));
 
-            restrictions.add(criteriaBuilder.or(searchInBody, searchInTitle));
+            restrictions.add(criteriaBuilder.or(searchInBody, searchInQuestionTitle));
         }
 
         List<String> equalValues = new ArrayList<>();
@@ -115,12 +115,12 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
     }
 
     private void addPostTypeRestriction(Root<Post> postRoot, List<Predicate> restrictions, List<PostType> postTypes) {
-        List<Class> postTypeStringList = postTypes
+        List<Class> postTypeList = postTypes
                 .stream()
                 .map(postType1 -> postType1.typeClass)
                 .collect(Collectors.toList());
 
-        Predicate postTypePredicate = postRoot.type().in(postTypeStringList);
+        Predicate postTypePredicate = postRoot.type().in(postTypeList);
         restrictions.add(postTypePredicate);
 
     }

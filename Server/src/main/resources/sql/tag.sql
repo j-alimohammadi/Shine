@@ -5,9 +5,9 @@ INSERT INTO SHINE_TAG (ID, NAME, USED_COUNT)
 VALUES (-2, 'programming', 0);
 
 INSERT INTO SHINE_TAG (ID, NAME, USED_COUNT)
-VALUES (-3, 'html', 0);
+VALUES (-3, 'html', 5);
 
 INSERT INTO SHINE_TAG (ID, NAME, USED_COUNT)
-VALUES (-4, 'c++', 0);
+VALUES (-4, 'c++', 10);
 
 

@@ -11,4 +11,6 @@ public interface ShineSearchService {
 
     SearchResult searchPosts(SearchCriteria searchCriteria);
 
+    SearchResult searchTags(SearchCriteria searchCriteria);
+
 }

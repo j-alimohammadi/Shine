@@ -1,17 +1,18 @@
 package com.shine.api.rest.endpoint.tag;
 
 import com.shine.api.rest.endpoint.BaseEndpoint;
-import com.shine.api.rest.wrapper.TagWrapper;
-import com.shine.core.qa.domain.Tag;
-import com.shine.core.qa.service.TagService;
+import com.shine.api.rest.wrapper.SearchResultWrapper;
+import com.shine.core.search.ShineSearchService;
+import com.shine.core.search.domain.SearchCriteria;
+import com.shine.core.search.domain.SearchResult;
+import com.shine.web.search.SearchServiceDTO;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -22,14 +23,23 @@ import java.util.List;
 public class TagEndPoint extends BaseEndpoint {
 
     @Resource
-    private TagService tagService;
+    private SearchServiceDTO searchServiceDTO;
 
-    @GetMapping("")
-    public List<TagWrapper> getWrapper(@RequestParam(value = "offset", defaultValue = "0") int questionOffset,
-                                       @RequestParam(value = "limit", defaultValue = "20") int questionLimit) {
-        List<Tag> allTags = tagService.findAllTags(questionOffset, questionLimit);
+    @Resource(name = "databaseSearchServiceImpl")
+    private ShineSearchService shineSearchService;
 
-        return null;
+
+    @GetMapping("/search")
+    public SearchResultWrapper searchTags(HttpServletRequest httpServletRequest) {
+        SearchCriteria searchCriteria = searchServiceDTO.buildSearchCriteria(httpServletRequest);
+
+        SearchResult searchResult = shineSearchService.searchTags(searchCriteria);
+
+        SearchResultWrapper searchResultWrapper = applicationContext.getBean(SearchResultWrapper.class);
+        searchResultWrapper.wrap(searchResult, httpServletRequest);
+
+        return searchResultWrapper;
+
     }
 
 }

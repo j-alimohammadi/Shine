@@ -36,6 +36,9 @@ public class SearchResultWrapper extends BaseWrapper implements APIWrapper<Searc
     @JsonProperty("posts")
     private List<PostWrapper> posts = new ArrayList<>();
 
+    @JsonProperty("tag")
+    private List<TagWrapper> tags = new ArrayList<>();
+
 
     @Override
     public void wrap(SearchResult model, HttpServletRequest request) {
@@ -43,6 +46,15 @@ public class SearchResultWrapper extends BaseWrapper implements APIWrapper<Searc
             PostWrapper postWrapper = context.getBean(PostWrapper.class);
             postWrapper.wrap(post, request);
             posts.add(postWrapper);
+        });
+
+        model.getTags().forEach(tag -> {
+            TagWrapper tagWrapper = context.getBean(TagWrapper.class);
+            tagWrapper.setId(tag.getId());
+            tagWrapper.setName(tag.getName());
+            tagWrapper.setUsedCount(tag.getUsedCount());
+
+            tags.add(tagWrapper);
         });
 
         this.page = model.getPage();
