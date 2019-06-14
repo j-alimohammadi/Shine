@@ -4,6 +4,7 @@ const BASE_PATH = 'http://localhost:8090'
 const QUESTIONS_PATH = 'question'
 const ANSWER_PATH = 'answer'
 const POST_PATH = 'post'
+const TAG_PATH = 'tags'
 const LOGIN_PATH = 'api/user/loginWithUserPassword'
 
 class ShineClient {
@@ -13,6 +14,15 @@ class ShineClient {
   /////////////////////////////////////////////
   static findPosts (query, page, pageSize = 15) {
     const url = `${BASE_PATH}/${POST_PATH}/search?pageSize=${pageSize}&page=${page}&q=${query}`
+
+    return ShineHttpClient.getData(url)
+  }
+
+  /////////////////////////////////////////////
+  //            Tag Management
+  /////////////////////////////////////////////
+  static findTags (page, pageSize = 15) {
+    const url = `${BASE_PATH}/${TAG_PATH}/search?pageSize=${pageSize}&page=${page}`
 
     return ShineHttpClient.getData(url)
   }
