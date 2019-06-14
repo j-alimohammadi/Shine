@@ -145,6 +145,6 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
         List<Tag> foundTags = tagService.findFilteredTagsByCriteria(searchCriteria);
         final long totalResultCount = tagService.findFilteredTagsCountByCriteria(searchCriteria);
         searchResult.setTags(foundTags);
-        searchResult.setTotalPage(totalResultCount);
+        searchResult.setTotalResult(totalResultCount);
     }
 }
