@@ -36,7 +36,7 @@ public class SearchResultWrapper extends BaseWrapper implements APIWrapper<Searc
     @JsonProperty("posts")
     private List<PostWrapper> posts = new ArrayList<>();
 
-    @JsonProperty("tag")
+    @JsonProperty("tags")
     private List<TagWrapper> tags = new ArrayList<>();
 
 
