@@ -41,8 +41,8 @@ public class Tag {
 
     @TableGenerator(name = TableGeneratorParameter.GENERATOR_NAME, // name of generator
             table = TableGeneratorParameter.TABLE_GENERATOR_NAME, // name of table
-            pkColumnName = TableGeneratorParameter.COLUMN_NAME, // Column name of generator name
-            valueColumnName = TableGeneratorParameter.COLUMN_VALUE, // Column name of generator value
+            pkColumnName = TableGeneratorParameter.COLUMN_NAME, // column name of generator name
+            valueColumnName = TableGeneratorParameter.COLUMN_VALUE, // column name of generator value
             pkColumnValue = "TAG_ID_GEN", // a row in the table that has a value corresponding to the the value we inserted
             allocationSize = TableGeneratorParameter.ALLOCATION_SIZE)
     @Id

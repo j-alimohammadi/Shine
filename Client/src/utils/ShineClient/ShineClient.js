@@ -21,8 +21,8 @@ class ShineClient {
   /////////////////////////////////////////////
   //            Tag Management
   /////////////////////////////////////////////
-  static findTags (page, pageSize = 15) {
-    const url = `${BASE_PATH}/${TAG_PATH}/search?pageSize=${pageSize}&page=${page}`
+  static findTags (page, sortBy, pageSize = 15) {
+    const url = `${BASE_PATH}/${TAG_PATH}/search?pageSize=${pageSize}&page=${page}&sortBy=${sortBy}`
 
     return ShineHttpClient.getData(url)
   }
@@ -103,10 +103,9 @@ class ShineClient {
   static login (userName, password) {
     const url = `${BASE_PATH}/${LOGIN_PATH}`
 
-      const userCredential = {}
-      userCredential['userName'] = userName
-      userCredential['password'] = password
-
+    const userCredential = {}
+    userCredential['userName'] = userName
+    userCredential['password'] = password
 
     return ShineHttpClient.postData(url, userCredential)
   }

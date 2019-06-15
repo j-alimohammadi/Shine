@@ -3,6 +3,7 @@ import queryString from 'query-string'
 import ShineClient from '../../utils/ShineClient/ShineClient'
 import { ShineResponseParser } from '../../utils/ShineClient/Response'
 import Pagination from '../Pagination/Pagination'
+import Column from './Column/Column'
 
 //todo: read page size from server
 const pageSize = 3
@@ -25,13 +26,13 @@ class Tag extends Component {
   componentDidMount () {
     const values = queryString.parse(this.props.location.search)
     const page = values.page === undefined ? 1 : values.page
-    const sortBy = values.sortBy === undefined ? 'recent' : values.sortBy
+    const sortBy = values.sortBy === undefined ? 'usedCount' : values.sortBy
     this.setState({sortBy: sortBy})
     this.getTags(page)
   }
 
-  getTags (page) {
-    ShineClient.findTags(page, pageSize)
+  getTags (page, sortBy) {
+    ShineClient.findTags(page, sortBy, pageSize)
       .then((JSONResponse) => {
         if (ShineResponseParser.isResponseOk(JSONResponse)) {
           return JSONResponse.json()
@@ -56,7 +57,6 @@ class Tag extends Component {
   }
 
   handleClickOnPagination (page, event) {
-    const sortBy = this.state.sortBy
     const oldCurrentPage = this.state.result.page
     if (oldCurrentPage !== page) {
       this.getTags(page)
@@ -66,9 +66,6 @@ class Tag extends Component {
 
   render () {
     const perColumnTag = pageSize / 3
-    let firstColumn = this.state.result.tags.slice(0, (perColumnTag))
-    let secondColumn = this.state.result.tags.slice((perColumnTag), (2 * perColumnTag))
-    let thiredColumn = this.state.result.tags.slice((2 * perColumnTag), (3 * perColumnTag))
     const currentPage = this.state.result.page
     const totalPage = this.state.result.total_page
 
@@ -76,60 +73,9 @@ class Tag extends Component {
       <Fragment>
         <div className="qa-part-ranking qa-ranking-tags-count">
           <div id="tags-list" className="row qa-top-tags">
-            <div className="col-md-4 col-xs-12">
-              <ul className="donut-tags-list">
-                {
-                  firstColumn.map((item, index) => {
-                    return (
-                      <li className="tag-item">
-                        <div className="tag-head clearfix">
-                          <span> {item.used_count} ×</span>
-                          <div className="qa-tags-rank-tag-item">
-                            <a href="../index.php/tag/tag7" className="qa-tag-link">{item.name}</a>
-                          </div>
-                        </div>
-                      </li>
-                    )
-                  })
-                }
-              </ul>
-            </div>
-            <div className="col-md-4 col-xs-12">
-              <ul className="donut-tags-list">
-                {
-                  secondColumn.map((item, index) => {
-                    return (
-                      <li className="tag-item">
-                        <div className="tag-head clearfix">
-                          <span> {item.used_count} ×</span>
-                          <div className="qa-tags-rank-tag-item">
-                            <a href="../index.php/tag/tag7" className="qa-tag-link">{item.name}</a>
-                          </div>
-                        </div>
-                      </li>
-                    )
-                  })
-                }
-              </ul>
-            </div>
-            <div className="col-md-4 col-xs-12">
-              <ul className="donut-tags-list">
-                {
-                  thiredColumn.map((item, index) => {
-                    return (
-                      <li className="tag-item">
-                        <div className="tag-head clearfix">
-                          <span> {item.used_count} ×</span>
-                          <div className="qa-tags-rank-tag-item">
-                            <a href="../index.php/tag/tag7" className="qa-tag-link">{item.name}</a>
-                          </div>
-                        </div>
-                      </li>
-                    )
-                  })
-                }
-              </ul>
-            </div>
+            <Column tags={this.state.result.tags} colNo={1} perColumnTag={perColumnTag}/>
+            <Column tags={this.state.result.tags} colNo={2} perColumnTag={perColumnTag}/>
+            <Column tags={this.state.result.tags} colNo={3} perColumnTag={perColumnTag}/>
           </div>
         </div>
         <Pagination currentPage={currentPage} totalPage={totalPage} linkPage={'/question'}

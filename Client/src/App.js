@@ -25,7 +25,7 @@ class App extends Component {
           <DefaultLayout path="/question" component={Question} titleOfPage='Recent questions'/>
           <DefaultLayout path="/ask" component={Ask} titleOfPage='Ask a question'/>
           <DefaultLayout path="/tags" component={Tag}
-                         titleOfPage='A tag is a keyword or label that categorizes your questions.'/>
+                         titleOfPage='A tag is a keyword or label that categorizes your questions'/>
           <LoginTemplate path="/login" component={Login} titleOfPage=''/>
           <LoginTemplate path="/oauth/redirect" component={Login} titleOfPage=''/>
           <LoginTemplate path="/logout" component={Logout} titleOfPage=''/>

@@ -29,7 +29,6 @@ class Login extends Component {
   }
 
   handleFormSubmitLogin (event) {
-    debugger
     event.preventDefault()
 
     const {userName, password} = this.state
