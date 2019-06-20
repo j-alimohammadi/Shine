@@ -125,7 +125,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         );
 
         httpSecurity.addFilterBefore(
-                new LoginFilter("/api/user/login", authenticationManager(), simpleAuthenticationHandler, failureHandler),
+                new LoginFilter("/api/user/loginWithUserPassword", authenticationManager(), simpleAuthenticationHandler, failureHandler),
                 AuthenticationFilter.class
         );
 
