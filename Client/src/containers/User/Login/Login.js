@@ -79,7 +79,7 @@ class Login extends Component {
       <Fragment>
         {logoutMessage}
         <div className="qa-part-form">
-          <h1 className="text-center">Login</h1>
+          <h1 className="text-center"></h1>
           <div className="col-md-5">
             <form method="post" className="col-mod-10" onSubmit={this.handleFormSubmitLogin}>
               <table className="qa-form-tall-table">
