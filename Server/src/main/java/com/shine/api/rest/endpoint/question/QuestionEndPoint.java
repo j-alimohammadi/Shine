@@ -141,6 +141,22 @@ public class QuestionEndPoint extends BaseEndpoint {
         return response;
     }
 
+    @GetMapping(path = "/tag/{tag-name}")
+    public SearchResultWrapper findQuestionByTag(HttpServletRequest httpServletRequest,
+                                                 @PathVariable("tag-name") String tagName) {
+        SearchCriteria searchCriteria = searchServiceDTO.buildSearchCriteria(httpServletRequest);
+
+        searchCriteria.addFilterCriteria("postType", PostType.QUESTION.typeName);
+        searchCriteria.addFilterCriteria("tag", tagName);
+
+        SearchResult searchResult = shineSearchService.searchPosts(searchCriteria);
+
+        SearchResultWrapper searchResultWrapper = applicationContext.getBean(SearchResultWrapper.class);
+        searchResultWrapper.wrap(searchResult, httpServletRequest);
+
+        return searchResultWrapper;
+    }
+
 
     @GetMapping(path = "")
     public SearchResultWrapper findQuestions(HttpServletRequest httpServletRequest) {

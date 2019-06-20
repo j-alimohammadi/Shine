@@ -88,9 +88,9 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
         for (Map.Entry<String, String[]> entry : searchCriteria.getFilterCriteria().entrySet()) {
 
             // find post type according to last separated by dot section
-            List<String> searchPath = Arrays.asList(entry.getKey().split("\\."));
+            List<String> searchPath = Arrays.asList(entry.getKey().split("\\.", 2));
             final String postTypeString = searchPath.get(0);
-            final String attributeName = searchPath.get(1);
+            String attributeName = searchPath.get(1);
 
             PostType postType = PostType.getPostType(postTypeString);
 
@@ -99,7 +99,15 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
                 continue;
             }
 
-            path = changePathAccordingToPostType(postRoot, postType);
+            Root<? extends Post> root = changeRootAccordingToPostType(postRoot, postType);
+
+            Path<?> pathToUse = root;
+
+            // if we have tag, join with tags
+            if (attributeName.equalsIgnoreCase("tagList.name")) {
+                pathToUse = root.join("tagList");
+                attributeName = attributeName.substring("tagList.".length());
+            }
 
             // todo: add other restrictions for example: range
 
@@ -107,7 +115,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
             equalValues.addAll(Arrays.asList(entry.getValue()));
 
             if (CollectionUtils.isNotEmpty(equalValues)) {
-                restrictions.add(path.get(attributeName).in(equalValues));
+                restrictions.add(pathToUse.get(attributeName).in(equalValues));
             }
 
 
@@ -125,7 +133,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
     }
 
-    private void addSortBy(SearchCriteria searchCriteria, Path<Post> postRoot, CriteriaQuery<Post> criteriaQuery) {
+    private void addSortBy(SearchCriteria searchCriteria, Root<Post> postRoot, CriteriaQuery<Post> criteriaQuery) {
         final String sortBy = searchCriteria.getSortBy();
         Path<? extends Post> path;
 
@@ -154,7 +162,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
                     continue;
                 }
 
-                path = changePathAccordingToPostType(postRoot, postType);
+                path = changeRootAccordingToPostType(postRoot, postType);
 
                 if (isAscending) {
                     orders.add(criteriaBuilder.asc(path.get(attributeName)));
@@ -168,7 +176,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
     }
 
-    private Path<? extends Post> changePathAccordingToPostType(Path<Post> postRoot, PostType postType) {
+    private Root<? extends Post> changeRootAccordingToPostType(Root<Post> postRoot, PostType postType) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         switch (postType) {
             case ANSWER:

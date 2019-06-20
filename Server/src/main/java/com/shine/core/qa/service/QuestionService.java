@@ -27,8 +27,8 @@ public interface QuestionService {
     /**
      * Add view count based on:
      * <ul>
-     *  <li>If anonymous user, use IP address</li>
-     *  <li>If logged in user, use user name</li>
+     * <li>If anonymous user, use IP address</li>
+     * <li>If logged in user, use user name</li>
      * </ul>
      *
      * @param question
