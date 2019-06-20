@@ -67,7 +67,6 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
     // todo: remove duplicated code
     private void addSearchCriteria(SearchCriteria searchCriteria, Root<Post> postRoot, List<Predicate> restrictions) {
-        Path<? extends Post> path;
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
         // search in the post body and question title
@@ -105,7 +104,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
             // if we have tag, join with tags
             if (attributeName.equalsIgnoreCase("tagList.name")) {
-                pathToUse = root.join("tagList");
+                pathToUse = ((Root<Question>)root).join(Question_.tagList);
                 attributeName = attributeName.substring("tagList.".length());
             }
 

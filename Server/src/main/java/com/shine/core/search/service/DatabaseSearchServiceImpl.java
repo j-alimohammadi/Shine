@@ -136,7 +136,7 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
         List<Post> foundPosts = postService.findFilteredPostsByCriteria(searchCriteria, postTypes);
         final long totalResultCount = postService.findFilteredPostsCountByCriteria(searchCriteria, postTypes);
         searchResult.setPosts(foundPosts);
-        searchResult.setTotalPage(totalResultCount);
+        searchResult.setTotalResult(totalResultCount);
 
 
     }
