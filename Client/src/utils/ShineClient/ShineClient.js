@@ -37,6 +37,12 @@ class ShineClient {
     return ShineHttpClient.getData(url)
   }
 
+  static findQuestionByTagName (tagName, page, pageSize = 3) {
+    const url = `${BASE_PATH}/${QUESTIONS_PATH}/tag/${tagName}?pageSize=${pageSize}&page=${page}`
+
+    return ShineHttpClient.getData(url)
+  }
+
   static findQuestions (page, sortBy, pageSize = 3) {
     const url = `${BASE_PATH}/${QUESTIONS_PATH}?pageSize=${pageSize}&page=${page}&sortBy=${sortBy}`
 

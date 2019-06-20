@@ -12,7 +12,8 @@ import SearchResult from './containers/Question/SearchResult/SearchResult'
 import Login from './containers/User/Login/Login'
 import LoginTemplate from './components/Layout/LoginTemplate'
 import Logout from './containers/User/Logout/Logout'
-import Tag from './containers/Tag/Tag'
+import TagPage from './containers/Tag/TagPage'
+import TagSearchResult from './containers/Tag/TagSearchResult'
 
 class App extends Component {
   render () {
@@ -22,14 +23,14 @@ class App extends Component {
         <Switch>
           <DefaultLayout path="/" exact component={HOME} titleOfPage='Home'/>
           <DefaultLayout path="/post/search" component={SearchResult} titleOfPage='Search Result'/>
+          <DefaultLayout path="/question/tag/:tag" component={TagSearchResult} titleOfPage='Tag Search'/>
           <DefaultLayout path="/question" component={Question} titleOfPage='Recent questions'/>
           <DefaultLayout path="/ask" component={Ask} titleOfPage='Ask a question'/>
-          <DefaultLayout path="/tags" component={Tag}
+          <DefaultLayout path="/tags" component={TagPage}
                          titleOfPage='A tag is a keyword or label that categorizes your questions'/>
           <LoginTemplate path="/login" component={Login} titleOfPage=''/>
           <LoginTemplate path="/oauth/redirect" component={Login} titleOfPage=''/>
           <LoginTemplate path="/logout" component={Logout} titleOfPage=''/>
-          <AnswerTemplate path="/answer/:questionId/:title" component={Answer}/>
           <AnswerTemplate path="/answer/:questionId/:title" component={Answer}/>
           <DefaultLayout component={ERROR} titleOfPage='Error in response'/>
 

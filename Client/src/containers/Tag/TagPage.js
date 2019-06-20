@@ -8,7 +8,7 @@ import Column from './Column/Column'
 //todo: read page size from server
 const pageSize = 3
 
-class Tag extends Component {
+class TagPage extends Component {
   constructor (props) {
     super(props)
 
@@ -88,4 +88,4 @@ class Tag extends Component {
   }
 }
 
-export default Tag
+export default TagPage
