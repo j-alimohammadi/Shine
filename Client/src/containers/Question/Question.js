@@ -6,7 +6,7 @@ import Tag from './Tag/Tag'
 import Vote from './Vote/Vote'
 import Pagination from '../Pagination/Pagination'
 
-//todo read page size from server
+//todo: read page size from server
 const pageSize = 3
 
 class Question extends Component {
@@ -44,7 +44,7 @@ class Question extends Component {
       .catch((error) => {
         this.setState({
             alert: {
-              alertMessage: `Failed to get table information. Error in connecting to server.`,
+              alertMessage: `Failed to get question. Error in connecting to server.`,
               showAlert: true,
               alertType: 'danger'
             }
@@ -94,7 +94,7 @@ class Question extends Component {
       .catch((error) => {
         this.setState({
             alert: {
-              alertMessage: `Failed to get table information. Error in connecting to server.`,
+              alertMessage: `Failed to get question. Error in connecting to server.`,
               showAlert: true,
               alertType: 'danger'
             }

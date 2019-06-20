@@ -4,7 +4,8 @@ const BASE_PATH = 'http://localhost:8090'
 const QUESTIONS_PATH = 'question'
 const ANSWER_PATH = 'answer'
 const POST_PATH = 'post'
-const LOGIN_PATH = 'api/user/login'
+const TAG_PATH = 'tags'
+const LOGIN_PATH = 'api/user/loginWithUserPassword'
 
 class ShineClient {
 
@@ -18,11 +19,26 @@ class ShineClient {
   }
 
   /////////////////////////////////////////////
+  //            Tag Management
+  /////////////////////////////////////////////
+  static findTags (page, sortBy, pageSize = 15) {
+    const url = `${BASE_PATH}/${TAG_PATH}/search?pageSize=${pageSize}&page=${page}&sortBy=${sortBy}`
+
+    return ShineHttpClient.getData(url)
+  }
+
+  /////////////////////////////////////////////
   //            SearchResult Management
   /////////////////////////////////////////////
 
   static findQuestion (questionId) {
     const url = `${BASE_PATH}/${QUESTIONS_PATH}/${questionId}`
+
+    return ShineHttpClient.getData(url)
+  }
+
+  static findQuestionByTagName (tagName, page, pageSize = 3) {
+    const url = `${BASE_PATH}/${QUESTIONS_PATH}/tag/${tagName}?pageSize=${pageSize}&page=${page}`
 
     return ShineHttpClient.getData(url)
   }
@@ -93,10 +109,9 @@ class ShineClient {
   static login (userName, password) {
     const url = `${BASE_PATH}/${LOGIN_PATH}`
 
-      const userCredential = {}
-      userCredential['userName'] = userName
-      userCredential['password'] = password
-
+    const userCredential = {}
+    userCredential['userName'] = userName
+    userCredential['password'] = password
 
     return ShineHttpClient.postData(url, userCredential)
   }

@@ -4,7 +4,7 @@ import decode from 'jwt-decode'
 
 export default class AuthService {
 
-  login (userName, password) {
+  loginWithUserPassword (userName, password) {
     return ShineClient.login(userName, password)
       .then((response) => {
         if (ShineResponseParser.isResponseOk(response)) {
@@ -16,6 +16,10 @@ export default class AuthService {
         }
       })
 
+  }
+
+  loginWithOAuth (token) {
+    this.storeToken(token)
   }
 
   logout () {
