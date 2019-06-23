@@ -1,6 +1,6 @@
 class StringUtils {
     /**
-     * Check weather parameter str is defined and has length >0
+     * Check weather parameter str is defined and has length > 0
      * @param str
      */
     static isNotBlank(str) {

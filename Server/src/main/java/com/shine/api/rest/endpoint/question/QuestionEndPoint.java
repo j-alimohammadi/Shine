@@ -32,8 +32,7 @@ import java.util.Objects;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 @RestController
-@RequestMapping(value = "/question",
-        produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/question", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class QuestionEndPoint extends BaseEndpoint {
     private final static Logger log = LoggerFactory.getLogger(QuestionEndPoint.class);
 
@@ -142,13 +141,42 @@ public class QuestionEndPoint extends BaseEndpoint {
         return response;
     }
 
+    @GetMapping(path = "/tag/{tag-name}")
+    public SearchResultWrapper findQuestionByTag(HttpServletRequest httpServletRequest,
+                                                 @PathVariable("tag-name") String tagName) {
+        SearchCriteria searchCriteria = searchServiceDTO.buildSearchCriteria(httpServletRequest);
+
+        searchCriteria.addFilterCriteria("postType", PostType.QUESTION.typeName);
+        searchCriteria.addFilterCriteria("tag", tagName);
+
+        SearchResult searchResult = shineSearchService.searchPosts(searchCriteria);
+
+        SearchResultWrapper searchResultWrapper = applicationContext.getBean(SearchResultWrapper.class);
+        searchResultWrapper.wrap(searchResult, httpServletRequest);
+
+        return searchResultWrapper;
+    }
+
+
+    @GetMapping(path = "")
+    public SearchResultWrapper findQuestions(HttpServletRequest httpServletRequest) {
+        SearchCriteria searchCriteria = searchServiceDTO.buildSearchCriteria(httpServletRequest);
+        searchCriteria.addFilterCriteria("postType", PostType.QUESTION.typeName);
+
+        SearchResult searchResult = shineSearchService.searchPosts(searchCriteria);
+
+        SearchResultWrapper searchResultWrapper = applicationContext.getBean(SearchResultWrapper.class);
+        searchResultWrapper.wrap(searchResult, httpServletRequest);
+
+        return searchResultWrapper;
+    }
+
 
     @PutMapping(path = "/{question-id}/vote/increment")
     public QuestionWrapper incrementVote(@PathVariable("question-id") Long questionId,
                                          HttpServletRequest httpServletRequest) {
 
         try {
-            
             shineSecurity.checkSpecificPermission("specific_vote_question");
         } catch (AccessDeniedException ex) {
             throw ShineRestException.build(HttpStatus.FORBIDDEN.value(), ex)
@@ -211,19 +239,6 @@ public class QuestionEndPoint extends BaseEndpoint {
 
         return response;
 
-    }
-
-    @GetMapping(path = "")
-    public SearchResultWrapper findQuestions(HttpServletRequest httpServletRequest) {
-        SearchCriteria searchCriteria = searchServiceDTO.buildSearchCriteria(httpServletRequest);
-        searchCriteria.addFilterCriteria("postType", PostType.QUESTION.typeName);
-
-        SearchResult searchResult = shineSearchService.searchPosts(searchCriteria);
-
-        SearchResultWrapper searchResultWrapper = applicationContext.getBean(SearchResultWrapper.class);
-        searchResultWrapper.wrap(searchResult, httpServletRequest);
-
-        return searchResultWrapper;
     }
 
 

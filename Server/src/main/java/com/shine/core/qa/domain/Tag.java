@@ -39,11 +39,11 @@ public class Tag {
     public static final String FIND_TAGS_COUNT_BY_ID = "FIND_TAGS_COUNT_BY_ID";
 
 
-    @TableGenerator(name = TableGeneratorParameter.GENERATOR_NAME, // name of generator
-            table = TableGeneratorParameter.TABLE_GENERATOR_NAME, // name of table
-            pkColumnName = TableGeneratorParameter.COLUMN_NAME, // Column name of generator name
-            valueColumnName = TableGeneratorParameter.COLUMN_VALUE, // Column name of generator value
-            pkColumnValue = "TAG_ID_GEN", // a row in the table that has a value corresponding to the the value we inserted
+    @TableGenerator(name = TableGeneratorParameter.GENERATOR_NAME,
+            table = TableGeneratorParameter.TABLE_GENERATOR_NAME,
+            pkColumnName = TableGeneratorParameter.COLUMN_NAME,
+            valueColumnName = TableGeneratorParameter.COLUMN_VALUE,
+            pkColumnValue = "TAG_ID_GEN",
             allocationSize = TableGeneratorParameter.ALLOCATION_SIZE)
     @Id
     @GeneratedValue(generator = TableGeneratorParameter.GENERATOR_NAME, strategy = GenerationType.TABLE)

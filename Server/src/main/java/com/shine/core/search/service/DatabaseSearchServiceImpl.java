@@ -2,12 +2,14 @@ package com.shine.core.search.service;
 
 import com.shine.core.qa.domain.Post;
 import com.shine.core.qa.domain.PostType;
+import com.shine.core.qa.domain.Tag;
+import com.shine.core.qa.service.PostService;
+import com.shine.core.qa.service.TagService;
 import com.shine.core.search.ShineSearchService;
 import com.shine.core.search.dao.SearchFieldDao;
 import com.shine.core.search.domain.SearchCriteria;
 import com.shine.core.search.domain.SearchField;
 import com.shine.core.search.domain.SearchResult;
-import com.shine.core.qa.service.PostService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,9 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
     @Resource
     private PostService postService;
 
+    @Resource
+    private TagService tagService;
+
     @Transactional
     @Override
     public SearchResult searchPosts(SearchCriteria searchCriteria) {
@@ -39,10 +44,20 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
         return searchResult;
     }
 
-    private void setPagingAttributes(SearchResult searchResult, SearchCriteria searchCriteria) {
-        List<PostType> postTypes = findPostType(searchCriteria);
+    @Transactional
+    @Override
+    public SearchResult searchTags(SearchCriteria searchCriteria) {
+        SearchResult searchResult = new SearchResult();
+        changeFilterKeyToAttribute(searchCriteria);
+        searchTags(searchResult, searchCriteria);
+        setPagingAttributes(searchResult, searchCriteria);
 
-        final long totalResultCount = postService.findFilteredPostsCountByCriteria(searchCriteria, postTypes);
+        return searchResult;
+    }
+
+    private void setPagingAttributes(SearchResult searchResult, SearchCriteria searchCriteria) {
+
+        final long totalResultCount = searchResult.getTotalResult();
         final long totalPageCount = (long) Math.ceil(totalResultCount / (double) searchCriteria.getPageSize());
         searchResult.setPage(searchCriteria.getPage());
         searchResult.setPageSize(searchCriteria.getPageSize());
@@ -63,13 +78,13 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
                 postType = PostType.getPostType(entityType);
 
                 if (!Objects.isNull(postType) &&
-                        (postType.equals(PostType.QUESTION) | postType.equals(PostType.ANSWER))) {
+                        (postType.equals(PostType.QUESTION) || postType.equals(PostType.ANSWER))) {
                     break;
                 }
             }
         }
 
-        // We only want to search with Answer or Question post type
+        // We only want to search with Answer or Question post type or both
         if (Objects.isNull(postType) || postType.equals(PostType.POST)) {
             return Arrays.asList(PostType.ANSWER, PostType.QUESTION);
         } else {
@@ -118,10 +133,18 @@ public class DatabaseSearchServiceImpl implements ShineSearchService {
 
     private void searchPosts(SearchResult searchResult, SearchCriteria searchCriteria) {
         List<PostType> postTypes = findPostType(searchCriteria);
-
         List<Post> foundPosts = postService.findFilteredPostsByCriteria(searchCriteria, postTypes);
-
+        final long totalResultCount = postService.findFilteredPostsCountByCriteria(searchCriteria, postTypes);
         searchResult.setPosts(foundPosts);
+        searchResult.setTotalResult(totalResultCount);
 
+
+    }
+
+    private void searchTags(SearchResult searchResult, SearchCriteria searchCriteria) {
+        List<Tag> foundTags = tagService.findFilteredTagsByCriteria(searchCriteria);
+        final long totalResultCount = tagService.findFilteredTagsCountByCriteria(searchCriteria);
+        searchResult.setTags(foundTags);
+        searchResult.setTotalResult(totalResultCount);
     }
 }

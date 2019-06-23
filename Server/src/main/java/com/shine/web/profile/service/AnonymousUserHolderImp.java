@@ -42,7 +42,6 @@ public class AnonymousUserHolderImp implements AnonymousUserHolder {
     @Transactional
     public void init() {
         ShineUser anonymousUser = shineUserService.findUserByUserNameNN(anonymousUsername);
-        System.out.println(anonymousUser.getUserRoles().iterator().next().getShineRole().getName());
         anonymousUserSession = userSessionService.createUserSession(UUID.fromString(anonymousSessionId), anonymousUser);
 
         log.info("Created anonymous user session [{}] successfully",

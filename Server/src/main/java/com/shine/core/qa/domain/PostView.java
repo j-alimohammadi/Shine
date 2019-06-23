@@ -22,7 +22,7 @@ public class PostView {
     @Column(name = "IP", nullable = false)
     private String ip;
 
-    @Column(name = "USER_ID", nullable = true)
+    @Column(name = "USER_ID", nullable = false)
     private Long userId;
 
     @Column(name = "POST_ID", nullable = false)

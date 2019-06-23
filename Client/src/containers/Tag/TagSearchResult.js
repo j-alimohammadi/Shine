@@ -1,25 +1,25 @@
 import React, { Component, Fragment } from 'react'
 import queryString from 'query-string'
-import { ShineResponseParser } from '../../../utils/ShineClient/Response'
-import ShineClient from '../../../utils/ShineClient/ShineClient'
-import StringUtils from '../../../utils/StringUtils'
-import Vote from '../Vote/Vote'
-import Tag from '../Tag/Tag'
-import AnswerCount from '../AnswerCount/AnswerCount'
-import Pagination from '../../Pagination/Pagination'
+import Pagination from '../Pagination/Pagination'
+import AnswerCount from '../Question/AnswerCount/AnswerCount'
+import Vote from '../Question/Vote/Vote'
+import ShineClient from '../../utils/ShineClient/ShineClient'
+import { ShineResponseParser } from '../../utils/ShineClient/Response'
+import StringUtils from '../../utils/StringUtils'
+import Tag from '../Question/Tag/Tag'
 
 const pageSize = 1
 
-class SearchResult extends Component {
+class TagSearchResult extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
+      tagName: props.match.params.tag,
       result: {
         posts: []
       },
       sortBy: ''
-
     }
 
     // Event handler
@@ -73,30 +73,29 @@ class SearchResult extends Component {
   }
 
   componentDidMount () {
-    debugger
-    const values = queryString.parse(this.props.location.search)
-    const page = values.page === undefined ? 1 : values.page
-    const q = values.q
-
-    if (StringUtils.isNotBlank(q)) {
-      this.setState({'query': q})
-      this.searchPosts(q, page)
+    let page = 1
+    if (StringUtils.isNotBlank(this.props.location.search)) {
+      const values = queryString.parse(this.props.location.search)
+      if (values.page !== undefined) page = 1
     }
+
+    const tagName = this.state.tagName
+    this.searchTags(tagName, page)
 
   }
 
   handleClickOnPagination (page, event) {
-    const query = this.state.query
+    const tagName = this.state.tagName
     const oldPage = this.state.page
 
     if (oldPage !== page) {
-      this.searchPosts(query, page)
+      this.searchTags(tagName, page)
     }
 
   }
 
-  searchPosts (query, page) {
-    ShineClient.findPosts(query, page, pageSize)
+  searchTags (tagName, page) {
+    ShineClient.findQuestionByTagName(tagName, page, pageSize)
       .then((JSONResponse) => {
         if (ShineResponseParser.isResponseOk(JSONResponse)) {
           return JSONResponse.json()
@@ -190,4 +189,4 @@ class SearchResult extends Component {
 
 }
 
-export default SearchResult
+export default TagSearchResult

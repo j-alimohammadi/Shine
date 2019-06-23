@@ -11,8 +11,7 @@ const tag = (props) => {
           tags.map((tag) => {
             return (
               <li key={tag} className="qa-q-item-tag-item">
-                <a href={'./tag/' + tag}
-                   className="qa-tag-link">{tag}</a>
+                <a href={'./tag/' + tag} className="qa-tag-link">{tag}</a>
               </li>
             )
           })

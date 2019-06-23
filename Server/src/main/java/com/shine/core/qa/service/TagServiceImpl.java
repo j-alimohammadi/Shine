@@ -3,6 +3,7 @@ package com.shine.core.qa.service;
 import com.shine.core.qa.dao.TagDao;
 import com.shine.core.qa.domain.Question;
 import com.shine.core.qa.domain.Tag;
+import com.shine.core.search.domain.SearchCriteria;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +21,6 @@ public class TagServiceImpl implements TagService {
 
     @Resource
     private TagDao tagDao;
-
-    @Resource
-    private QuestionService questionService;
 
     @Transactional
     @Override
@@ -96,5 +94,18 @@ public class TagServiceImpl implements TagService {
         });
         return tagDao.bulkSaveOrUpdateTags(tagList);
 
+    }
+
+    @Transactional
+    @Override
+    public List<Tag> findFilteredTagsByCriteria(SearchCriteria searchCriteria) {
+        return tagDao.findFilteredTagsByCriteria(searchCriteria);
+
+    }
+
+    @Transactional
+    @Override
+    public Long findFilteredTagsCountByCriteria(SearchCriteria searchCriteria) {
+        return tagDao.findFilteredTagsCountByCriteria(searchCriteria);
     }
 }

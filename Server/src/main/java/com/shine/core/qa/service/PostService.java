@@ -17,6 +17,5 @@ public interface PostService {
 
     List<Post> findFilteredPostsByCriteria(SearchCriteria searchCriteria, List<PostType> postTypeList);
 
-
     Long findFilteredPostsCountByCriteria(SearchCriteria searchCriteria, List<PostType> postTypeList);
 }

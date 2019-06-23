@@ -67,20 +67,19 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
     // todo: remove duplicated code
     private void addSearchCriteria(SearchCriteria searchCriteria, Root<Post> postRoot, List<Predicate> restrictions) {
-        Path<? extends Post> path;
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
-        // search in the post body and title
+        // search in the post body and question title
         final String query = searchCriteria.getQuery();
         if (StringUtils.isNotBlank(query)) {
             Predicate searchInBody = criteriaBuilder.like(
                     criteriaBuilder.lower(postRoot.get(Post_.body)), '%' + query + '%');
 
-            Predicate searchInTitle = criteriaBuilder.and(
+            Predicate searchInQuestionTitle = criteriaBuilder.and(
                     criteriaBuilder.equal(postRoot.type(), Question.class),
                     criteriaBuilder.like(((Root<Question>) ((Root<?>) postRoot)).get(Question_.title), '%' + query + '%'));
 
-            restrictions.add(criteriaBuilder.or(searchInBody, searchInTitle));
+            restrictions.add(criteriaBuilder.or(searchInBody, searchInQuestionTitle));
         }
 
         List<String> equalValues = new ArrayList<>();
@@ -88,9 +87,9 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
         for (Map.Entry<String, String[]> entry : searchCriteria.getFilterCriteria().entrySet()) {
 
             // find post type according to last separated by dot section
-            List<String> searchPath = Arrays.asList(entry.getKey().split("\\."));
+            List<String> searchPath = Arrays.asList(entry.getKey().split("\\.", 2));
             final String postTypeString = searchPath.get(0);
-            final String attributeName = searchPath.get(1);
+            String attributeName = searchPath.get(1);
 
             PostType postType = PostType.getPostType(postTypeString);
 
@@ -99,7 +98,15 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
                 continue;
             }
 
-            path = changePathAccordingToPostType(postRoot, postType);
+            Root<? extends Post> root = changeRootAccordingToPostType(postRoot, postType);
+
+            Path<?> pathToUse = root;
+
+            // if we have tag, join with tags
+            if (attributeName.equalsIgnoreCase("tagList.name")) {
+                pathToUse = ((Root<Question>)root).join(Question_.tagList);
+                attributeName = attributeName.substring("tagList.".length());
+            }
 
             // todo: add other restrictions for example: range
 
@@ -107,7 +114,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
             equalValues.addAll(Arrays.asList(entry.getValue()));
 
             if (CollectionUtils.isNotEmpty(equalValues)) {
-                restrictions.add(path.get(attributeName).in(equalValues));
+                restrictions.add(pathToUse.get(attributeName).in(equalValues));
             }
 
 
@@ -115,17 +122,17 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
     }
 
     private void addPostTypeRestriction(Root<Post> postRoot, List<Predicate> restrictions, List<PostType> postTypes) {
-        List<Class> postTypeStringList = postTypes
+        List<Class> postTypeList = postTypes
                 .stream()
                 .map(postType1 -> postType1.typeClass)
                 .collect(Collectors.toList());
 
-        Predicate postTypePredicate = postRoot.type().in(postTypeStringList);
+        Predicate postTypePredicate = postRoot.type().in(postTypeList);
         restrictions.add(postTypePredicate);
 
     }
 
-    private void addSortBy(SearchCriteria searchCriteria, Path<Post> postRoot, CriteriaQuery<Post> criteriaQuery) {
+    private void addSortBy(SearchCriteria searchCriteria, Root<Post> postRoot, CriteriaQuery<Post> criteriaQuery) {
         final String sortBy = searchCriteria.getSortBy();
         Path<? extends Post> path;
 
@@ -154,7 +161,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
                     continue;
                 }
 
-                path = changePathAccordingToPostType(postRoot, postType);
+                path = changeRootAccordingToPostType(postRoot, postType);
 
                 if (isAscending) {
                     orders.add(criteriaBuilder.asc(path.get(attributeName)));
@@ -168,7 +175,7 @@ public class PostDaoImpl extends AbstractDao<Post> implements PostDao {
 
     }
 
-    private Path<? extends Post> changePathAccordingToPostType(Path<Post> postRoot, PostType postType) {
+    private Root<? extends Post> changeRootAccordingToPostType(Root<Post> postRoot, PostType postType) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         switch (postType) {
             case ANSWER:

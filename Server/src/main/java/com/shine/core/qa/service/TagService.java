@@ -2,6 +2,7 @@ package com.shine.core.qa.service;
 
 import com.shine.core.qa.domain.Question;
 import com.shine.core.qa.domain.Tag;
+import com.shine.core.search.domain.SearchCriteria;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public interface TagService {
 
     /**
      * Add number of used count to Tag
+     *
      * @param tagList
      * @param count
      * @return number of affected Tags
@@ -30,12 +32,15 @@ public interface TagService {
 
     /**
      * Subtract number of used count to Tag
+     *
      * @param tagList
      * @param count
      * @return number of affected Tags
      */
     Integer subtractTagUsedCount(List<Tag> tagList, Long count);
 
+    List<Tag> findFilteredTagsByCriteria(SearchCriteria searchCriteria);
 
+    Long findFilteredTagsCountByCriteria(SearchCriteria searchCriteria);
 
 }

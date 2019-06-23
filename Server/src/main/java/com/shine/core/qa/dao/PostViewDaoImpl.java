@@ -38,4 +38,26 @@ public class PostViewDaoImpl extends AbstractDao<PostView> implements PostViewDa
         }
 
     }
+
+    @Override
+    public Optional<PostView> readPostViewByPostIdAndUserId(long postId, long userId) {
+        TypedQuery<PostView> typedQuery = entityManager.createNamedQuery("findPostViewByPostIdAndUserId", PostView.class);
+        typedQuery.setParameter("userId", userId)
+                .setParameter("postId", postId);
+
+        try {
+            PostView postView = typedQuery.getSingleResult();
+            return Optional.of(postView);
+        } catch (NonUniqueResultException ex) {
+            log.error("More than one result found for [{}]", PostView.class.getSimpleName());
+            throw ex;
+        } catch (NoResultException noResultException) {
+            return Optional.empty();
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            throw ex;
+        }
+    }
+
+
 }

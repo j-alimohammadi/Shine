@@ -1,5 +1,6 @@
 package com.shine.config;
 
+import com.shine.core.profile.service.ShineUserService;
 import com.shine.core.security.service.authentication.JWTAuthenticationProvider;
 import com.shine.core.security.service.jwt.JWTTokenService;
 import com.shine.core.security.service.jwt.JWTTokenServiceImpl;
@@ -26,10 +27,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
 
 import javax.annotation.Resource;
 
@@ -58,9 +59,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource(name = "oauthAuthenticationSuccessHandlerImpl")
     protected AuthenticationSuccessHandler oauthAuthenticationSuccessHandler;
 
+    @Resource(name = "OAuth2AuthenticationFailureHandler")
+    protected AuthenticationFailureHandler authenticationFailureHandler;
+
     @Resource(name = "simpleAuthenticationFailHandlerImpl")
     protected AuthenticationFailureHandler failureHandler;
 
+    @Resource(name = "shineUserServiceImpl")
+    protected ShineUserService shineUserService;
 
     @Resource
     private CustomOAuth2UserService customOAuth2UserService;
@@ -121,13 +127,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         );
 
         httpSecurity.addFilterBefore(
-                new LoginFilter("/api/user/login", authenticationManager(), simpleAuthenticationHandler, failureHandler),
+                new LoginFilter("/api/user/loginWithUserPassword", authenticationManager(), simpleAuthenticationHandler, failureHandler),
                 AuthenticationFilter.class
         );
 
 
-        httpSecurity.addFilterAfter(new ShineUserStatusFilter(anonymousUsername, anonymousUserHolder),
-                RememberMeAuthenticationFilter.class);
+        httpSecurity.addFilterAfter(new ShineUserStatusFilter(anonymousUserHolder, shineUserService),
+                AnonymousAuthenticationFilter.class);
 
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -137,7 +143,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.oauth2Login().redirectionEndpoint().baseUri("/oauth2/callback/*");
         httpSecurity.oauth2Login().userInfoEndpoint().userService(customOAuth2UserService);
         httpSecurity.oauth2Login().successHandler(oauthAuthenticationSuccessHandler);
-        httpSecurity.oauth2Login().failureHandler(failureHandler);
+        httpSecurity.oauth2Login().failureHandler(authenticationFailureHandler);
 
         httpSecurity.headers().frameOptions().disable();
 
