@@ -2,7 +2,7 @@ package com.shine.config;
 
 import com.shine.core.profile.service.ShineUserService;
 import com.shine.core.security.service.authentication.JWTAuthenticationProvider;
-import com.shine.core.security.service.jwt.JWTTokenService;
+import com.shine.core.security.service.jwt.TokenService;
 import com.shine.core.security.service.jwt.JWTTokenServiceImpl;
 import com.shine.core.security.service.oauth.CustomOAuth2UserService;
 import com.shine.core.security.service.oauth.HttpCookieOAuth2AuthorizationRequestRepository;
@@ -78,7 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean("JWTTokenServiceImpl")
-    public JWTTokenService getJwtTokenService() {
+    public TokenService getJwtTokenService() {
         return new JWTTokenServiceImpl();
     }
 
@@ -127,7 +127,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         );
 
         httpSecurity.addFilterBefore(
-                new LoginFilter("/api/user/loginWithUserPassword", authenticationManager(), simpleAuthenticationHandler, failureHandler),
+                new LoginFilter("/api/user/loginWithUserPassword", authenticationManager(),
+                        simpleAuthenticationHandler, failureHandler),
                 AuthenticationFilter.class
         );
 

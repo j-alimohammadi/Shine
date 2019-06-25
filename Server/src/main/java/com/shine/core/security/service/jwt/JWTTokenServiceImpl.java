@@ -14,7 +14,7 @@ import java.util.Date;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 
-public class JWTTokenServiceImpl implements JWTTokenService {
+public class JWTTokenServiceImpl implements TokenService {
     private final static Logger log = LoggerFactory.getLogger(JWTTokenServiceImpl.class);
 
 

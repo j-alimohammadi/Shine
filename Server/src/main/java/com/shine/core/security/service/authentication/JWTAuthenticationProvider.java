@@ -2,7 +2,7 @@ package com.shine.core.security.service.authentication;
 
 import com.shine.core.security.dto.JWTAccessTokenAuthentication;
 import com.shine.core.security.service.jwt.JWTInfo;
-import com.shine.core.security.service.jwt.JWTTokenService;
+import com.shine.core.security.service.jwt.TokenService;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
@@ -17,9 +17,9 @@ public class JWTAuthenticationProvider extends AbstractUserDetailsAuthentication
 
     protected UserDetailsService userDetailsService;
 
-    protected JWTTokenService jwtTokenService;
+    protected TokenService jwtTokenService;
 
-    public JWTAuthenticationProvider(UserDetailsService userDetailsService, JWTTokenService jwtTokenService) {
+    public JWTAuthenticationProvider(UserDetailsService userDetailsService, TokenService jwtTokenService) {
         this.userDetailsService = userDetailsService;
         this.jwtTokenService = jwtTokenService;
     }

@@ -8,7 +8,9 @@ import org.junit.Test;
 
 public class JWTTokenServiceImplTest {
 
-    private JWTTokenService jwtTokenService = new JWTTokenServiceImpl();
+    private TokenService jwtTokenService = new JWTTokenServiceImpl();
+
+    
 
     @Test
     public void generateAuthenticationToken() {

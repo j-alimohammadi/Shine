@@ -7,7 +7,7 @@ import com.shine.core.security.domain.ShineUser;
 import com.shine.core.security.dto.UserSession;
 import com.shine.core.security.service.UserSessionService;
 import com.shine.core.security.service.jwt.JWTInfo;
-import com.shine.core.security.service.jwt.JWTTokenService;
+import com.shine.core.security.service.jwt.TokenService;
 import com.shine.core.security.service.token.TokenStore;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -31,7 +31,7 @@ import java.util.Optional;
 public class OAuth2AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
     @Resource(name = "JWTTokenServiceImpl")
-    protected JWTTokenService jwtTokenService;
+    protected TokenService jwtTokenService;
 
     @Resource(name = "userSessionServiceImpl")
     protected UserSessionService userSessionService;
