@@ -18,6 +18,8 @@ public class JWTTokenServiceImpl implements TokenService {
     private final static Logger log = LoggerFactory.getLogger(JWTTokenServiceImpl.class);
 
 
+    
+
     @Override
     public JWTInfo generateAuthenticationToken(final String userName, final String sessionId) {
         final Date expirationDate = getExpirationDate();

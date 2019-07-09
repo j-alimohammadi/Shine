@@ -1,6 +1,7 @@
 package com.shine.core.security.service.jwt;
 
 import org.junit.Test;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
