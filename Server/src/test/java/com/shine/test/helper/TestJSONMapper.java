@@ -1,5 +1,7 @@
 package com.shine.test.helper;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -13,10 +15,17 @@ import java.util.List;
 /**
  * @author Javad Alimohammadi [<bs.alimohammadi@gmail.com>]
  */
-public class JSONMapper {
-    private final static ObjectMapper JSON_MAPPER = new ObjectMapper().enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+public class TestJSONMapper {
+    private final static ObjectMapper JSON_MAPPER = new ObjectMapper()
+            .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+
+
+    static {
+        JSON_MAPPER.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+    }
 
     public static <T> String createJSONFromObject(final T object) throws JsonProcessingException {
+
         return JSON_MAPPER.writeValueAsString(object);
     }
 

@@ -1,4 +1,4 @@
-package com.shine.api;
+package com.shine.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
