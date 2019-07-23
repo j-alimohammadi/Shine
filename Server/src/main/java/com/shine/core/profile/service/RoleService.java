@@ -14,6 +14,5 @@ public interface RoleService {
 
     ShineRole findRoleByNameNN(String roleName);
 
-
     Set<ShineRole> findRolesByUserName(String userName);
 }

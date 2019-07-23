@@ -28,7 +28,7 @@ public class ShineUserDetailServiceImpl implements UserDetailsService {
 
     @Resource(name = "shineUserServiceImpl")
     protected ShineUserService shineUserService;
-
+           
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (StringUtils.isBlank(username)) {

@@ -5,7 +5,6 @@ import com.shine.api.rest.exception.ShineRestException;
 import com.shine.api.rest.wrapper.AnswerWrapper;
 import com.shine.core.qa.domain.Answer;
 import com.shine.core.qa.service.AnswerService;
-import com.shine.core.qa.service.PostService;
 import com.shine.core.qa.service.QuestionService;
 import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
@@ -35,9 +34,6 @@ public class AnswerEndPoint extends BaseEndpoint {
     @Resource
     private QuestionService questionService;
 
-    @Resource
-    private PostService postService;
-
     @PostMapping(path = "")
     public AnswerWrapper createNewAnswer(HttpServletRequest httpServletRequest,
                                          @RequestBody AnswerWrapper answerWrapper) {
@@ -56,10 +52,10 @@ public class AnswerEndPoint extends BaseEndpoint {
 
         answer = answerService.saveAnswer(answer);
 
-        AnswerWrapper response = applicationContext.getBean(AnswerWrapper.class);
-        response.wrap(answer, httpServletRequest);
+        AnswerWrapper answerBean = applicationContext.getBean(AnswerWrapper.class);
+        answerBean.wrap(answer, httpServletRequest);
 
-        return response;
+        return answerBean;
     }
 
     @PutMapping(path = "")

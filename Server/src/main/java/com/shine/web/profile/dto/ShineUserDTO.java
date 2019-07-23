@@ -17,7 +17,6 @@ public class ShineUserDTO {
 
     private String confirmPassword;
 
-
     public String getName() {
         return name;
     }

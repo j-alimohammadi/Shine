@@ -15,9 +15,9 @@ import javax.annotation.Resource;
 
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @ActiveProfiles("test")
-public class IntegrationTestAPIHelper {
+public class SpringBootTestAPIHelper {
 
     @Resource
     protected MockMvc mockMvc;

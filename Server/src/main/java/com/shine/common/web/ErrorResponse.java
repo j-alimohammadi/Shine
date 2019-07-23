@@ -15,7 +15,7 @@ import java.util.Map;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ErrorResponse {
-    @JsonProperty("httpStatus")
+    @JsonProperty("http_status")
     private int httpStatus;
 
     @JsonProperty("messages")
