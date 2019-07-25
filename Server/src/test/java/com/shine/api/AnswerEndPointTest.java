@@ -1,20 +1,15 @@
 package com.shine.api;
 
-import com.jayway.jsonpath.JsonPath;
 import com.shine.api.dto.AnswerRequest;
 import com.shine.api.dto.AnswerResponse;
 import com.shine.api.dto.ErrorResponse;
+import com.shine.test.helper.JSONPathUtility;
 import com.shine.test.helper.SpringBootTestAPIHelper;
 import com.shine.test.helper.TestJSONMapper;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.http.HttpStatus;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -28,28 +23,18 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
 
         AnswerRequest answerRequest = AnswerRequest.builder()
                 .body(new HashMap<String, Object>() {{
-                    put("body", "sample answer updated");
+                    put("body", "sample answer");
                 }})
                 .questionId(-1L)
                 .build();
 
-        MvcResult mvcResult = mockMvc.perform(
-                MockMvcRequestBuilders.post("/answer")
-                        .content(TestJSONMapper.createJSONFromObject(answerRequest))
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+        String responseBody = performPostRequest("/answer", answerRequest, HttpStatus.OK.value());
 
-
-        final Long responseId = JsonPath
-                .parse(responseContentAsString(mvcResult))
-                .read("id", Long.class);
+        final Long answerId = JSONPathUtility.read(responseBody, "id", Long.class);
 
         AnswerResponse expectedResponse = AnswerResponse.AnswerResponseBuilder.anAnswerResponse()
-                .withId(responseId)
+                .withId(answerId)
+                .withQuestionId(-1L)
                 .withBody(
                         new HashMap<String, Object>() {{
                             put("body", "sample answer");
@@ -58,9 +43,7 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .withVote(0L)
                 .build();
 
-
-        JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedResponse), responseContentAsString(mvcResult), true);
-
+        JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedResponse), responseBody, true);
     }
 
     @Test
@@ -72,15 +55,7 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .questionId(-1L)
                 .build();
 
-        MvcResult mvcResult = mockMvc.perform(
-                MockMvcRequestBuilders.post("/answer")
-                        .content(TestJSONMapper.createJSONFromObject(answerRequest))
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+        String responseBody = performPostRequest("/answer", answerRequest, HttpStatus.BAD_REQUEST.value());
 
 
         ErrorResponse expectedResponse = ErrorResponse.builder()
@@ -88,7 +63,7 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .messages(Arrays.asList("Post body is invalid"))
                 .build();
 
-        JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedResponse), responseContentAsString(mvcResult), true);
+        JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedResponse), responseBody, true);
     }
 
     @Test
@@ -100,15 +75,7 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .questionId(Long.MIN_VALUE)
                 .build();
 
-        MvcResult mvcResult = mockMvc.perform(
-                MockMvcRequestBuilders.post("/answer")
-                        .content(TestJSONMapper.createJSONFromObject(answerRequest))
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+        String responseBody = performPostRequest("/answer", answerRequest, HttpStatus.BAD_REQUEST.value());
 
 
         ErrorResponse expectedResponse = ErrorResponse.builder()
@@ -116,7 +83,7 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .messages(Arrays.asList("Question id is invalid"))
                 .build();
 
-        JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedResponse), responseContentAsString(mvcResult), true);
+        JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedResponse), responseBody, true);
     }
 
     @Test
@@ -130,19 +97,9 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .questionId(-1L)
                 .build();
 
-        MvcResult mvcResult = mockMvc.perform(
-                MockMvcRequestBuilders.post("/answer")
-                        .content(TestJSONMapper.createJSONFromObject(answerRequest))
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+        String responseBodyForCreateAnswer = performPostRequest("/answer", answerRequest, HttpStatus.OK.value());
 
-        final Long answerId = JsonPath
-                .parse(responseContentAsString(mvcResult))
-                .read("id", Long.class);
+        final Long answerId = JSONPathUtility.read(responseBodyForCreateAnswer, "id", Long.class);
 
         // update answer
         AnswerRequest updateAnswerRequest = AnswerRequest.builder()
@@ -153,15 +110,7 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .id(answerId)
                 .build();
 
-        mvcResult = mockMvc.perform(
-                MockMvcRequestBuilders.put("/answer")
-                        .content(TestJSONMapper.createJSONFromObject(updateAnswerRequest))
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+        String responseBodyForUpdateAnswer = performPutRequest("/answer", updateAnswerRequest, HttpStatus.OK.value());
 
 
         AnswerResponse expectedResponse = AnswerResponse.AnswerResponseBuilder.anAnswerResponse()
@@ -175,7 +124,7 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .withVote(0L)
                 .build();
 
-        JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedResponse), responseContentAsString(mvcResult), true);
+        JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedResponse), responseBodyForUpdateAnswer, true);
     }
 
 
@@ -189,15 +138,7 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .id(Long.MIN_VALUE)
                 .build();
 
-        MvcResult mvcResult = mockMvc.perform(
-                MockMvcRequestBuilders.put("/answer")
-                        .content(TestJSONMapper.createJSONFromObject(updateAnswerRequest))
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
+        String responseBodyForUpdateAnswer = performPutRequest("/answer", updateAnswerRequest, HttpStatus.BAD_REQUEST.value());
 
 
         ErrorResponse expectedResponse = ErrorResponse.builder()
@@ -205,12 +146,8 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .messages(Arrays.asList("Answer id is invalid"))
                 .build();
 
-        JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedResponse), responseContentAsString(mvcResult), true);
+        JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedResponse), responseBodyForUpdateAnswer, true);
     }
 
-
-    private static String responseContentAsString(MvcResult mvcResult) throws UnsupportedEncodingException {
-        return mvcResult.getResponse().getContentAsString();
-    }
 
 }
