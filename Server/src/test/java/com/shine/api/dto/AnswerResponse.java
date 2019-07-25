@@ -1,6 +1,5 @@
 package com.shine.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Map;
@@ -11,6 +10,9 @@ import java.util.Map;
 public class AnswerResponse {
     @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("question_id")
+    private Long questionId;
 
     @JsonProperty("body")
     private Map<String, Object> body;
@@ -54,6 +56,13 @@ public class AnswerResponse {
         isAnswerAccept = answerAccept;
     }
 
+    public Long getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(Long questionId) {
+        this.questionId = questionId;
+    }
 
     public static final class AnswerResponseBuilder {
         private AnswerResponse answerResponse;
@@ -73,6 +82,11 @@ public class AnswerResponse {
 
         public AnswerResponseBuilder withBody(Map<String, Object> body) {
             answerResponse.setBody(body);
+            return this;
+        }
+
+        public AnswerResponseBuilder withQuestionId(Long id) {
+            answerResponse.setQuestionId(id);
             return this;
         }
 

@@ -165,7 +165,8 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
 
 
         AnswerResponse expectedResponse = AnswerResponse.AnswerResponseBuilder.anAnswerResponse()
-                .withId(-1L)
+                .withId(answerId)
+                .withQuestionId(-1L)
                 .withBody(
                         new HashMap<String, Object>() {{
                             put("body", "sample answer updated!!!");
@@ -176,6 +177,37 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
 
         JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedResponse), responseContentAsString(mvcResult), true);
     }
+
+
+    @Test
+    public void testUpdateAnswerWhenAnswerNotExist() throws Exception {
+        AnswerRequest updateAnswerRequest = AnswerRequest.builder()
+                .body(new HashMap<String, Object>() {{
+                    put("body", "sample answer updated!!!");
+                }})
+                .questionId(-1L)
+                .id(Long.MIN_VALUE)
+                .build();
+
+        MvcResult mvcResult = mockMvc.perform(
+                MockMvcRequestBuilders.put("/answer")
+                        .content(TestJSONMapper.createJSONFromObject(updateAnswerRequest))
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+
+
+        ErrorResponse expectedResponse = ErrorResponse.builder()
+                .httpStatus(400)
+                .messages(Arrays.asList("Answer id is invalid"))
+                .build();
+
+        JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedResponse), responseContentAsString(mvcResult), true);
+    }
+
 
     private static String responseContentAsString(MvcResult mvcResult) throws UnsupportedEncodingException {
         return mvcResult.getResponse().getContentAsString();
