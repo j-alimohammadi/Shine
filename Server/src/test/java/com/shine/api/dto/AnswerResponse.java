@@ -8,7 +8,6 @@ import java.util.Map;
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class AnswerResponse {
     @JsonProperty("id")
     private Long id;

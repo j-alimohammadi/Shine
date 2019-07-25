@@ -1,4 +1,4 @@
-package com.shine.common.web;
+package com.shine.api.rest.wrapper;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,7 +14,7 @@ import java.util.Map;
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class ErrorResponse {
+public class ErrorWrapper {
     @JsonProperty("http_status")
     private int httpStatus;
 
@@ -80,12 +80,12 @@ public class ErrorResponse {
             return this;
         }
 
-        public ErrorResponse build() {
-            ErrorResponse errorResponse = new ErrorResponse();
-            errorResponse.setHttpStatus(status);
-            errorResponse.setMessages(messages);
-            errorResponse.setAdditionalData(additionalData);
-            return errorResponse;
+        public ErrorWrapper build() {
+            ErrorWrapper errorWrapper = new ErrorWrapper();
+            errorWrapper.setHttpStatus(status);
+            errorWrapper.setMessages(messages);
+            errorWrapper.setAdditionalData(additionalData);
+            return errorWrapper;
         }
     }
 }

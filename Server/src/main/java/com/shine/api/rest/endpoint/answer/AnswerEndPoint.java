@@ -61,20 +61,21 @@ public class AnswerEndPoint extends BaseEndpoint {
     @PutMapping(path = "")
     public AnswerWrapper updateAnswer(HttpServletRequest httpServletRequest,
                                       @RequestBody AnswerWrapper answerWrapper) {
-        Answer foundAnswer = answerService.findAnswerById(answerWrapper.getQuestionId())
+
+        if (Objects.isNull(answerWrapper.getId())) {
+            throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
+                    .addMessage(ShineRestException.INVALID_ANSWER_ID);
+        }
+
+        answerService.findAnswerById(answerWrapper.getId())
                 .orElseThrow(() -> {
                     return ShineRestException.build(HttpStatus.BAD_REQUEST.value())
-                            .addMessage(ShineRestException.INVALID_QUESTION_ID);
+                            .addMessage(ShineRestException.INVALID_ANSWER_ID);
                 });
 
         if (MapUtils.isEmpty(answerWrapper.getBody())) {
             throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
                     .addMessage(ShineRestException.INVALID_POST_BODY_CONTENT);
-        }
-
-        if (Objects.isNull(answerWrapper.getId())) {
-            throw ShineRestException.build(HttpStatus.BAD_REQUEST.value())
-                    .addMessage(ShineRestException.INVALID_ANSWER_ID);
         }
 
 

@@ -32,11 +32,13 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
     @JsonProperty("id")
     private Long id;
 
+    @JsonProperty("question_id")
+    private Long questionId;
+
+
     @JsonProperty("body")
     private Map<String, Object> body;
 
-    @JsonProperty("question_id")
-    private Long questionId;
 
     @JsonProperty("vote")
     private Long vote;
@@ -107,6 +109,7 @@ public class AnswerWrapper extends BaseWrapper implements APIUnWrapper<Answer>, 
         this.body = JSONMapper.createHashMapFromJSON(answer.getBody());
         this.vote = answer.getVote();
         this.isAnswerAccept = BooleanUtils.toBoolean(answer.getAccepted());
+        this.questionId = answer.getQuestion().getId();
 
     }
 }

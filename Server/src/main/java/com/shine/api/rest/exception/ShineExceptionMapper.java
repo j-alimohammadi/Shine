@@ -1,6 +1,6 @@
 package com.shine.api.rest.exception;
 
-import com.shine.common.web.ErrorResponse;
+import com.shine.api.rest.wrapper.ErrorWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.shine.common.web.ErrorResponse.ErrorResponseBuilder.anErrorResponse;
+import static com.shine.api.rest.wrapper.ErrorWrapper.ErrorResponseBuilder.anErrorResponse;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -31,8 +31,8 @@ public class ShineExceptionMapper {
 
     @ExceptionHandler(ShineRestException.class)
     @ResponseBody
-    public ErrorResponse handleShineRestException(HttpServletRequest request, HttpServletResponse response,
-                                                  ShineRestException ex) {
+    public ErrorWrapper handleShineRestException(HttpServletRequest request, HttpServletResponse response,
+                                                 ShineRestException ex) {
         response.setStatus(ex.getHttpStatusCode());
         if (!Objects.isNull(ex.getCause())) {
             log.error("An error occurred invoking a REST service.", ex.getCause());
@@ -51,21 +51,21 @@ public class ShineExceptionMapper {
         Map<String, Object> additionalData = ex.getAdditionalData();
 
 
-        ErrorResponse errorResponse = anErrorResponse()
+        ErrorWrapper errorWrapper = anErrorResponse()
                 .withHttpStatus(ex.getHttpStatusCode())
                 .withMessages(errorMessage)
                 .withAddionalData(additionalData)
                 .build();
 
-        return errorResponse;
+        return errorWrapper;
     }
 
 
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ErrorResponse handleException(HttpServletRequest request, HttpServletResponse response,
-                                         Exception ex) {
+    public ErrorWrapper handleException(HttpServletRequest request, HttpServletResponse response,
+                                        Exception ex) {
         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         log.error("An error occurred invoking a REST service.", ex);
 
@@ -74,12 +74,12 @@ public class ShineExceptionMapper {
 
         String errorMessage = messageSource.getMessage(ShineRestException.UNKNOWN, null, locale);
 
-        ErrorResponse errorResponse = anErrorResponse()
+        ErrorWrapper errorWrapper = anErrorResponse()
                 .withHttpStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)
                 .withMessages(errorMessage)
                 .build();
 
-        return errorResponse;
+        return errorWrapper;
 
     }
 

@@ -2,7 +2,7 @@ package com.shine.web.security.authentication;
 
 import com.shine.api.rest.exception.ShineRestException;
 import com.shine.common.utils.JSONMapper;
-import com.shine.common.web.ErrorResponse;
+import com.shine.api.rest.wrapper.ErrorWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -37,12 +37,12 @@ public class SimpleAuthenticationFailHandlerImpl implements AuthenticationFailur
         final Locale locale = Locale.getDefault();
         String errorMessage = messageSource.getMessage(ShineRestException.UNAUTHENTICATED_USER, null, locale);
 
-        ErrorResponse errorResponse = ErrorResponse.ErrorResponseBuilder.anErrorResponse()
+        ErrorWrapper errorWrapper = ErrorWrapper.ErrorResponseBuilder.anErrorResponse()
                 .withHttpStatus(HttpServletResponse.SC_UNAUTHORIZED)
                 .withMessages(errorMessage)
                 .build();
 
-        final String responseJSON = JSONMapper.createJSON(errorResponse);
+        final String responseJSON = JSONMapper.createJSON(errorWrapper);
         response.getWriter().print(responseJSON);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);

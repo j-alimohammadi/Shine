@@ -17,12 +17,9 @@ import java.util.List;
  */
 public class TestJSONMapper {
     private final static ObjectMapper JSON_MAPPER = new ObjectMapper()
-            .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+            .enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+            .setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
 
-
-    static {
-        JSON_MAPPER.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
-    }
 
     public static <T> String createJSONFromObject(final T object) throws JsonProcessingException {
 
