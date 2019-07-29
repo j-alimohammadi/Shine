@@ -64,8 +64,10 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Transactional
     @Override
-    public void deleteAnswerById(Long id) {
+    public Answer deleteAnswerById(Long id) {
+        Answer deletedAnswer = answerDao.find(id).orElseThrow(IllegalArgumentException::new);
         answerDao.deleteById(id);
+        return deletedAnswer;
     }
 
     @Transactional

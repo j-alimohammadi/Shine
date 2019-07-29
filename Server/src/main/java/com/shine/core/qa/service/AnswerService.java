@@ -16,7 +16,7 @@ public interface AnswerService {
 
     Answer createAnswerFromId(Long id);
 
-    void deleteAnswerById(Long id);
+    Answer deleteAnswerById(Long id);
 
     Optional<Answer> findAnswerById(Long id);
 

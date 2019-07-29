@@ -28,7 +28,7 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .questionId(-1L)
                 .build();
 
-        String responseBody = performPostRequest("/answer", answerRequest, HttpStatus.OK.value());
+        String responseBody = performPostRequest(HttpStatus.OK, "/answer", answerRequest);
 
         final Long answerId = JSONPathUtility.read(responseBody, "id", Long.class);
 
@@ -55,7 +55,7 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .questionId(-1L)
                 .build();
 
-        String responseBody = performPostRequest("/answer", answerRequest, HttpStatus.BAD_REQUEST.value());
+        String responseBody = performPostRequest(HttpStatus.BAD_REQUEST, "/answer", answerRequest);
 
 
         ErrorResponse expectedResponse = ErrorResponse.builder()
@@ -75,7 +75,7 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .questionId(Long.MIN_VALUE)
                 .build();
 
-        String responseBody = performPostRequest("/answer", answerRequest, HttpStatus.BAD_REQUEST.value());
+        String responseBody = performPostRequest(HttpStatus.BAD_REQUEST, "/answer", answerRequest);
 
 
         ErrorResponse expectedResponse = ErrorResponse.builder()
@@ -89,7 +89,9 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
     @Test
     public void testUpdateAnswerHappyPath() throws Exception {
 
-        // create new answer
+        ///////////////////////////////////
+        ////        Create Answer     /////
+        ///////////////////////////////////
         AnswerRequest answerRequest = AnswerRequest.builder()
                 .body(new HashMap<String, Object>() {{
                     put("body", "sample answer updated");
@@ -97,11 +99,14 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .questionId(-1L)
                 .build();
 
-        String responseBodyForCreateAnswer = performPostRequest("/answer", answerRequest, HttpStatus.OK.value());
+        String responseBodyForCreateAnswer = performPostRequest(HttpStatus.OK, "/answer", answerRequest);
 
         final Long answerId = JSONPathUtility.read(responseBodyForCreateAnswer, "id", Long.class);
 
-        // update answer
+
+        ///////////////////////////////////
+        ////        Update Answer      ////
+        ///////////////////////////////////
         AnswerRequest updateAnswerRequest = AnswerRequest.builder()
                 .body(new HashMap<String, Object>() {{
                     put("body", "sample answer updated!!!");
@@ -110,7 +115,7 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .id(answerId)
                 .build();
 
-        String responseBodyForUpdateAnswer = performPutRequest("/answer", updateAnswerRequest, HttpStatus.OK.value());
+        String responseBodyForUpdateAnswer = performPutRequest(HttpStatus.OK, "/answer", updateAnswerRequest);
 
 
         AnswerResponse expectedResponse = AnswerResponse.AnswerResponseBuilder.anAnswerResponse()
@@ -138,7 +143,7 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .id(Long.MIN_VALUE)
                 .build();
 
-        String responseBodyForUpdateAnswer = performPutRequest("/answer", updateAnswerRequest, HttpStatus.BAD_REQUEST.value());
+        String responseBodyForUpdateAnswer = performPutRequest(HttpStatus.BAD_REQUEST, "/answer", updateAnswerRequest);
 
 
         ErrorResponse expectedResponse = ErrorResponse.builder()
@@ -147,6 +152,58 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .build();
 
         JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedResponse), responseBodyForUpdateAnswer, true);
+    }
+
+    @Test
+    public void testDeleteAnswerHappyPath() throws Exception {
+        ///////////////////////////////////
+        ////        Create Answer     /////
+        ///////////////////////////////////
+        AnswerRequest answerRequest = AnswerRequest.builder()
+                .body(new HashMap<String, Object>() {{
+                    put("body", "sample new answer");
+                }})
+                .questionId(-1L)
+                .build();
+
+        String responseBodyForCreateAnswer = performPostRequest(HttpStatus.OK, "/answer", answerRequest);
+        final Long answerId = JSONPathUtility.read(responseBodyForCreateAnswer, "id", Long.class);
+
+        ///////////////////////////////////
+        ////        Delete Answer     /////
+        ///////////////////////////////////
+        String actualResponse = performDeleteRequest(HttpStatus.OK, "/answer/{answer_id}", answerId);
+
+        AnswerResponse expectedAnswerResponse = AnswerResponse.AnswerResponseBuilder.anAnswerResponse()
+                .withId(answerId)
+                .withBody(new HashMap<String, Object>() {{
+
+                    put("body", "sample new answer");
+                }})
+                .withQuestionId(-1L)
+                .withVote(0L)
+                .withIsAccepted(false)
+                .build();
+
+        JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedAnswerResponse), actualResponse, true);
+
+    }
+
+    @Test
+    public void testDeleteAnswerWhenAnswerIdIsInvalid() throws Exception {
+
+        ///////////////////////////////////
+        ////        Delete Answer     /////
+        ///////////////////////////////////
+        String actualResponse = performDeleteRequest(HttpStatus.BAD_REQUEST, "/answer/{answer_id}", Long.MIN_VALUE);
+
+        ErrorResponse expectedResponse = ErrorResponse.builder()
+                .httpStatus(400)
+                .messages(Arrays.asList("Answer id is invalid"))
+                .build();
+
+        JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedResponse), actualResponse, true);
+
     }
 
 

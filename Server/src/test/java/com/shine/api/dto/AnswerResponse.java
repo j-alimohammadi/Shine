@@ -95,6 +95,11 @@ public class AnswerResponse {
             return this;
         }
 
+        public AnswerResponseBuilder withIsAccepted(boolean isAccepted) {
+            answerResponse.setAnswerAccept(isAccepted);
+            return this;
+        }
+
         public AnswerResponse build() {
             return answerResponse;
         }

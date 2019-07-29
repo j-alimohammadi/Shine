@@ -185,6 +185,7 @@ public class QuestionServiceImpl implements QuestionService {
         return answer;
     }
 
+
     @Transactional
     @Override
     public Long addAnswerCount(Question question, final Long count) {

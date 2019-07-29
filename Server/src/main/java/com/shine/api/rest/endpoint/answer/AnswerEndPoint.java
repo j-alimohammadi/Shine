@@ -10,7 +10,7 @@ import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
 @RestController
-@RequestMapping("/answer")
+@RequestMapping(value = "/answer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class AnswerEndPoint extends BaseEndpoint {
     private final static Logger log = LoggerFactory.getLogger(AnswerEndPoint.class);
 
@@ -91,19 +91,21 @@ public class AnswerEndPoint extends BaseEndpoint {
     }
 
 
-    @PutMapping(path = "/{answer-id}")
-    public ResponseEntity<String> deleteAnswer(@PathVariable("answer-id") Long answerId) {
-        Answer answer = answerService.findAnswerById(answerId)
+    @DeleteMapping(path = "/{answer-id}")
+    public AnswerWrapper deleteAnswer(HttpServletRequest httpServletRequest,
+                                      @PathVariable("answer-id") Long answerId) {
+        answerService.findAnswerById(answerId)
                 .orElseThrow(() -> {
                     return ShineRestException.build(HttpStatus.BAD_REQUEST.value())
                             .addMessage(ShineRestException.INVALID_ANSWER_ID);
                 });
 
-        questionService.deleteQuestionById(answerId);
-        String message = String.format("Answer [%s] deleted successfully", answerId);
-        log.debug(message);
+        Answer answer1 = answerService.deleteAnswerById(answerId);
 
-        return ResponseEntity.ok(message);
+        AnswerWrapper response = applicationContext.getBean(AnswerWrapper.class);
+        response.wrap(answer1, httpServletRequest);
+
+        return response;
 
     }
 
