@@ -206,5 +206,11 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
 
     }
 
+    @Test
+    public void testFindAnswersForQuestionHappyPath() throws Exception {
+
+
+    }
+
 
 }

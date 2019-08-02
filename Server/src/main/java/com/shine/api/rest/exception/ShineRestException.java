@@ -2,7 +2,10 @@ package com.shine.api.rest.exception;
 
 import org.apache.commons.collections4.MapUtils;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
@@ -49,6 +52,8 @@ public class ShineRestException extends RuntimeException {
 
     public ShineRestException(int httpStatusCode, Locale locale, Map<String, Object[]> messages,
                               Map<String, Object> additionalData, Throwable cause) {
+
+
         super(cause);
         this.httpStatusCode = httpStatusCode;
         this.locale = locale;
