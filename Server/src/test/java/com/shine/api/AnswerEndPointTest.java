@@ -51,7 +51,7 @@ public class AnswerEndPointTest extends BasePostControllerTest {
                 .questionId(-1L)
                 .build();
 
-        String responseBody = performPostRequest(HttpStatus.BAD_REQUEST, "/answer", answerRequest);
+        String responseBody = doPost(HttpStatus.BAD_REQUEST, "/answer", answerRequest);
 
 
         ErrorResponse expectedResponse = ErrorResponse.builder()
@@ -71,7 +71,7 @@ public class AnswerEndPointTest extends BasePostControllerTest {
                 .questionId(Long.MIN_VALUE)
                 .build();
 
-        String responseBody = performPostRequest(HttpStatus.BAD_REQUEST, "/answer", answerRequest);
+        String responseBody = doPost(HttpStatus.BAD_REQUEST, "/answer", answerRequest);
 
 
         ErrorResponse expectedResponse = ErrorResponse.builder()
@@ -95,7 +95,7 @@ public class AnswerEndPointTest extends BasePostControllerTest {
                 .questionId(-1L)
                 .build();
 
-        String actualResponse = performPostRequest(HttpStatus.OK, "/answer", answerRequest);
+        String actualResponse = doPost(HttpStatus.OK, "/answer", answerRequest);
 
         final Long answerId = JSONPathUtility.read(actualResponse, "id", Long.class);
 
@@ -111,7 +111,7 @@ public class AnswerEndPointTest extends BasePostControllerTest {
                 .id(answerId)
                 .build();
 
-        String responseBodyForUpdateAnswer = performPutRequest(HttpStatus.OK, "/answer", updateAnswerRequest);
+        String responseBodyForUpdateAnswer = doPut(HttpStatus.OK, "/answer", updateAnswerRequest);
 
 
         AnswerResponse expectedResponse = AnswerResponse.AnswerResponseBuilder.anAnswerResponse()
@@ -139,7 +139,7 @@ public class AnswerEndPointTest extends BasePostControllerTest {
                 .id(Long.MIN_VALUE)
                 .build();
 
-        String responseBodyForUpdateAnswer = performPutRequest(HttpStatus.BAD_REQUEST, "/answer", updateAnswerRequest);
+        String responseBodyForUpdateAnswer = doPut(HttpStatus.BAD_REQUEST, "/answer", updateAnswerRequest);
 
 
         ErrorResponse expectedResponse = ErrorResponse.builder()
@@ -162,13 +162,13 @@ public class AnswerEndPointTest extends BasePostControllerTest {
                 .questionId(-1L)
                 .build();
 
-        String responseBodyForCreateAnswer = performPostRequest(HttpStatus.OK, "/answer", answerRequest);
+        String responseBodyForCreateAnswer = doPost(HttpStatus.OK, "/answer", answerRequest);
         final Long answerId = JSONPathUtility.read(responseBodyForCreateAnswer, "id", Long.class);
 
         ///////////////////////////////////
         ////        Delete Answer     /////
         ///////////////////////////////////
-        String actualResponse = performDeleteRequest(HttpStatus.OK, "/answer/{answer_id}", answerId);
+        String actualResponse = doDelete(HttpStatus.OK, "/answer/{answer_id}", answerId);
 
         AnswerResponse expectedAnswerResponse = AnswerResponse.AnswerResponseBuilder.anAnswerResponse()
                 .withId(answerId)
@@ -191,7 +191,7 @@ public class AnswerEndPointTest extends BasePostControllerTest {
         ///////////////////////////////////
         ////        Delete Answer     /////
         ///////////////////////////////////
-        String actualResponse = performDeleteRequest(HttpStatus.BAD_REQUEST, "/answer/{answerId}", Long.MIN_VALUE);
+        String actualResponse = doDelete(HttpStatus.BAD_REQUEST, "/answer/{answerId}", Long.MIN_VALUE);
 
         ErrorResponse expectedResponse = ErrorResponse.builder()
                 .httpStatus(400)
@@ -220,7 +220,7 @@ public class AnswerEndPointTest extends BasePostControllerTest {
         ///////////////////////////////////
         ////        Find Answer      /////
         ///////////////////////////////////
-        String actualResponse = performGetRequest(HttpStatus.OK, "/answer/question/{questionId}", -1L);
+        String actualResponse = doGet(HttpStatus.OK, "/answer/question/{questionId}", -1L);
         final Long answerId = JSONPathUtility.read(actualResponse, "$[0].id", Long.class);
         AnswerResponse expectedResponse = AnswerResponse.AnswerResponseBuilder.anAnswerResponse()
                 .withId(answerId)

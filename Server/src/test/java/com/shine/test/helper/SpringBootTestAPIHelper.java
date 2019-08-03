@@ -32,7 +32,7 @@ public class SpringBootTestAPIHelper {
     protected MockMvc mockMvc;
 
 
-    public String performPostRequest(HttpStatus expectedStatus, final String path, final Object content) throws Exception {
+    public String doPost(HttpStatus expectedStatus, final String path, final Object content) throws Exception {
         MvcResult mvcResult = mockMvc.perform(
                 MockMvcRequestBuilders.post(path)
                         .content(TestJSONMapper.createJSONFromObject(content))
@@ -46,8 +46,8 @@ public class SpringBootTestAPIHelper {
         return responseContentAsString(mvcResult);
     }
 
-    public String performPutRequest(HttpStatus expectedStatus, final String path,
-                                    final Object content, Object... parameters) throws Exception {
+    public String doPut(HttpStatus expectedStatus, final String path, final Object content, Object... parameters)
+            throws Exception {
 
         UriTemplate uriTemplate = new UriTemplate(path);
         URI expand = uriTemplate.expand(parameters);
@@ -66,7 +66,7 @@ public class SpringBootTestAPIHelper {
     }
 
 
-    public String performDeleteRequest(HttpStatus expectedStatus, final String path, Object... parameters) throws Exception {
+    public String doDelete(HttpStatus expectedStatus, final String path, Object... parameters) throws Exception {
 
         UriTemplate uriTemplate = new UriTemplate(path);
         URI expandedURL = uriTemplate.expand(parameters);
@@ -82,7 +82,7 @@ public class SpringBootTestAPIHelper {
         return responseContentAsString(mvcResult);
     }
 
-    public String performGetRequest(HttpStatus expectedStatus, final String path, Object... parameters) throws Exception {
+    public String doGet(HttpStatus expectedStatus, final String path, Object... parameters) throws Exception {
         UriTemplate uriTemplate = new UriTemplate(path);
         URI expandedURL = uriTemplate.expand(parameters);
 

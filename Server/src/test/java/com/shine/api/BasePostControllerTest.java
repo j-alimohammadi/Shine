@@ -17,7 +17,7 @@ public abstract class BasePostControllerTest extends SpringBootTestAPIHelper {
                 .questionId(questionId)
                 .build();
 
-        return performPostRequest(HttpStatus.OK, "/answer", answerRequest);
+        return doPost(HttpStatus.OK, "/answer", answerRequest);
     }
 
     protected String deleteAnswer() {
