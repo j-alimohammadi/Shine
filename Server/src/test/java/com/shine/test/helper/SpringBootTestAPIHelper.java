@@ -69,10 +69,10 @@ public class SpringBootTestAPIHelper {
     public String performDeleteRequest(HttpStatus expectedStatus, final String path, Object... parameters) throws Exception {
 
         UriTemplate uriTemplate = new UriTemplate(path);
-        URI expand = uriTemplate.expand(parameters);
+        URI expandedURL = uriTemplate.expand(parameters);
 
         MvcResult mvcResult = mockMvc.perform(
-                MockMvcRequestBuilders.delete(expand)
+                MockMvcRequestBuilders.delete(expandedURL)
                         .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().is(expectedStatus.value()))
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -80,6 +80,22 @@ public class SpringBootTestAPIHelper {
                 .andReturn();
 
         return responseContentAsString(mvcResult);
+    }
+
+    public String performGetRequest(HttpStatus expectedStatus, final String path, Object... parameters) throws Exception {
+        UriTemplate uriTemplate = new UriTemplate(path);
+        URI expandedURL = uriTemplate.expand(parameters);
+
+        MvcResult mvcResult = mockMvc.perform(
+                MockMvcRequestBuilders.get(expandedURL)
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(MockMvcResultMatchers.status().is(expectedStatus.value()))
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+
+        return responseContentAsString(mvcResult);
+
     }
 
 

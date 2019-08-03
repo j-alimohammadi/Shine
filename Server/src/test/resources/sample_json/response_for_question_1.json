@@ -1,0 +1,43 @@
+[
+  {
+    "id": -7,
+    "question_id": -1,
+    "body": {
+      "entityMap": {},
+      "blocks": [
+        {
+          "key": "98upg",
+          "text": "Sample answer body 1",
+          "type": "unstyled",
+          "depth": 0,
+          "inlineStyleRanges": [
+            {
+              "offset": 0,
+              "length": 22,
+              "style": "color-rgb(0,0,0)"
+            },
+            {
+              "offset": 0,
+              "length": 22,
+              "style": "bgcolor-rgb(255,255,255)"
+            },
+            {
+              "offset": 0,
+              "length": 22,
+              "style": "fontsize-12"
+            },
+            {
+              "offset": 0,
+              "length": 22,
+              "style": "fontfamily-Arial, sans-serif"
+            }
+          ],
+          "entityRanges": [],
+          "data": {}
+        }
+      ]
+    },
+    "vote": 0,
+    "is_answer_accept": false
+  }
+]

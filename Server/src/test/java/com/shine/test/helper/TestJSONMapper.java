@@ -22,7 +22,6 @@ public class TestJSONMapper {
 
 
     public static <T> String createJSONFromObject(final T object) throws JsonProcessingException {
-
         return JSON_MAPPER.writeValueAsString(object);
     }
 

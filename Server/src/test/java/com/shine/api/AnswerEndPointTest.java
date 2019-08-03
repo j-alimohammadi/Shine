@@ -4,7 +4,6 @@ import com.shine.api.dto.AnswerRequest;
 import com.shine.api.dto.AnswerResponse;
 import com.shine.api.dto.ErrorResponse;
 import com.shine.test.helper.JSONPathUtility;
-import com.shine.test.helper.SpringBootTestAPIHelper;
 import com.shine.test.helper.TestJSONMapper;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -16,19 +15,16 @@ import java.util.HashMap;
 /**
  * @author Javad Alimohammadi<bs.alimohammadi@gmail.com>
  */
-public class AnswerEndPointTest extends SpringBootTestAPIHelper {
+public class AnswerEndPointTest extends BasePostControllerTest {
 
     @Test
     public void testCreateNewAnswerHappyPath() throws Exception {
 
-        AnswerRequest answerRequest = AnswerRequest.builder()
-                .body(new HashMap<String, Object>() {{
-                    put("body", "sample answer");
-                }})
-                .questionId(-1L)
-                .build();
+        HashMap<String, Object> hashMap = new HashMap<String, Object>() {{
+            put("body", "sample answer");
+        }};
 
-        String responseBody = performPostRequest(HttpStatus.OK, "/answer", answerRequest);
+        String responseBody = createNewAnswer(hashMap, -1L);
 
         final Long answerId = JSONPathUtility.read(responseBody, "id", Long.class);
 
@@ -90,7 +86,7 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
     public void testUpdateAnswerHappyPath() throws Exception {
 
         ///////////////////////////////////
-        ////        Create Answer     /////
+        ////        Create Answer    /////
         ///////////////////////////////////
         AnswerRequest answerRequest = AnswerRequest.builder()
                 .body(new HashMap<String, Object>() {{
@@ -99,9 +95,9 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
                 .questionId(-1L)
                 .build();
 
-        String responseBodyForCreateAnswer = performPostRequest(HttpStatus.OK, "/answer", answerRequest);
+        String actualResponse = performPostRequest(HttpStatus.OK, "/answer", answerRequest);
 
-        final Long answerId = JSONPathUtility.read(responseBodyForCreateAnswer, "id", Long.class);
+        final Long answerId = JSONPathUtility.read(actualResponse, "id", Long.class);
 
 
         ///////////////////////////////////
@@ -195,7 +191,7 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
         ///////////////////////////////////
         ////        Delete Answer     /////
         ///////////////////////////////////
-        String actualResponse = performDeleteRequest(HttpStatus.BAD_REQUEST, "/answer/{answer_id}", Long.MIN_VALUE);
+        String actualResponse = performDeleteRequest(HttpStatus.BAD_REQUEST, "/answer/{answerId}", Long.MIN_VALUE);
 
         ErrorResponse expectedResponse = ErrorResponse.builder()
                 .httpStatus(400)
@@ -206,9 +202,42 @@ public class AnswerEndPointTest extends SpringBootTestAPIHelper {
 
     }
 
+
+    //todo : complete after writing test for question webservice
     @Test
     public void testFindAnswersForQuestionHappyPath() throws Exception {
+        ///////////////////////////////////
+        ////        Create Answer     /////
+        ///////////////////////////////////
+        AnswerRequest answerRequest = AnswerRequest.builder()
+                .body(new HashMap<String, Object>() {{
+                    put("body", "sample test1");
+                }})
+                .questionId(-1L)
+                .build();
 
+
+        ///////////////////////////////////
+        ////        Find Answer      /////
+        ///////////////////////////////////
+        String actualResponse = performGetRequest(HttpStatus.OK, "/answer/question/{questionId}", -1L);
+        final Long answerId = JSONPathUtility.read(actualResponse, "$[0].id", Long.class);
+        AnswerResponse expectedResponse = AnswerResponse.AnswerResponseBuilder.anAnswerResponse()
+                .withId(answerId)
+                .withBody(new HashMap<String, Object>() {{
+                    put("body", "sample new answer 1");
+                }})
+                .withQuestionId(-1L)
+                .withVote(0L)
+                .withIsAccepted(false)
+                .build();
+
+
+        JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(Arrays.asList(expectedResponse)), actualResponse, true);
+    }
+
+    @Test
+    public void testIncrementVote() throws Exception {
 
     }
 

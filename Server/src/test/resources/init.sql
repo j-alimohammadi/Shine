@@ -231,122 +231,22 @@ VALUES (-6, 'QUESTION', '{
 -- ANSWER POST
 INSERT INTO SHINE_POST (POST_TYPE, BODY, CREATED_TIMESTAMP, VIEW_COUNT, VOTE, IS_ACCEPTED, QUESTION_ID)
 VALUES ('ANSWER', '{
-  "blocks" : [ {
-    "key" : "98upg",
-    "text" : "Sample answer body 1",
-    "type" : "unstyled",
-    "depth" : 0,
-    "inlineStyleRanges" : [ {
-      "offset" : 0,
-      "length" : 22,
-      "style" : "color-rgb(0,0,0)"
-    }, {
-      "offset" : 0,
-      "length" : 22,
-      "style" : "bgcolor-rgb(255,255,255)"
-    }, {
-      "offset" : 0,
-      "length" : 22,
-      "style" : "fontsize-12"
-    }, {
-      "offset" : 0,
-      "length" : 22,
-      "style" : "fontfamily-Arial, sans-serif"
-    } ],
-    "entityRanges" : [ ],
-    "data" : { }
-  } ],
-  "entityMap" : { }
+  "body" : "sample new answer 1"
 }', CURRENT_TIMESTAMP() + 0, 0, 0, FALSE, -1);
 
 INSERT INTO SHINE_POST (POST_TYPE, BODY, CREATED_TIMESTAMP, VIEW_COUNT, VOTE, IS_ACCEPTED, QUESTION_ID)
-VALUES ('ANSWER', '	{
-  "blocks" : [ {
-    "key" : "bn3pf",
-    "text" : "sample answer body 1 for question -3 ",
-    "type" : "unstyled",
-    "depth" : 0,
-    "inlineStyleRanges" : [ {
-      "offset" : 0,
-      "length" : 36,
-      "style" : "color-rgb(51,51,51)"
-    }, {
-      "offset" : 0,
-      "length" : 36,
-      "style" : "bgcolor-rgb(255,255,255)"
-    }, {
-      "offset" : 0,
-      "length" : 36,
-      "style" : "fontsize-18"
-    }, {
-      "offset" : 0,
-      "length" : 36,
-      "style" : "fontfamily-sans-serif"
-    } ],
-    "entityRanges" : [ ],
-    "data" : { }
-  } ],
-  "entityMap" : { }
+VALUES ('ANSWER', '{
+  "body" : "sample new answer 2"
 }', CURRENT_TIMESTAMP() + 1, 0, 0, FALSE, -3);
 
 INSERT INTO SHINE_POST (POST_TYPE, BODY, CREATED_TIMESTAMP, VIEW_COUNT, VOTE, IS_ACCEPTED, QUESTION_ID)
-VALUES ('ANSWER', '	{
-  "blocks" : [ {
-    "key" : "bn3pf",
-    "text" : "sample answer body 2 for question -3 ",
-    "type" : "unstyled",
-    "depth" : 0,
-    "inlineStyleRanges" : [ {
-      "offset" : 0,
-      "length" : 36,
-      "style" : "color-rgb(51,51,51)"
-    }, {
-      "offset" : 0,
-      "length" : 36,
-      "style" : "bgcolor-rgb(255,255,255)"
-    }, {
-      "offset" : 0,
-      "length" : 36,
-      "style" : "fontsize-18"
-    }, {
-      "offset" : 0,
-      "length" : 36,
-      "style" : "fontfamily-sans-serif"
-    } ],
-    "entityRanges" : [ ],
-    "data" : { }
-  } ],
-  "entityMap" : { }
+VALUES ('ANSWER', '{
+  "body" : "sample new answer 3"
 }', CURRENT_TIMESTAMP() + 2, 0, 0, FALSE, -3);
 
 INSERT INTO SHINE_POST (POST_TYPE, BODY, CREATED_TIMESTAMP, VIEW_COUNT, VOTE, IS_ACCEPTED, QUESTION_ID)
-VALUES ('ANSWER', '	{
-  "blocks" : [ {
-    "key" : "bn3pf",
-    "text" : "sample answer body 3 for question -3 ",
-    "type" : "unstyled",
-    "depth" : 0,
-    "inlineStyleRanges" : [ {
-      "offset" : 0,
-      "length" : 36,
-      "style" : "color-rgb(51,51,51)"
-    }, {
-      "offset" : 0,
-      "length" : 36,
-      "style" : "bgcolor-rgb(255,255,255)"
-    }, {
-      "offset" : 0,
-      "length" : 36,
-      "style" : "fontsize-18"
-    }, {
-      "offset" : 0,
-      "length" : 36,
-      "style" : "fontfamily-sans-serif"
-    } ],
-    "entityRanges" : [ ],
-    "data" : { }
-  } ],
-  "entityMap" : { }
+VALUES ('ANSWER', '{
+ "body" : "sample new answer 4"
 }', CURRENT_TIMESTAMP() + 3, 0, 0, TRUE, -3);
 
 -- TAG

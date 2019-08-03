@@ -30,14 +30,13 @@ public class SearchServiceDTOImpl implements SearchServiceDTO {
             final String parameterName = parameter.getKey();
 
             if (Objects.equals(parameterName, SearchCriteria.PAGE_SIZE_PARAMETER)) {
-                int pageSize = Integer.valueOf(parameter.getValue()[0]);
+                int pageSize = Integer.parseInt(parameter.getValue()[0]);
                 int maxPageSize = ShineConfigReader.readIntProperty("search.maxPageSize");
 
                 searchCriteria.setPageSize(Math.min(pageSize, maxPageSize));
             } else if (Objects.equals(parameterName, SearchCriteria.PAGE_NUMBER_PARAMETER)) {
                 searchCriteria.setPage(Integer.valueOf(parameter.getValue()[0]));
             } else if (Objects.equals(parameterName, SearchCriteria.SORT_PARAMETER)) {
-
                 Optional<String> sortByParameter = Stream.of(parameter.getValue())
                         .filter(StringUtils::isNotBlank)
                         .reduce((s, s2) -> {
@@ -45,7 +44,6 @@ public class SearchServiceDTOImpl implements SearchServiceDTO {
                         });
 
                 searchCriteria.setSortBy(sortByParameter.orElse(""));
-
             } else if (Objects.equals(parameterName, SearchCriteria.QUERY_PARAMETER)) {
                 searchCriteria.setQuery(parameter.getValue()[0]);
 
