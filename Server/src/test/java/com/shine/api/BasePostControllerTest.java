@@ -20,8 +20,10 @@ public abstract class BasePostControllerTest extends SpringBootTestAPIHelper {
         return doPost(HttpStatus.OK, "/answer", answerRequest);
     }
 
-    protected String deleteAnswer() {
-        throw new UnsupportedOperationException();
+    protected String deleteAnswer(Long answerId) throws Exception{
+        return doDelete(HttpStatus.OK, "/answer/{answer_id}", answerId);
     }
+
+
 
 }

@@ -19,6 +19,9 @@ public class AnswerEndPointTest extends BasePostControllerTest {
 
     @Test
     public void testCreateNewAnswerHappyPath() throws Exception {
+        ///////////////////////////////////
+        ////        Create Answer    /////
+        ///////////////////////////////////
 
         HashMap<String, Object> hashMap = new HashMap<String, Object>() {{
             put("body", "sample answer");
@@ -40,6 +43,11 @@ public class AnswerEndPointTest extends BasePostControllerTest {
                 .build();
 
         JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedResponse), responseBody, true);
+
+        ///////////////////////////////////
+        ////        Clean Up          /////
+        ///////////////////////////////////
+        deleteAnswer(answerId);
     }
 
     @Test
@@ -88,14 +96,11 @@ public class AnswerEndPointTest extends BasePostControllerTest {
         ///////////////////////////////////
         ////        Create Answer    /////
         ///////////////////////////////////
-        AnswerRequest answerRequest = AnswerRequest.builder()
-                .body(new HashMap<String, Object>() {{
-                    put("body", "sample answer updated");
-                }})
-                .questionId(-1L)
-                .build();
+        HashMap<String, Object> hashMap = new HashMap<String, Object>() {{
+            put("body", "sample answer");
+        }};
 
-        String actualResponse = doPost(HttpStatus.OK, "/answer", answerRequest);
+        String actualResponse = createNewAnswer(hashMap, -1L);
 
         final Long answerId = JSONPathUtility.read(actualResponse, "id", Long.class);
 
@@ -113,7 +118,9 @@ public class AnswerEndPointTest extends BasePostControllerTest {
 
         String responseBodyForUpdateAnswer = doPut(HttpStatus.OK, "/answer", updateAnswerRequest);
 
-
+        ///////////////////////////////////
+        ////           Then
+        ///////////////////////////////////
         AnswerResponse expectedResponse = AnswerResponse.AnswerResponseBuilder.anAnswerResponse()
                 .withId(answerId)
                 .withQuestionId(-1L)
@@ -126,6 +133,12 @@ public class AnswerEndPointTest extends BasePostControllerTest {
                 .build();
 
         JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedResponse), responseBodyForUpdateAnswer, true);
+
+        ///////////////////////////////////
+        ////        Clean Up          /////
+        ///////////////////////////////////
+        deleteAnswer(answerId);
+
     }
 
 
@@ -155,14 +168,10 @@ public class AnswerEndPointTest extends BasePostControllerTest {
         ///////////////////////////////////
         ////        Create Answer     /////
         ///////////////////////////////////
-        AnswerRequest answerRequest = AnswerRequest.builder()
-                .body(new HashMap<String, Object>() {{
-                    put("body", "sample new answer");
-                }})
-                .questionId(-1L)
-                .build();
-
-        String responseBodyForCreateAnswer = doPost(HttpStatus.OK, "/answer", answerRequest);
+        HashMap<String, Object> hashMap = new HashMap<String, Object>() {{
+            put("body", "sample answer");
+        }};
+        String responseBodyForCreateAnswer = createNewAnswer(hashMap, -1L);
         final Long answerId = JSONPathUtility.read(responseBodyForCreateAnswer, "id", Long.class);
 
         ///////////////////////////////////
@@ -173,7 +182,6 @@ public class AnswerEndPointTest extends BasePostControllerTest {
         AnswerResponse expectedAnswerResponse = AnswerResponse.AnswerResponseBuilder.anAnswerResponse()
                 .withId(answerId)
                 .withBody(new HashMap<String, Object>() {{
-
                     put("body", "sample new answer");
                 }})
                 .withQuestionId(-1L)
@@ -182,6 +190,11 @@ public class AnswerEndPointTest extends BasePostControllerTest {
                 .build();
 
         JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedAnswerResponse), actualResponse, true);
+
+        ///////////////////////////////////
+        ////        Clean Up          /////
+        ///////////////////////////////////
+        deleteAnswer(answerId);
 
     }
 
