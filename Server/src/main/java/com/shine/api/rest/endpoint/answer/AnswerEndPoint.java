@@ -145,8 +145,8 @@ public class AnswerEndPoint extends BaseEndpoint {
     }
 
     @PutMapping(path = "/{answer-id}/vote/increment")
-    public AnswerWrapper incrementVote(@PathVariable("answer-id") Long answerId,
-                                       HttpServletRequest httpServletRequest) {
+    public AnswerWrapper incrementAnswerVote(@PathVariable("answer-id") Long answerId,
+                                             HttpServletRequest httpServletRequest) {
 
         Answer foundAnswer = answerService.findAnswerById(answerId)
                 .orElseThrow(() -> {
@@ -163,8 +163,8 @@ public class AnswerEndPoint extends BaseEndpoint {
     }
 
     @PutMapping(path = "/{answer-id}/vote/decrement")
-    public AnswerWrapper decrementVote(@PathVariable("answer-id") Long answerId,
-                                       HttpServletRequest httpServletRequest) {
+    public AnswerWrapper decrementAnswerVote(@PathVariable("answer-id") Long answerId,
+                                             HttpServletRequest httpServletRequest) {
         Answer foundAnswer = answerService.findAnswerById(answerId)
                 .orElseThrow(() -> {
                     return ShineRestException.build(HttpStatus.BAD_REQUEST.value())

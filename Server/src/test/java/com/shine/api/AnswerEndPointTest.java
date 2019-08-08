@@ -250,9 +250,75 @@ public class AnswerEndPointTest extends BasePostControllerTest {
     }
 
     @Test
-    public void testIncrementVote() throws Exception {
+    public void testIncrementAnswerVote() throws Exception {
+        ///////////////////////////////////
+        ////        Create Answer     /////
+        ///////////////////////////////////
+        HashMap<String, Object> body = new HashMap<String, Object>() {{
+            put("body", "sample answer");
+        }};
+        String responseBodyForCreateAnswer = createNewAnswer(body, -1L);
+        final Long answerId = JSONPathUtility.read(responseBodyForCreateAnswer, "id", Long.class);
+
+        ///////////////////////////////////
+        ////        Increment Vote     
+        ///////////////////////////////////
+        String actualContentAfterVoteIncrement = doPut(HttpStatus.OK, "/answer/{answer-id}/vote/increment", null, answerId);
+
+        AnswerResponse expectedAnswerResponse = AnswerResponse.AnswerResponseBuilder.anAnswerResponse()
+                .withId(answerId)
+                .withBody(body)
+                .withQuestionId(-1L)
+                .withVote(1L)
+                .withIsAccepted(false)
+                .build();
+
+
+        JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedAnswerResponse),
+                actualContentAfterVoteIncrement, true);
+
+        ///////////////////////////////////
+        ////        Clean Up          /////
+        ///////////////////////////////////
+        deleteAnswer(answerId);
+
 
     }
 
+
+    @Test
+    public void testDecrementAnswerVote() throws Exception {
+        ///////////////////////////////////
+        ////        Create Answer     /////
+        ///////////////////////////////////
+        HashMap<String, Object> body = new HashMap<String, Object>() {{
+            put("body", "sample answer");
+        }};
+        String responseBodyForCreateAnswer = createNewAnswer(body, -1L);
+        final Long answerId = JSONPathUtility.read(responseBodyForCreateAnswer, "id", Long.class);
+
+        ///////////////////////////////////
+        ////        Increment Vote
+        ///////////////////////////////////
+        String actualContentAfterVoteIncrement = doPut(HttpStatus.OK, "/answer/{answer-id}/vote/decrement", null, answerId);
+
+        AnswerResponse expectedAnswerResponse = AnswerResponse.AnswerResponseBuilder.anAnswerResponse()
+                .withId(answerId)
+                .withBody(body)
+                .withQuestionId(-1L)
+                .withVote(-1L)
+                .withIsAccepted(false)
+                .build();
+
+
+        JSONAssert.assertEquals(TestJSONMapper.createJSONFromObject(expectedAnswerResponse),
+                actualContentAfterVoteIncrement, true);
+
+        ///////////////////////////////////
+        ////        Clean Up          /////
+        ///////////////////////////////////
+        deleteAnswer(answerId);
+
+    }
 
 }
