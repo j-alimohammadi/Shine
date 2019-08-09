@@ -42,7 +42,6 @@ public class UserManagementController extends BaseEndpoint {
     @Resource(name = "shineLoginServiceImpl")
     protected LoginService loginService;
 
-
     @Resource(name = "oauthAuthenticationSuccessHandlerImpl")
     protected AuthenticationSuccessHandler authenticationSuccessHandler;
 
@@ -62,7 +61,6 @@ public class UserManagementController extends BaseEndpoint {
         if (!GenericValidator.isEmail(shineUserDTO.getEmail())) {
             errorMessage.put("email", "'email' field is invalid");
         }
-
 
         if (MapUtils.isNotEmpty(errorMessage)) {
             shineRestException = ShineRestException.build(HttpStatus.BAD_REQUEST.value())

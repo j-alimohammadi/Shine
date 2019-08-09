@@ -10,6 +10,9 @@ import java.util.Objects;
 
 public enum PermissionType implements EnumType<Integer> {
 
+    /** Permission to entity attribute (see {@link EntityAttrAccess}) */
+    ENTITY_ATTR(30),
+
 
     /**
      * Application-specific permission

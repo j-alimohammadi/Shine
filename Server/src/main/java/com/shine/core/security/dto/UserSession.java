@@ -66,11 +66,12 @@ public class UserSession {
                 .map(Permission::getValue)
                 .orElse(null);
 
-        // if no permission set, check in role types
+        // if no permission set for current user or more permission is requested, check in role types
         for (RoleType roleType : roleTypes) {
-            Integer newValue = roleTypeCheckPermission(roleType);
-            if (!Objects.isNull(newValue) && (Objects.isNull(permissionValue) || permissionValue < requestedPermissionValue)) {
-                permissionValue = newValue;
+            Integer roleTypePermission = roleTypeCheckPermission(roleType);
+            if ((Objects.isNull(permissionValue) || permissionValue < requestedPermissionValue) &&
+                    !Objects.isNull(roleTypePermission)) {
+                permissionValue = roleTypePermission;
             }
 
         }

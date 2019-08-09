@@ -11,6 +11,8 @@ import java.util.HashMap;
  */
 
 public abstract class BasePostControllerTest extends SpringBootTestAPIHelper {
+
+
     protected String createNewAnswer(HashMap<String, Object> body, Long questionId) throws Exception {
         AnswerRequest answerRequest = AnswerRequest.builder()
                 .body(body)

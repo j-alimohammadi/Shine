@@ -22,6 +22,10 @@ public class Permission {
     @Column(name = "TARGET")
     private String target;
 
+
+    /**
+     *  May be 0,1,2 for {@link PermissionType#ENTITY_ATTR} and 0,1 for others
+     */
     @Column(name = "VALUE")
     private Integer value;
 
